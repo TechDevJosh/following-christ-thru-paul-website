@@ -197,7 +197,7 @@ export default function ResourcesPage() {
                   
                   <Link 
                     href={resource.url}
-                    target={resource.type === 'link' ? ' _blank' : ' _self'}
+                    target={resource.type === 'link' ? '_blank' : '_self'}
                     rel={resource.type === 'link' ? 'noopener noreferrer' : undefined}
                     className="inline-flex items-center font-body text-blue-700 hover:text-blue-800 font-semibold transition-colors group"
                   >
