@@ -369,10 +369,6 @@ export default function ResourcesPage() {
     </div>
   );
 }
-            </div>
-          </div>
-        </section>
-      )}
 
       {/* Filters and Resources */}
       <section className="py-16">
