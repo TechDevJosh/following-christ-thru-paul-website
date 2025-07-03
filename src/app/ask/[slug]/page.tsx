@@ -48,6 +48,9 @@ export default async function AskPage({ params }: AskPageProps) {
   
   try {
     qa = await client.fetch(ASK_QUERY, { slug: slug });
+  } catch (error) {
+    console.error('Error fetching Q&A:', error);
+  }
 
   if (!qa) {
     // Show under construction for Q&As that don't exist yet
