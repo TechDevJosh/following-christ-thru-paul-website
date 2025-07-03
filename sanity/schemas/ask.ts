@@ -69,7 +69,7 @@ export default defineType({
       title: 'Related Bible Verses',
       type: 'array',
       of: [
-        defineType({
+        {
           name: 'verse',
           title: 'Bible Verse',
           type: 'object',
@@ -86,7 +86,7 @@ export default defineType({
               type: 'text',
             }),
           ],
-        }),
+        },
       ],
     }),
     defineField({

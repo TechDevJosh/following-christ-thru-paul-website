@@ -50,7 +50,7 @@ export default defineType({
       title: 'Attachments',
       type: 'array',
       of: [
-        defineType({
+        {
           name: 'attachment',
           title: 'Attachment',
           type: 'object',
@@ -66,7 +66,7 @@ export default defineType({
               type: 'url',
             }),
           ],
-        }),
+        },
       ],
     }),
     defineField({
