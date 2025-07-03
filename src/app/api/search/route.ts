@@ -1,6 +1,14 @@
 import { client } from '@/sanity/lib/client';
 import { NextRequest, NextResponse } from 'next/server';
 
+interface SearchResults {
+  verseByVerse: any[];
+  topics: any[];
+  resources: any[];
+  ask: any[];
+  conferences: any[];
+}
+
 export async function GET(request: NextRequest) {
   const { searchParams } = new URL(request.url);
   const query = searchParams.get('q');
@@ -53,7 +61,7 @@ export async function GET(request: NextRequest) {
 
   try {
     const searchQuery = `*${query}*`;
-    const results: any = await client.fetch(groqQuery, { query: searchQuery });
+    const results = await (client as any).fetch(groqQuery, { query: searchQuery });
     return NextResponse.json({ results });
   } catch (error) {
     console.error('Error fetching search results:', error);
