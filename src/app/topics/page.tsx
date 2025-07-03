@@ -1,3 +1,5 @@
+'use client';
+
 import Link from 'next/link';
 import { client } from '@/lib/sanity';
 import Navbar from '@/components/Navbar';
@@ -12,13 +14,7 @@ interface Topic {
   publishedAt: string;
 }
 
-export const metadata = {
-  title: "Topics | Following Christ Thru Paul",
-  description: "Explore Bible topics and themes through verse-by-verse exposition and topical studies from a dispensational perspective.",
-  keywords: "Bible topics, dispensational theology, KJV Bible study, Paul's epistles, Christian doctrine",
-};
-
-export default async function TopicsPage() {
+export default function TopicsPage() {
   // For now, we'll create placeholder data until the schema is implemented
   const topics: Topic[] = [
     {
