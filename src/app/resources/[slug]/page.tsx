@@ -3,9 +3,9 @@ import Link from 'next/link';
 import { client } from '@/sanity/lib/client';
 
 interface ResourcePageProps {
-  params: Promise<{
+  params: {
     slug: string;
-  }>;
+  };
 }
 
 // Define the query to get a specific resource
@@ -21,7 +21,7 @@ const RESOURCE_QUERY = `*[_type == "resources" && slug.current == $slug][0]{
 
 export async function generateMetadata({ params }: ResourcePageProps): Promise<Metadata> {
   try {
-    const resolvedParams = await params;
+    const { slug } = params;
     const resource = await client.fetch(RESOURCE_QUERY, { slug: resolvedParams.slug });
     
     if (!resource) {

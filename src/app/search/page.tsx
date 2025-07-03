@@ -11,11 +11,13 @@ interface SearchResult {
 }
 
 interface SearchPageProps {
-  searchParams: Promise<{ q?: string }>;
+  searchParams: {
+    q?: string;
+  };
 }
 
 export default async function SearchResultsPage({ searchParams }: SearchPageProps) {
-  const resolvedSearchParams = await searchParams;
+  const query = searchParams.q;
   const query = resolvedSearchParams.q;
 
   if (!query) {
