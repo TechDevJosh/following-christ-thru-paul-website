@@ -18,7 +18,6 @@ interface SearchPageProps {
 
 export default async function SearchResultsPage({ searchParams }: SearchPageProps) {
   const query = searchParams.q;
-  const query = resolvedSearchParams.q;
 
   if (!query) {
     return (
