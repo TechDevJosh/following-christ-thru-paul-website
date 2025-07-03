@@ -21,7 +21,7 @@ const ASK_QUERY = `*[_type == "ask" && slug.current == $slug][0]{
 export async function generateMetadata({ params }: AskPageProps): Promise<Metadata> {
   try {
     const { slug } = params;
-    const qa = await client.fetch(ASK_QUERY, { slug: resolvedParams.slug });
+    const qa = await client.fetch(ASK_QUERY, { slug: slug });
     
     if (!qa) {
       return {
@@ -42,15 +42,12 @@ export async function generateMetadata({ params }: AskPageProps): Promise<Metada
   }
 }
 
-export default async function AskQuestionPage({ params }: AskPageProps) {
-  const resolvedParams = await params;
+export default async function AskPage({ params }: AskPageProps) {
+  const { slug } = params;
   let qa;
   
   try {
-    qa = await client.fetch(ASK_QUERY, { slug: resolvedParams.slug });
-  } catch (error) {
-    console.error('Error fetching Q&A:', error);
-  }
+    qa = await client.fetch(ASK_QUERY, { slug: slug });
 
   if (!qa) {
     // Show under construction for Q&As that don't exist yet
