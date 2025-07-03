@@ -172,10 +172,6 @@ export default async function SermonPage({ params }: PageProps) {
 
   return (
     <div className="min-h-screen bg-white text-gray-800">
-      <Head>
-        <title>{sermon.title} - {sermon.passage}</title>
-        {/* Add other SEO meta tags here if not handled by generateMetadata */}
-      </Head>
 
       <Navbar />
 
