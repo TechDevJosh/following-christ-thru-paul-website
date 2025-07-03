@@ -1,5 +1,5 @@
 import Link from 'next/link';
-import { client } from '@/lib/sanity';
+import { client } from '@/sanity/lib/client';
 import { getYouTubeEmbedUrl } from '@/utils/youtube';
 
 interface Sermon {

@@ -3,9 +3,9 @@ import Link from 'next/link';
 import { client } from '@/sanity/lib/client';
 
 interface TopicPageProps {
-  params: {
+  params: Promise<{
     slug: string;
-  };
+  }>;
 }
 
 // Define the query to get a specific topic
@@ -21,7 +21,8 @@ const TOPIC_QUERY = `*[_type == "topics" && slug.current == $slug][0]{
 
 export async function generateMetadata({ params }: TopicPageProps): Promise<Metadata> {
   try {
-    const topic = await client.fetch(TOPIC_QUERY, { slug: params.slug });
+    const resolvedParams = await params;
+    const topic = await client.fetch(TOPIC_QUERY, { slug: resolvedParams.slug });
     
     if (!topic) {
       return {
@@ -43,10 +44,11 @@ export async function generateMetadata({ params }: TopicPageProps): Promise<Meta
 }
 
 export default async function TopicPage({ params }: TopicPageProps) {
+  const resolvedParams = await params;
   let topic;
   
   try {
-    topic = await client.fetch(TOPIC_QUERY, { slug: params.slug });
+    topic = await client.fetch(TOPIC_QUERY, { slug: resolvedParams.slug });
   } catch (error) {
     console.error('Error fetching topic:', error);
   }
@@ -69,7 +71,7 @@ export default async function TopicPage({ params }: TopicPageProps) {
               This biblical topic study is currently being prepared and will be available soon.
             </p>
             <p className="text-lg text-blue-600 font-medium mb-8">
-              We&apos;re working on comprehensive content for: <span className="font-bold">{params.slug.replace(/-/g, ' ')}</span>
+              We&apos;re working on comprehensive content for: <span className="font-bold">{resolvedParams.slug.replace(/-/g, ' ')}</span>
             </p>
           </div>
 

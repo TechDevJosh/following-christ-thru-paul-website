@@ -1,5 +1,5 @@
 
-import { client } from '@/lib/sanity';
+import { client } from '@/sanity/lib/client';
 import { PortableText } from '@portabletext/react';
 import Link from 'next/link';
 import { getYouTubeEmbedUrl } from '@/utils/youtube';
@@ -22,15 +22,16 @@ interface Sermon {
 }
 
 interface PageProps {
-  params: {
+  params: Promise<{
     book: string;
     slug: string;
-  };
+  }>;
 }
 
 export async function generateMetadata({ params }: PageProps) {
-  const book = decodeURIComponent(params.book);
-  const slug = params.slug;
+  const resolvedParams = await params;
+  const book = decodeURIComponent(resolvedParams.book);
+  const slug = resolvedParams.slug;
 
   const query = `*[_type == "verseByVerse" && book == $book && slug.current == $slug][0]{
     title,
@@ -57,8 +58,9 @@ export async function generateMetadata({ params }: PageProps) {
 }
 
 export default async function SermonPage({ params }: PageProps) {
-  const book = decodeURIComponent(params.book);
-  const slug = params.slug;
+  const resolvedParams = await params;
+  const book = decodeURIComponent(resolvedParams.book);
+  const slug = resolvedParams.slug;
 
   const query = `*[_type == "verseByVerse" && book == $book && slug.current == $slug][0]{
     title,

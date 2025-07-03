@@ -1,7 +1,7 @@
 'use client';
 
 import Link from 'next/link';
-import { client } from '@/lib/sanity';
+import { client } from '@/sanity/lib/client';
 import Navbar from '@/components/Navbar';
 
 interface Topic {

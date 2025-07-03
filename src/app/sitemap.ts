@@ -1,5 +1,5 @@
 import { MetadataRoute } from 'next';
-import { client } from '@/lib/sanity';
+import { client } from '@/sanity/lib/client';
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const baseUrl = 'https://followingchristthrupaul.com'; // Replace with your actual domain
