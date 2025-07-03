@@ -70,7 +70,7 @@ export default async function AskPage({ params }: AskPageProps) {
               This biblical question is being researched and the answer will be available soon.
             </p>
             <p className="text-lg text-purple-600 font-medium mb-8">
-              Question about: <span className="font-bold">{resolvedParams.slug.replace(/-/g, ' ')}</span>
+              Question about: <span className="font-bold">{slug.replace(/-/g, ' ')}</span>
             </p>
           </div>
 
