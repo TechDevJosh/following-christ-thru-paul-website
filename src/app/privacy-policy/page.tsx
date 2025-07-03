@@ -27,7 +27,7 @@ export default function PrivacyPolicyPage() {
             <section className="mb-8">
               <h2 className="font-heading text-2xl text-gray-900 mb-4">1. Introduction</h2>
               <p className="font-body text-gray-700 leading-relaxed mb-4">
-                Following Christ Thru Paul ("we," "our," or "us") is committed to protecting your privacy. This Privacy Policy explains how we collect, use, disclose, and safeguard your information when you visit our website and use our services.
+                Following Christ Thru Paul (&quot;we,&quot; &quot;our,&quot; or &quot;us&quot;) is committed to protecting your privacy. This Privacy Policy explains how we collect, use, disclose, and safeguard your information when you visit our website and use our services.
               </p>
               <p className="font-body text-gray-700 leading-relaxed mb-4">
                 Please read this Privacy Policy carefully. If you do not agree with the terms of this Privacy Policy, please do not access the site.
@@ -94,7 +94,7 @@ export default function PrivacyPolicyPage() {
                 <li className="mb-2">• In connection with a business transfer or merger</li>
               </ul>
               <p className="font-body text-gray-700 leading-relaxed mb-4">
-                Questions submitted through our "Ask" feature may be published on our website, but we will maintain your anonymity unless you specifically request attribution.
+                Questions submitted through our &quot;Ask&quot; feature may be published on our website, but we will maintain your anonymity unless you specifically request attribution.
               </p>
             </section>
 

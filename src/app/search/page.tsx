@@ -1,4 +1,3 @@
-import { client } from '@/lib/sanity';
 import Link from 'next/link';
 
 interface SearchResult {
@@ -85,7 +84,7 @@ export default async function SearchResultsPage({ searchParams }: { searchParams
   return (
     <div className="bg-white text-gray-800 font-sans">
       <main className="container mx-auto py-10 px-4">
-        <h1 className="text-3xl font-bold mb-6">Search Results for "{query}"</h1>
+        <h1 className="text-3xl font-bold mb-6">Search Results for &quot;{query}&quot;</h1>
 
         {flattenedResults.length > 0 ? (
           <div className="space-y-4">
@@ -98,7 +97,7 @@ export default async function SearchResultsPage({ searchParams }: { searchParams
             ))}
           </div>
         ) : (
-          <p>No results found for "{query}".</p>
+          <p>No results found for &quot;{query}&quot;.</p>
         )}
       </main>
     </div>

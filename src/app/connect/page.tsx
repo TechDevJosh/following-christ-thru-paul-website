@@ -38,7 +38,7 @@ export default function ConnectPage() {
                 <div className="p-8">
                   <div className="grid md:grid-cols-2 gap-8 items-center">
                     <div>
-                      <h3 className="text-xl font-semibold text-gray-900 mb-4">What you'll receive:</h3>
+                      <h3 className="text-xl font-semibold text-gray-900 mb-4">What you&apos;ll receive:</h3>
                       <ul className="space-y-3 text-gray-600">
                         <li className="flex items-center">
                           <svg className="w-5 h-5 text-green-500 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -96,7 +96,7 @@ export default function ConnectPage() {
                   </div>
                   <h3 className="text-2xl font-heading font-bold text-gray-900 mb-2">Get in Touch</h3>
                   <p className="text-gray-600 mb-6">
-                    Have questions about the Bible, need prayer, or want to connect with our ministry? We'd love to hear from you.
+                    Have questions about the Bible, need prayer, or want to connect with our ministry? We&apos;d love to hear from you.
                   </p>
                 </div>
                 

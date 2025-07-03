@@ -1,5 +1,5 @@
 import { Metadata } from 'next';
-import { notFound } from 'next/navigation';
+import Link from 'next/link';
 import { client } from '@/sanity/lib/client';
 
 interface ResourcePageProps {
@@ -69,7 +69,7 @@ export default async function ResourcePage({ params }: ResourcePageProps) {
               This biblical resource is currently being prepared and will be available soon.
             </p>
             <p className="text-lg text-green-600 font-medium mb-8">
-              We're working on: <span className="font-bold">{params.slug.replace(/-/g, ' ')}</span>
+              We&apos;re working on: <span className="font-bold">{params.slug.replace(/-/g, ' ')}</span>
             </p>
           </div>
 
@@ -78,56 +78,56 @@ export default async function ResourcePage({ params }: ResourcePageProps) {
               Explore Other Resources
             </h2>
             <div className="grid md:grid-cols-2 gap-6">
-              <a 
-                href="/resources" 
+              <Link
+                href="/resources"
                 className="block p-4 border border-gray-200 rounded-lg hover:border-green-300 hover:shadow-md transition-all"
               >
                 <h3 className="font-semibold text-gray-900 mb-2">Browse All Resources</h3>
                 <p className="text-gray-600 text-sm">See available study materials and tools</p>
-              </a>
-              <a 
-                href="/verse-by-verse" 
+              </Link>
+              <Link
+                href="/verse-by-verse"
                 className="block p-4 border border-gray-200 rounded-lg hover:border-green-300 hover:shadow-md transition-all"
               >
                 <h3 className="font-semibold text-gray-900 mb-2">Verse by Verse</h3>
                 <p className="text-gray-600 text-sm">Systematic Bible study through Scripture</p>
-              </a>
-              <a 
-                href="/topics" 
+              </Link>
+              <Link
+                href="/topics"
                 className="block p-4 border border-gray-200 rounded-lg hover:border-green-300 hover:shadow-md transition-all"
               >
                 <h3 className="font-semibold text-gray-900 mb-2">Topics</h3>
                 <p className="text-gray-600 text-sm">Biblical topics and teachings</p>
-              </a>
-              <a 
-                href="/ask" 
+              </Link>
+              <Link
+                href="/ask"
                 className="block p-4 border border-gray-200 rounded-lg hover:border-green-300 hover:shadow-md transition-all"
               >
                 <h3 className="font-semibold text-gray-900 mb-2">Ask Questions</h3>
                 <p className="text-gray-600 text-sm">Submit your biblical questions</p>
-              </a>
+              </Link>
             </div>
           </div>
 
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <a 
-              href="/resources" 
+            <Link
+              href="/resources"
               className="inline-flex items-center px-6 py-3 bg-green-600 text-white font-medium rounded-lg hover:bg-green-700 transition-colors"
             >
               <svg className="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 19l-7-7m0 0l7-7m-7 7h18" />
               </svg>
               Back to Resources
-            </a>
-            <a 
-              href="/" 
+            </Link>
+            <Link
+              href="/"
               className="inline-flex items-center px-6 py-3 border border-gray-300 text-gray-700 font-medium rounded-lg hover:bg-gray-50 transition-colors"
             >
               <svg className="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" />
               </svg>
               Return Home
-            </a>
+            </Link>
           </div>
         </div>
       </div>

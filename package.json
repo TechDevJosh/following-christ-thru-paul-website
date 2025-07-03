@@ -15,6 +15,7 @@
   },
   "dependencies": {
     "@aws-sdk/client-s3": "^3.840.0",
+    "@aws-sdk/s3-presigned-post": "^3.842.0",
     "@aws-sdk/s3-request-presigner": "^3.840.0",
     "@next/font": "^14.2.15",
     "@portabletext/react": "^3.2.1",

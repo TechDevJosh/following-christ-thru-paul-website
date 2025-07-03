@@ -79,7 +79,7 @@ export default function HomePage() {
               Recent Sermons
             </h2>
             <p className="font-body text-xl text-gray-600 max-w-2xl mx-auto">
-              Dive deep into God's Word with our latest verse-by-verse expositions and topical studies.
+              Dive deep into God&apos;s Word with our latest verse-by-verse expositions and topical studies.
             </p>
           </div>
           
@@ -109,7 +109,7 @@ export default function HomePage() {
               Welcome Message
             </h2>
             <p className="font-body text-xl text-gray-600 mb-12 max-w-2xl mx-auto">
-              Hear from our ministry about our heart for studying God's Word and following Christ through Paul's teachings.
+              Hear from our ministry about our heart for studying God&apos;s Word and following Christ through Paul&apos;s teachings.
             </p>
             
             <div className="card-elevated p-2 max-w-4xl mx-auto">
@@ -136,7 +136,7 @@ export default function HomePage() {
             <div className="lg:col-span-2">
               <h3 className="font-heading text-2xl mb-4">Following Christ Thru Paul</h3>
               <p className="font-body text-gray-300 mb-6 leading-relaxed">
-                "To make all men see what is the fellowship of the mystery" (Eph. 3:9)
+                &quot;To make all men see what is the fellowship of the mystery&quot; (Eph. 3:9)
               </p>
               <p className="font-body text-gray-400 text-sm">
                 A KJV Bible-believing ministry dedicated to serious Bible study and doctrinal teaching through the lens of Pauline dispensational truth.

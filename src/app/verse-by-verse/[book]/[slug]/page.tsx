@@ -2,7 +2,6 @@
 import { client } from '@/lib/sanity';
 import { PortableText } from '@portabletext/react';
 import Link from 'next/link';
-import Head from 'next/head';
 import { getYouTubeEmbedUrl } from '@/utils/youtube';
 import Navbar from '@/components/Navbar';
 

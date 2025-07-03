@@ -162,7 +162,7 @@ export default function AskPage() {
                     placeholder="your@email.com (for follow-up questions only)"
                   />
                   <p className="mt-2 text-sm text-gray-500 font-body">
-                    We'll only use your email if we need clarification on your question.
+                    We&apos;ll only use your email if we need clarification on your question.
                   </p>
                 </div>
 

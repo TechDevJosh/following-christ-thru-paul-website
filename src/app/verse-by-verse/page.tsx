@@ -144,7 +144,7 @@ export default async function VerseByVersePage() {
                     Verse by Verse Studies Coming Soon
                   </h2>
                   <p className="text-xl text-gray-600 mb-8">
-                    We're preparing comprehensive verse by verse studies through the Word of God. 
+                    We&apos;re preparing comprehensive verse by verse studies through the Word of God. 
                     Check back soon for in-depth biblical teachings.
                   </p>
                 </div>

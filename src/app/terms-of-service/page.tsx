@@ -34,7 +34,7 @@ export default function TermsOfServicePage() {
             <section className="mb-8">
               <h2 className="font-heading text-2xl text-gray-900 mb-4">2. Use License</h2>
               <p className="font-body text-gray-700 leading-relaxed mb-4">
-                Permission is granted to temporarily download one copy of the materials on Following Christ Thru Paul's website for personal, non-commercial transitory viewing only. This is the grant of a license, not a transfer of title, and under this license you may not:
+                Permission is granted to temporarily download one copy of the materials on Following Christ Thru Paul&apos;s website for personal, non-commercial transitory viewing only. This is the grant of a license, not a transfer of title, and under this license you may not:
               </p>
               <ul className="font-body text-gray-700 leading-relaxed mb-4 ml-6">
                 <li className="mb-2">• modify or copy the materials</li>
@@ -74,7 +74,7 @@ export default function TermsOfServicePage() {
             <section className="mb-8">
               <h2 className="font-heading text-2xl text-gray-900 mb-4">5. Questions and Submissions</h2>
               <p className="font-body text-gray-700 leading-relaxed mb-4">
-                Questions submitted through our "Ask" feature may be answered publicly on the website. While we respect requests for anonymity, we reserve the right to use submitted questions for educational purposes. Personal information will not be shared without explicit consent.
+                Questions submitted through our &quot;Ask&quot; feature may be answered publicly on the website. While we respect requests for anonymity, we reserve the right to use submitted questions for educational purposes. Personal information will not be shared without explicit consent.
               </p>
             </section>
 
@@ -88,7 +88,7 @@ export default function TermsOfServicePage() {
             <section className="mb-8">
               <h2 className="font-heading text-2xl text-gray-900 mb-4">7. Disclaimer</h2>
               <p className="font-body text-gray-700 leading-relaxed mb-4">
-                The materials on Following Christ Thru Paul's website are provided on an 'as is' basis. Following Christ Thru Paul makes no warranties, expressed or implied, and hereby disclaims and negates all other warranties including without limitation, implied warranties or conditions of merchantability, fitness for a particular purpose, or non-infringement of intellectual property or other violation of rights.
+                The materials on Following Christ Thru Paul&apos;s website are provided on an &apos;as is&apos; basis. Following Christ Thru Paul makes no warranties, expressed or implied, and hereby disclaims and negates all other warranties including without limitation, implied warranties or conditions of merchantability, fitness for a particular purpose, or non-infringement of intellectual property or other violation of rights.
               </p>
               <p className="font-body text-gray-700 leading-relaxed mb-4">
                 Further, Following Christ Thru Paul does not warrant or make any representations concerning the accuracy, likely results, or reliability of the use of the materials on its website or otherwise relating to such materials or on any sites linked to this site.
@@ -98,21 +98,21 @@ export default function TermsOfServicePage() {
             <section className="mb-8">
               <h2 className="font-heading text-2xl text-gray-900 mb-4">8. Limitations</h2>
               <p className="font-body text-gray-700 leading-relaxed mb-4">
-                In no event shall Following Christ Thru Paul or its suppliers be liable for any damages (including, without limitation, damages for loss of data or profit, or due to business interruption) arising out of the use or inability to use the materials on Following Christ Thru Paul's website, even if Following Christ Thru Paul or a Following Christ Thru Paul authorized representative has been notified orally or in writing of the possibility of such damage. Because some jurisdictions do not allow limitations on implied warranties, or limitations of liability for consequential or incidental damages, these limitations may not apply to you.
+                In no event shall Following Christ Thru Paul or its suppliers be liable for any damages (including, without limitation, damages for loss of data or profit, or due to business interruption) arising out of the use or inability to use the materials on Following Christ Thru Paul&apos;s website, even if Following Christ Thru Paul or a Following Christ Thru Paul authorized representative has been notified orally or in writing of the possibility of such damage. Because some jurisdictions do not allow limitations on implied warranties, or limitations of liability for consequential or incidental damages, these limitations may not apply to you.
               </p>
             </section>
 
             <section className="mb-8">
               <h2 className="font-heading text-2xl text-gray-900 mb-4">9. Accuracy of Materials</h2>
               <p className="font-body text-gray-700 leading-relaxed mb-4">
-                The materials appearing on Following Christ Thru Paul's website could include technical, typographical, or photographic errors. Following Christ Thru Paul does not warrant that any of the materials on its website are accurate, complete, or current. Following Christ Thru Paul may make changes to the materials contained on its website at any time without notice. However, Following Christ Thru Paul does not make any commitment to update the materials.
+                The materials appearing on Following Christ Thru Paul&apos;s website could include technical, typographical, or photographic errors. Following Christ Thru Paul does not warrant that any of the materials on its website are accurate, complete, or current. Following Christ Thru Paul may make changes to the materials contained on its website at any time without notice. However, Following Christ Thru Paul does not make any commitment to update the materials.
               </p>
             </section>
 
             <section className="mb-8">
               <h2 className="font-heading text-2xl text-gray-900 mb-4">10. Links</h2>
               <p className="font-body text-gray-700 leading-relaxed mb-4">
-                Following Christ Thru Paul has not reviewed all of the sites linked to our website and is not responsible for the contents of any such linked site. The inclusion of any link does not imply endorsement by Following Christ Thru Paul of the site. Use of any such linked website is at the user's own risk.
+                Following Christ Thru Paul has not reviewed all of the sites linked to our website and is not responsible for the contents of any such linked site. The inclusion of any link does not imply endorsement by Following Christ Thru Paul of the site. Use of any such linked website is at the user&apos;s own risk.
               </p>
             </section>
 
