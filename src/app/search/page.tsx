@@ -1,4 +1,5 @@
 import Link from 'next/link';
+import { client } from '@/sanity/lib/client';
 
 interface SearchResult {
   _id: string;
@@ -9,8 +10,13 @@ interface SearchResult {
   excerpt?: string;
 }
 
-export default async function SearchResultsPage({ searchParams }: { searchParams: { q: string } }) {
-  const query = searchParams.q;
+interface SearchPageProps {
+  searchParams: Promise<{ q?: string }>;
+}
+
+export default async function SearchResultsPage({ searchParams }: SearchPageProps) {
+  const resolvedSearchParams = await searchParams;
+  const query = resolvedSearchParams.q;
 
   if (!query) {
     return (
