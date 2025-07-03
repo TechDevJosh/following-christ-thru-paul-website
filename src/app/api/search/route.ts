@@ -52,7 +52,8 @@ export async function GET(request: NextRequest) {
   }`;
 
   try {
-    const results = await client.fetch(groqQuery, { query: `*${query}*` });
+    const searchQuery = `*${query}*`;
+    const results: any = await client.fetch(groqQuery, { query: searchQuery });
     return NextResponse.json({ results });
   } catch (error) {
     console.error('Error fetching search results:', error);
