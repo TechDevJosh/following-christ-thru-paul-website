@@ -1,0 +1,87 @@
+name: Security Audit
+
+on:
+  schedule:
+    # Run security audit every Monday at 9 AM UTC
+    - cron: '0 9 * * 1'
+  push:
+    branches: [main, master]
+  pull_request:
+    branches: [main, master]
+
+jobs:
+  security-audit:
+    runs-on: ubuntu-latest
+    name: Security Vulnerability Scan
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+          cache: 'npm'
+          cache-dependency-path: following-christ-thru-paul-website/package-lock.json
+
+      - name: Install dependencies
+        working-directory: following-christ-thru-paul-website
+        run: npm ci
+
+      - name: Run npm audit
+        working-directory: following-christ-thru-paul-website
+        run: |
+          npm audit --audit-level=moderate
+          npm audit fix --dry-run
+
+      - name: Run dependency vulnerability check
+        uses: actions/dependency-review-action@v3
+        if: github.event_name == 'pull_request'
+
+      - name: OWASP ZAP Baseline Scan
+        if: github.ref == 'refs/heads/main' || github.ref == 'refs/heads/master'
+        uses: zaproxy/action-baseline@v0.10.0
+        with:
+          target: 'https://following-christ-thru-paul.vercel.app'
+          rules_file_name: '.zap/rules.tsv'
+          cmd_options: '-a'
+
+  code-quality:
+    runs-on: ubuntu-latest
+    name: Code Quality Analysis
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+          cache: 'npm'
+          cache-dependency-path: following-christ-thru-paul-website/package-lock.json
+
+      - name: Install dependencies
+        working-directory: following-christ-thru-paul-website
+        run: npm ci
+
+      - name: Run ESLint
+        working-directory: following-christ-thru-paul-website
+        run: |
+          npm run lint -- --format=json --output-file=eslint-report.json || true
+          npm run lint
+
+      - name: Run TypeScript compiler check
+        working-directory: following-christ-thru-paul-website
+        run: npx tsc --noEmit
+
+      - name: SonarCloud Scan
+        uses: SonarSource/sonarcloud-github-action@master
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+        with:
+          projectBaseDir: following-christ-thru-paul-website

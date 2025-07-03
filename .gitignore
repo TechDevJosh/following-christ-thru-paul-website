@@ -30,8 +30,19 @@ yarn-debug.log*
 yarn-error.log*
 .pnpm-debug.log*
 
-# env files (can opt-in for committing if needed)
+# env files - NEVER commit these to version control
 .env*
+.env
+.env.local
+.env.development
+.env.production
+.env.test
+
+# Sensitive files
+*.key
+*.pem
+*.p12
+*.pfx
 
 # vercel
 .vercel

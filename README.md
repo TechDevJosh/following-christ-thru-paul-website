@@ -1,36 +1,63 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Following Christ Thru Paul - Ministry Website
+
+A KJV Bible-believing ministry platform for serious Bible study, community engagement, and doctrinal teaching.
+
+## Ministry Mission
+
+"To make all men see what is the fellowship of the mystery" - Ephesians 3:9
+
+## Technology Stack
+
+- Frontend: Next.js 15 with TypeScript
+- Styling: Tailwind CSS with custom design system
+- CMS: Sanity.io for content management
+- File Storage: Cloudflare R2 for resources
+- Email: Resend for contact forms
+- Deployment: Vercel with GitHub Actions CI/CD
 
 ## Getting Started
 
-First, run the development server:
-
 ```bash
+# Install dependencies
+npm install
+
+# Copy environment variables
+cp .env.example .env.local
+# Fill in your actual values in .env.local
+
+# Start development server
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Open http://localhost:3000 to view the website.
+Access the CMS at http://localhost:3000/studio.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Features
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+- Professional UI/UX with custom typography
+- Complete navigation with zero 404 errors
+- Content management via Sanity Studio
+- Authentication system for CMS access
+- Cookie banner (GDPR compliant)
+- Responsive design for all devices
+- SEO optimized with meta tags and sitemap
+- CI/CD pipeline with automated deployment
 
-## Learn More
+## Content Sections
 
-To learn more about Next.js, take a look at the following resources:
+- Home: Hero section with ministry introduction
+- Verse by Verse: Systematic Bible studies
+- Topics: Biblical teachings by topic
+- Resources: Study materials and downloads
+- Ask: Q&A submission and browsing
+- Connect: Subscribe, contact, and support
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## Deployment
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+Automatic deployment via GitHub Actions on push to main branch.
 
-## Deploy on Vercel
+## Repository
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+https://github.com/TechDevJosh/following-christ-thru-paul-website
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+"For I am not ashamed of the gospel of Christ: for it is the power of God unto salvation to every one that believeth" - Romans 1:16

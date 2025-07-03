@@ -1,0 +1,170 @@
+name: Deploy to Vercel
+
+on:
+  push:
+    branches: [main, master]
+  pull_request:
+    branches: [main, master]
+
+env:
+  VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
+  VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    name: Test and Build
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+          cache: 'npm'
+          cache-dependency-path: following-christ-thru-paul-website/package-lock.json
+
+      - name: Install dependencies
+        working-directory: following-christ-thru-paul-website
+        run: npm ci
+
+      - name: Run linting
+        working-directory: following-christ-thru-paul-website
+        run: npm run lint
+
+      - name: Run type checking
+        working-directory: following-christ-thru-paul-website
+        run: npm run build
+
+      - name: Cache build
+        uses: actions/cache@v3
+        with:
+          path: |
+            following-christ-thru-paul-website/.next/cache
+            following-christ-thru-paul-website/node_modules
+          key: ${{ runner.os }}-nextjs-${{ hashFiles('following-christ-thru-paul-website/package-lock.json') }}-${{ hashFiles('following-christ-thru-paul-website/**/*.js', 'following-christ-thru-paul-website/**/*.jsx', 'following-christ-thru-paul-website/**/*.ts', 'following-christ-thru-paul-website/**/*.tsx') }}
+
+  deploy-preview:
+    runs-on: ubuntu-latest
+    name: Deploy Preview
+    needs: test
+    if: github.event_name == 'pull_request'
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+          cache: 'npm'
+          cache-dependency-path: following-christ-thru-paul-website/package-lock.json
+
+      - name: Install Vercel CLI
+        run: npm install --global vercel@latest
+
+      - name: Pull Vercel Environment Information
+        working-directory: following-christ-thru-paul-website
+        run: vercel pull --yes --environment=preview --token=${{ secrets.VERCEL_TOKEN }}
+
+      - name: Build Project Artifacts
+        working-directory: following-christ-thru-paul-website
+        run: vercel build --token=${{ secrets.VERCEL_TOKEN }}
+
+      - name: Deploy Preview to Vercel
+        working-directory: following-christ-thru-paul-website
+        run: |
+          url=$(vercel deploy --prebuilt --token=${{ secrets.VERCEL_TOKEN }})
+          echo "Preview URL: $url"
+          echo "PREVIEW_URL=$url" >> $GITHUB_ENV
+
+      - name: Comment Preview URL
+        uses: actions/github-script@v7
+        if: github.event_name == 'pull_request'
+        with:
+          script: |
+            github.rest.issues.createComment({
+              issue_number: context.issue.number,
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              body: `🚀 **Preview deployment ready!**
+              
+              ✅ Preview URL: ${{ env.PREVIEW_URL }}
+              
+              This preview will be automatically updated when you push new commits to this PR.`
+            })
+
+  deploy-production:
+    runs-on: ubuntu-latest
+    name: Deploy Production
+    needs: test
+    if: github.ref == 'refs/heads/main' || github.ref == 'refs/heads/master'
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+          cache: 'npm'
+          cache-dependency-path: following-christ-thru-paul-website/package-lock.json
+
+      - name: Install Vercel CLI
+        run: npm install --global vercel@latest
+
+      - name: Pull Vercel Environment Information
+        working-directory: following-christ-thru-paul-website
+        run: vercel pull --yes --environment=production --token=${{ secrets.VERCEL_TOKEN }}
+
+      - name: Build Project Artifacts
+        working-directory: following-christ-thru-paul-website
+        run: vercel build --prod --token=${{ secrets.VERCEL_TOKEN }}
+
+      - name: Deploy Production to Vercel
+        working-directory: following-christ-thru-paul-website
+        run: |
+          url=$(vercel deploy --prebuilt --prod --token=${{ secrets.VERCEL_TOKEN }})
+          echo "Production URL: $url"
+          echo "PRODUCTION_URL=$url" >> $GITHUB_ENV
+
+      - name: Create deployment status
+        uses: actions/github-script@v7
+        with:
+          script: |
+            github.rest.repos.createDeploymentStatus({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              deployment_id: context.payload.deployment?.id || 0,
+              state: 'success',
+              environment_url: '${{ env.PRODUCTION_URL }}',
+              description: 'Production deployment successful'
+            })
+
+  lighthouse:
+    runs-on: ubuntu-latest
+    name: Lighthouse Performance Audit
+    needs: deploy-production
+    if: github.ref == 'refs/heads/main' || github.ref == 'refs/heads/master'
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Run Lighthouse CI
+        uses: treosh/lighthouse-ci-action@v10
+        with:
+          urls: |
+            ${{ env.PRODUCTION_URL }}
+            ${{ env.PRODUCTION_URL }}/about
+            ${{ env.PRODUCTION_URL }}/verse-by-verse
+            ${{ env.PRODUCTION_URL }}/topics
+            ${{ env.PRODUCTION_URL }}/resources
+            ${{ env.PRODUCTION_URL }}/ask
+          configPath: following-christ-thru-paul-website/.lighthouserc.json
+          uploadArtifacts: true
+          temporaryPublicStorage: true
