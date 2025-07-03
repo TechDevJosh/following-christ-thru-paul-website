@@ -91,7 +91,7 @@ export default function TopicsPage() {
 
                 <div className="flex items-center justify-between mb-6">
                   <span className="font-body text-sm text-gray-500">
-                    {topic.sermons} sermon{topic.sermons !== 1 ? &apos;s&apos; : &apos;&apos;}
+                    {topic.sermons} sermon{topic.sermons !== 1 ? 's' : ''}
                   </span>
                   <time className="font-body text-sm text-gray-500">
                     {new Date(topic.publishedAt).toLocaleDateString('en-US', {
