@@ -3,9 +3,9 @@ import Link from 'next/link';
 import { client } from '@/sanity/lib/client';
 
 interface ResourcePageProps {
-  params: {
+  params: Promise<{
     slug: string;
-  };
+  }>;
 }
 
 // Define the query to get a specific resource
@@ -21,7 +21,8 @@ const RESOURCE_QUERY = `*[_type == "resources" && slug.current == $slug][0]{
 
 export async function generateMetadata({ params }: ResourcePageProps): Promise<Metadata> {
   try {
-    const resource = await client.fetch(RESOURCE_QUERY, { slug: params.slug });
+    const resolvedParams = await params;
+    const resource = await client.fetch(RESOURCE_QUERY, { slug: resolvedParams.slug });
     
     if (!resource) {
       return {
@@ -43,10 +44,11 @@ export async function generateMetadata({ params }: ResourcePageProps): Promise<M
 }
 
 export default async function ResourcePage({ params }: ResourcePageProps) {
+  const resolvedParams = await params;
   let resource;
   
   try {
-    resource = await client.fetch(RESOURCE_QUERY, { slug: params.slug });
+    resource = await client.fetch(RESOURCE_QUERY, { slug: resolvedParams.slug });
   } catch (error) {
     console.error('Error fetching resource:', error);
   }
@@ -69,7 +71,7 @@ export default async function ResourcePage({ params }: ResourcePageProps) {
               This biblical resource is currently being prepared and will be available soon.
             </p>
             <p className="text-lg text-green-600 font-medium mb-8">
-              We&apos;re working on: <span className="font-bold">{params.slug.replace(/-/g, ' ')}</span>
+              We&apos;re working on: <span className="font-bold">{resolvedParams.slug.replace(/-/g, ' ')}</span>
             </p>
           </div>
 
