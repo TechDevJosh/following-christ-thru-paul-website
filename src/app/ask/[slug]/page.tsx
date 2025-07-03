@@ -3,9 +3,9 @@ import Link from 'next/link';
 import { client } from '@/sanity/lib/client';
 
 interface AskPageProps {
-  params: {
+  params: Promise<{
     slug: string;
-  };
+  }>;
 }
 
 // Define the query to get a specific Q&A
@@ -20,7 +20,8 @@ const ASK_QUERY = `*[_type == "ask" && slug.current == $slug][0]{
 
 export async function generateMetadata({ params }: AskPageProps): Promise<Metadata> {
   try {
-    const { slug } = params;
+    const resolvedParams = await params;
+    const { slug } = resolvedParams;
     const qa = await client.fetch(ASK_QUERY, { slug: slug });
     
     if (!qa) {
@@ -43,7 +44,8 @@ export async function generateMetadata({ params }: AskPageProps): Promise<Metada
 }
 
 export default async function AskPage({ params }: AskPageProps) {
-  const { slug } = params;
+  const resolvedParams = await params;
+  const { slug } = resolvedParams;
   let qa;
   
   try {
