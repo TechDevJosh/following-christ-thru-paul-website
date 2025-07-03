@@ -3,9 +3,9 @@ import Link from 'next/link';
 import { client } from '@/sanity/lib/client';
 
 interface AskPageProps {
-  params: {
+  params: Promise<{
     slug: string;
-  };
+  }>;
 }
 
 // Define the query to get a specific Q&A
@@ -20,7 +20,8 @@ const ASK_QUERY = `*[_type == "ask" && slug.current == $slug][0]{
 
 export async function generateMetadata({ params }: AskPageProps): Promise<Metadata> {
   try {
-    const qa = await client.fetch(ASK_QUERY, { slug: params.slug });
+    const resolvedParams = await params;
+    const qa = await client.fetch(ASK_QUERY, { slug: resolvedParams.slug });
     
     if (!qa) {
       return {
@@ -42,10 +43,11 @@ export async function generateMetadata({ params }: AskPageProps): Promise<Metada
 }
 
 export default async function AskQuestionPage({ params }: AskPageProps) {
+  const resolvedParams = await params;
   let qa;
   
   try {
-    qa = await client.fetch(ASK_QUERY, { slug: params.slug });
+    qa = await client.fetch(ASK_QUERY, { slug: resolvedParams.slug });
   } catch (error) {
     console.error('Error fetching Q&A:', error);
   }
@@ -68,7 +70,7 @@ export default async function AskQuestionPage({ params }: AskPageProps) {
               This biblical question is being researched and the answer will be available soon.
             </p>
             <p className="text-lg text-purple-600 font-medium mb-8">
-              Question about: <span className="font-bold">{params.slug.replace(/-/g, ' ')}</span>
+              Question about: <span className="font-bold">{resolvedParams.slug.replace(/-/g, ' ')}</span>
             </p>
           </div>
 
