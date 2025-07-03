@@ -68,7 +68,7 @@ export default async function SearchResultsPage({ searchParams }: SearchPageProp
     }
   }`;
 
-  const results = await client.fetch(groqQuery, { query: `*${query}*` });
+  const results = await (client as any).fetch(groqQuery, { query: `*${query}*` });
 
   const flattenedResults: SearchResult[] = Object.values(results).flat() as SearchResult[];
 
