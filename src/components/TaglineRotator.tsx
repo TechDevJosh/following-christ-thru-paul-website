@@ -32,15 +32,15 @@ export default function TaglineRotator() {
   return (
     <div className="relative h-16 overflow-hidden" aria-live="polite">
       <p
-        className={`absolute top-0 left-0 w-full text-center font-body text-lg md:text-xl text-gray-600 leading-relaxed px-4 transition-opacity duration-1000 ease-in-out ${
-          isTransitioning ? 'opacity-0' : 'opacity-100'
+        className={`absolute top-0 left-0 w-full text-center font-body text-xl md:text-2xl text-gray-600 leading-relaxed px-4 transition-all duration-1000 ease-in-out transform ${
+          isTransitioning ? '-translate-x-full opacity-0' : 'translate-x-0 opacity-100'
         }`}
       >
         {taglines[currentIndex]}
       </p>
       <p
-        className={`absolute top-0 left-0 w-full text-center font-body text-lg md:text-xl text-gray-600 leading-relaxed px-4 transition-opacity duration-1000 ease-in-out ${
-          isTransitioning ? 'opacity-100' : 'opacity-0'
+        className={`absolute top-0 left-0 w-full text-center font-body text-xl md:text-2xl text-gray-600 leading-relaxed px-4 transition-all duration-1000 ease-in-out transform ${
+          isTransitioning ? 'translate-x-0 opacity-100' : 'translate-x-full opacity-0'
         }`}
       >
         {taglines[nextIndex]}

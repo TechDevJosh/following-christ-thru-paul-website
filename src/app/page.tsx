@@ -15,7 +15,7 @@ export default function HomePage() {
 
       {/* Hero Section */}
       <main className="gradient-hero relative overflow-hidden">
-        <div className="container-custom py-12 lg:py-16 text-center relative z-10">
+        <div className="container-custom py-8 lg:py-12 text-center relative z-10">
           {/* Decorative elements */}
           <div className="absolute inset-0 opacity-5">
             <div className="absolute top-20 left-10 w-32 h-32 bg-blue-200 rounded-full blur-3xl"></div>
@@ -36,13 +36,10 @@ export default function HomePage() {
               <span className="block text-blue-700">Thru Paul</span>
             </h1>
             
-            {/* Subtitle */}
-            <p className="font-body text-xl md:text-2xl text-gray-600 mb-4 leading-relaxed max-w-3xl mx-auto">
-              A KJV Bible-Believing ministry for serious Bible Study, saints engagement, and doctrinal teaching.
-            </p>
-            
             {/* Dynamic Tagline Rotator */}
-            <TaglineRotator />
+            <div className="mb-4">
+              <TaglineRotator />
+            </div>
             
             {/* Supporting text */}
             <p className="font-body text-lg text-gray-500 mb-12 max-w-2xl mx-auto">
