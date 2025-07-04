@@ -9,7 +9,7 @@ interface EmailData {
 }
 
 export async function sendMail({ name, email, message, to, subject }: EmailData) {
-  const transporter = nodemailer.createTransporter({
+  const transporter = nodemailer.createTransport({
     host: 'smtp.zoho.com',
     port: 465,
     secure: true,
