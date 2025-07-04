@@ -16,6 +16,7 @@ export default function SchoolPage() {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsSubmitting(true);
+    setError('');
     
     try {
       const response = await fetch('/api/school', {
@@ -24,15 +25,21 @@ export default function SchoolPage() {
         body: JSON.stringify({ 
           name: formData.fullName, 
           email: formData.email, 
-          message: formData.message 
+          message: formData.message || 'School waitlist registration'
         }),
       });
       
+      const data = await response.json();
+      
       if (response.ok) {
         setIsSubmitted(true);
+        setFormData({ fullName: '', email: '', message: '' });
+      } else {
+        setError(data.error || 'Failed to submit registration. Please try again.');
       }
     } catch (error) {
       console.error('Form submission error:', error);
+      setError('Network error. Please check your connection and try again.');
     } finally {
       setIsSubmitting(false);
     }

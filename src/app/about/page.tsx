@@ -11,10 +11,12 @@ export default function AboutPage() {
   });
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSubmitted, setIsSubmitted] = useState(false);
+  const [error, setError] = useState('');
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsSubmitting(true);
+    setError('');
     
     try {
       const response = await fetch('/api/contact', {
@@ -23,11 +25,17 @@ export default function AboutPage() {
         body: JSON.stringify(formData),
       });
       
+      const data = await response.json();
+      
       if (response.ok) {
         setIsSubmitted(true);
+        setFormData({ name: '', email: '', message: '' });
+      } else {
+        setError(data.error || 'Failed to send message. Please try again.');
       }
     } catch (error) {
       console.error('Form submission error:', error);
+      setError('Network error. Please check your connection and try again.');
     } finally {
       setIsSubmitting(false);
     }
@@ -162,6 +170,12 @@ export default function AboutPage() {
                         />
                       </div>
                       
+                      {error && (
+                        <div className="text-red-600 text-sm mb-4 p-3 bg-red-50 rounded-lg">
+                          {error}
+                        </div>
+                      )}
+                      
                       <button
                         type="submit"
                         disabled={isSubmitting}
@@ -179,11 +193,20 @@ export default function AboutPage() {
                       </svg>
                     </div>
                     <h3 className="font-heading text-2xl font-bold text-gray-900 mb-4">
-                      Message Sent!
+                      Message Sent Successfully!
                     </h3>
-                    <p className="text-gray-600">
-                      Thank you for reaching out. I'll get back to you as soon as possible.
+                    <p className="text-gray-600 mb-4">
+                      ✅ Thank you for your inquiry. We have received your message and will get back to you as soon as possible.
                     </p>
+                    <button
+                      onClick={() => {
+                        setIsSubmitted(false);
+                        setError('');
+                      }}
+                      className="text-blue-600 hover:text-blue-700 font-medium"
+                    >
+                      Send Another Message
+                    </button>
                   </div>
                 )}
               </div>

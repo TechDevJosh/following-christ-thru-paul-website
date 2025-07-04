@@ -52,13 +52,24 @@ export default function AskPage() {
     setIsSubmitting(true);
     
     try {
-      // Here you would typically send to your backend API
-      // For now, we'll simulate the submission
-      await new Promise(resolve => setTimeout(resolve, 2000));
+      const response = await fetch('/api/ask', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          name: formData.anonymous ? 'Anonymous' : 'User',
+          email: formData.email || 'noreply@followingchristthrupaul.com',
+          message: `Question: ${formData.question}\n\nContext: ${formData.context || 'None provided'}\n\nSubmitted: ${formData.anonymous ? 'Anonymously' : 'With contact info'}`
+        }),
+      });
       
-      setSubmitStatus('success');
-      setFormData({ question: '', context: '', email: '', anonymous: true });
+      if (response.ok) {
+        setSubmitStatus('success');
+        setFormData({ question: '', context: '', email: '', anonymous: true });
+      } else {
+        setSubmitStatus('error');
+      }
     } catch (error) {
+      console.error('Form submission error:', error);
       setSubmitStatus('error');
     } finally {
       setIsSubmitting(false);
@@ -103,7 +114,7 @@ export default function AskPage() {
               {submitStatus === 'success' && (
                 <div className="mb-6 p-4 bg-green-50 border border-green-200 rounded-lg">
                   <p className="font-body text-green-800">
-                    Thank you for your question! We'll review it and may feature it in our Q&A section.
+                    ✅ Thank you for your question! We have received your inquiry and will review it for our Q&A section.
                   </p>
                 </div>
               )}
