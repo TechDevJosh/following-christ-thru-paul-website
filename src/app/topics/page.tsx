@@ -43,7 +43,8 @@ export default async function TopicsPage() {
       slug: { current: "salvation-by-grace" },
       sermons: 8,
       tags: ["Grace", "Salvation", "Justification"],
-      publishedAt: "2024-01-15"
+      publishedAt: "2024-01-15",
+      _createdAt: "2024-01-15"
     },
     {
       _id: "2", 
@@ -52,7 +53,8 @@ export default async function TopicsPage() {
       slug: { current: "mystery-of-the-church" },
       sermons: 12,
       tags: ["Church", "Mystery", "Body of Christ"],
-      publishedAt: "2024-01-10"
+      publishedAt: "2024-01-10",
+      _createdAt: "2024-01-10"
     },
     {
       _id: "3",
@@ -61,7 +63,8 @@ export default async function TopicsPage() {
       slug: { current: "dispensational-truth" },
       sermons: 15,
       tags: ["Dispensations", "Rightly Dividing", "Truth"],
-      publishedAt: "2024-01-05"
+      publishedAt: "2024-01-05",
+      _createdAt: "2024-01-05"
     },
     {
       _id: "4",
