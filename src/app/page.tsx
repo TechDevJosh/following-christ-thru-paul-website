@@ -1,13 +1,11 @@
+"use client";
+
+import { useState } from 'react';
 import Link from 'next/link';
 import RecentSermons from '@/components/RecentSermons';
 import Navbar from '@/components/Navbar';
 import ReportModal from '@/components/ReportModal';
-
-export const revalidate = 1800; // 30 minutes
-
-"use client";
-
-import { useState } from 'react';
+import TaglineRotator from '@/components/TaglineRotator';
 
 export default function HomePage() {
   const [isReportModalOpen, setIsReportModalOpen] = useState(false);
@@ -42,6 +40,9 @@ export default function HomePage() {
             <p className="font-body text-xl md:text-2xl text-gray-600 mb-4 leading-relaxed max-w-3xl mx-auto">
               A KJV Bible-Believing ministry for serious Bible Study, saints engagement, and doctrinal teaching.
             </p>
+            
+            {/* Dynamic Tagline Rotator */}
+            <TaglineRotator />
             
             {/* Supporting text */}
             <p className="font-body text-lg text-gray-500 mb-12 max-w-2xl mx-auto">
