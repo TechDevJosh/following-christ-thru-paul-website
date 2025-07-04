@@ -32,6 +32,7 @@ export default function Navbar() {
               <li><Link href="/topics" className="font-body text-gray-700 hover:text-blue-700 transition-colors font-medium">Topics</Link></li>
               <li><Link href="/resources" className="font-body text-gray-700 hover:text-blue-700 transition-colors font-medium">Resources</Link></li>
               <li><Link href="/ask" className="font-body text-gray-700 hover:text-blue-700 transition-colors font-medium">Ask</Link></li>
+              <li><Link href="/school" className="font-body text-gray-700 hover:text-blue-700 transition-colors font-medium">School</Link></li>
               
               {/* Connect Dropdown */}
               <li className="relative">
@@ -46,7 +47,7 @@ export default function Navbar() {
                 </button>
                 {isConnectDropdownOpen && (
                   <div className="absolute right-0 mt-2 w-48 card-elevated py-2 z-20">
-                    <Link href="/connect/subscribe" className="block px-4 py-2 font-body text-gray-700 hover:bg-gray-50 hover:text-blue-700 transition-colors">Subscribe</Link>
+                    <Link href="/newsletter" className="block px-4 py-2 font-body text-gray-700 hover:bg-gray-50 hover:text-blue-700 transition-colors">Subscribe</Link>
                     <Link href="/connect/contact" className="block px-4 py-2 font-body text-gray-700 hover:bg-gray-50 hover:text-blue-700 transition-colors">Contact</Link>
                     <Link href="/connect/support" className="block px-4 py-2 font-body text-gray-700 hover:bg-gray-50 hover:text-blue-700 transition-colors">Support</Link>
                   </div>
@@ -99,13 +100,14 @@ export default function Navbar() {
               <li><Link href="/topics" className="block py-3 px-4 font-body text-gray-700 hover:text-blue-700 hover:bg-gray-50 rounded-md transition-colors">Topics</Link></li>
               <li><Link href="/resources" className="block py-3 px-4 font-body text-gray-700 hover:text-blue-700 hover:bg-gray-50 rounded-md transition-colors">Resources</Link></li>
               <li><Link href="/ask" className="block py-3 px-4 font-body text-gray-700 hover:text-blue-700 hover:bg-gray-50 rounded-md transition-colors">Ask</Link></li>
+              <li><Link href="/school" className="block py-3 px-4 font-body text-gray-700 hover:text-blue-700 hover:bg-gray-50 rounded-md transition-colors">School</Link></li>
               
               {/* Mobile Connect Section */}
               <li className="border-t border-gray-100 pt-2 mt-2">
                 <div className="px-4 py-2">
                   <p className="font-subheading text-sm text-gray-500 mb-2">Connect</p>
                   <div className="space-y-1 pl-4">
-                    <Link href="/connect/subscribe" className="block py-2 font-body text-gray-600 hover:text-blue-700 transition-colors">Subscribe</Link>
+                    <Link href="/newsletter" className="block py-2 font-body text-gray-600 hover:text-blue-700 transition-colors">Subscribe</Link>
                     <Link href="/connect/contact" className="block py-2 font-body text-gray-600 hover:text-blue-700 transition-colors">Contact</Link>
                     <Link href="/connect/support" className="block py-2 font-body text-gray-600 hover:text-blue-700 transition-colors">Support</Link>
                   </div>

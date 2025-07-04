@@ -11,7 +11,7 @@ export default function HomePage() {
 
       {/* Hero Section */}
       <main className="gradient-hero relative overflow-hidden">
-        <div className="container-custom py-16 lg:py-20 text-center relative z-10">
+        <div className="container-custom py-12 lg:py-16 text-center relative z-10">
           {/* Decorative elements */}
           <div className="absolute inset-0 opacity-5">
             <div className="absolute top-20 left-10 w-32 h-32 bg-blue-200 rounded-full blur-3xl"></div>
@@ -153,6 +153,7 @@ export default function HomePage() {
                 <li><Link href="/topics" className="hover:text-white transition-colors">Topics</Link></li>
                 <li><Link href="/resources" className="hover:text-white transition-colors">Resources</Link></li>
                 <li><Link href="/ask" className="hover:text-white transition-colors">Ask Questions</Link></li>
+                <li><Link href="/school" className="hover:text-white transition-colors">School</Link></li>
               </ul>
             </div>
             
@@ -160,7 +161,7 @@ export default function HomePage() {
             <div>
               <h4 className="font-subheading text-lg mb-4">Connect</h4>
               <ul className="space-y-2 font-body text-gray-300">
-                <li><Link href="/connect/subscribe" className="hover:text-white transition-colors">Subscribe</Link></li>
+                <li><Link href="/newsletter" className="hover:text-white transition-colors">Subscribe</Link></li>
                 <li><Link href="/connect/contact" className="hover:text-white transition-colors">Contact</Link></li>
                 <li><Link href="/connect/support" className="hover:text-white transition-colors">Support</Link></li>
               </ul>
