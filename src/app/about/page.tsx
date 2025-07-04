@@ -56,32 +56,51 @@ export default function AboutPage() {
       </section>
 
       {/* Main Content */}
+      <section className="py-12">
+        <div className="max-w-6xl mx-auto px-6 py-12">
+          <div className="flex flex-col md:flex-row items-start gap-10">
+            
+            {/* Left Column - Image */}
+            <div className="w-full md:w-1/2">
+              <img
+                src="https://pub-8d4c47a32bf5437a90a2ba38a0f85223.r2.dev/about-section-picture.jpg"
+                alt="Bro. Josiah Manzano and wife"
+                className="w-full max-w-md mx-auto md:mx-0 rounded-xl shadow-lg object-cover"
+              />
+            </div>
+            
+            {/* Right Column - Text Content */}
+            <div className="w-full md:w-1/2">
+              <div className="prose prose-lg max-w-none">
+                <div className="font-serif text-gray-800 leading-relaxed space-y-6">
+                  <p>
+                    Following Christ Thru Paul is my personal burden and ministry. I'm Bro. Josiah Manzano, the eldest of four siblings, born on September 21, 2000 to Pastor Rodelio and Merly Manzano. I'm married to Jessa Lee Manzano and serve under Shining Light Baptist Church in San Isidro, Subic, Zambales.
+                  </p>
+                  
+                  <p>
+                    At age 13, I surrendered my life to the Lord at a youth camp. But it was in 2017, during the In Christ Baptist Church Homecoming Conference, that I came to trust Christ alone for salvation. Forsaking my former decisions and works, I believed the gospel (1 Cor. 15:1–4; Eph. 1:13) and was saved by grace.
+                  </p>
+                  
+                  <p>
+                    I've always had a passion for computers and creative work. Today, I serve as a preacher and travel with Like-Faith churches to proclaim the fellowship of the mystery. This website is part of my effort to proclaim the truth revealed through the Apostle Paul.
+                  </p>
+                  
+                  <p>
+                    Like Paul, I'm a tentmaker—but instead of leather, I work with code and pixels. If you'd like to support this ministry or need help with a project, I'm available for hire. Your support helps sustain this mission.
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          </div>
+        </div>
+      </section>
+
+      {/* Contact Form Section */}
       <section className="py-16">
         <div className="container-custom">
           <div className="max-w-4xl mx-auto">
-            
-            {/* About Content */}
-            <div className="prose prose-lg max-w-none mb-16">
-              <div className="font-serif text-gray-800 leading-relaxed space-y-6">
-                <p>
-                  Following Christ Thru Paul is my personal burden and ministry. I'm Bro. Josiah Manzano, the eldest of four siblings, born on September 21, 2000 to Pastor Rodelio and Merly Manzano. I'm married to Jessa Lee Manzano and serve under Shining Light Baptist Church in San Isidro, Subic, Zambales.
-                </p>
-                
-                <p>
-                  At age 13, I surrendered my life to the Lord at a youth camp. But it was in 2017, during the In Christ Baptist Church Homecoming Conference, that I came to trust Christ alone for salvation. Forsaking my former decisions and works, I believed the gospel (1 Cor. 15:1–4; Eph. 1:13) and was saved by grace.
-                </p>
-                
-                <p>
-                  I've always had a passion for computers and creative work. Today, I serve as a preacher and travel with Like-Faith churches to proclaim the fellowship of the mystery. This website is part of my effort to proclaim the truth revealed through the Apostle Paul.
-                </p>
-                
-                <p>
-                  Like Paul, I'm a tentmaker—but instead of leather, I work with code and pixels. If you'd like to support this ministry or need help with a project, I'm available for hire. Your support helps sustain this mission.
-                </p>
-              </div>
-            </div>
-
-            {/* Contact Form */}
             <div className="bg-gray-50 rounded-lg p-8">
               <div className="max-w-2xl mx-auto">
                 {!isSubmitted ? (
