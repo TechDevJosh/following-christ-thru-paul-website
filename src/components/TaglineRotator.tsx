@@ -12,32 +12,38 @@ const taglines = [
 
 export default function TaglineRotator() {
   const [currentIndex, setCurrentIndex] = useState(0);
-  const [isVisible, setIsVisible] = useState(true);
+  const [nextIndex, setNextIndex] = useState(1);
+  const [isTransitioning, setIsTransitioning] = useState(false);
 
   useEffect(() => {
     const interval = setInterval(() => {
-      setIsVisible(false);
+      setIsTransitioning(true);
+      
       setTimeout(() => {
-        setCurrentIndex((prev) => (prev + 1) % taglines.length);
-        setIsVisible(true);
-      }, 350);
-    }, 4000);
+        setCurrentIndex(nextIndex);
+        setNextIndex((nextIndex + 1) % taglines.length);
+        setIsTransitioning(false);
+      }, 1000);
+    }, 7000);
 
     return () => clearInterval(interval);
-  }, []);
+  }, [nextIndex]);
 
   return (
-    <div className="overflow-hidden h-20 sm:h-16 md:h-12 flex items-center justify-center">
+    <div className="relative h-16 overflow-hidden" aria-live="polite">
       <p
-        key={currentIndex}
-        className={`font-body text-lg md:text-xl text-gray-600 max-w-4xl mx-auto leading-relaxed text-center px-4 transition-all duration-700 transform ${
-          isVisible 
-            ? 'translate-x-0 opacity-100' 
-            : 'translate-x-[-100%] opacity-0'
+        className={`absolute top-0 left-0 w-full text-center font-body text-lg md:text-xl text-gray-600 leading-relaxed px-4 transition-opacity duration-1000 ease-in-out ${
+          isTransitioning ? 'opacity-0' : 'opacity-100'
         }`}
-        aria-live="polite"
       >
         {taglines[currentIndex]}
+      </p>
+      <p
+        className={`absolute top-0 left-0 w-full text-center font-body text-lg md:text-xl text-gray-600 leading-relaxed px-4 transition-opacity duration-1000 ease-in-out ${
+          isTransitioning ? 'opacity-100' : 'opacity-0'
+        }`}
+      >
+        {taglines[nextIndex]}
       </p>
     </div>
   );
