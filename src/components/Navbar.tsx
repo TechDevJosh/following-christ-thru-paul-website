@@ -4,11 +4,13 @@ import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
 import GlobalSearch from './GlobalSearch';
 import LoginModal from './LoginModal';
+import ReportModal from './ReportModal';
 
 export default function Navbar() {
   const [isConnectDropdownOpen, setIsConnectDropdownOpen] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [isLoginModalOpen, setIsLoginModalOpen] = useState(false);
+  const [isReportModalOpen, setIsReportModalOpen] = useState(false);
 
   // Close dropdown when clicking outside
   useEffect(() => {
@@ -23,7 +25,7 @@ export default function Navbar() {
 
   return (
     <>
-    <header className="bg-white/95 backdrop-blur-sm border-b border-gray-100 sticky top-0 z-40 w-full">
+    <header className="bg-white/95 backdrop-blur-sm border-b border-gray-100 sticky top-0 z-[9998] w-full">
       <nav className="px-4 sm:px-6 lg:px-8 py-4 max-w-full">
         <div className="flex justify-between items-center w-full max-w-7xl mx-auto">
           {/* Logo */}
@@ -61,10 +63,20 @@ export default function Navbar() {
                   </svg>
                 </button>
                 {isConnectDropdownOpen && (
-                  <div className="absolute right-0 top-full mt-2 w-48 bg-white rounded-lg shadow-xl border border-gray-200 py-2 z-[60]">
+                  <div className="absolute right-0 top-full mt-2 w-48 bg-white rounded-lg shadow-xl border border-gray-200 py-2 z-[9999]" style={{zIndex: 9999}}>
                     <Link href="/newsletter" className="block px-4 py-2 font-body text-gray-700 hover:bg-gray-50 hover:text-blue-700 transition-colors">Subscribe</Link>
                     <Link href="/connect/contact" className="block px-4 py-2 font-body text-gray-700 hover:bg-gray-50 hover:text-blue-700 transition-colors">Contact</Link>
                     <Link href="/connect/support" className="block px-4 py-2 font-body text-gray-700 hover:bg-gray-50 hover:text-blue-700 transition-colors">Support</Link>
+                    <button 
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        setIsReportModalOpen(true);
+                        setIsConnectDropdownOpen(false);
+                      }}
+                      className="block w-full text-left px-4 py-2 font-body text-gray-700 hover:bg-gray-50 hover:text-blue-700 transition-colors"
+                    >
+                      Report an Issue
+                    </button>
                   </div>
                 )}
               </li>
@@ -131,6 +143,15 @@ export default function Navbar() {
                     <Link href="/newsletter" className="block py-2 font-body text-gray-600 hover:text-blue-700 transition-colors">Subscribe</Link>
                     <Link href="/connect/contact" className="block py-2 font-body text-gray-600 hover:text-blue-700 transition-colors">Contact</Link>
                     <Link href="/connect/support" className="block py-2 font-body text-gray-600 hover:text-blue-700 transition-colors">Support</Link>
+                    <button 
+                      onClick={() => {
+                        setIsReportModalOpen(true);
+                        setIsMobileMenuOpen(false);
+                      }}
+                      className="block w-full text-left py-2 font-body text-gray-600 hover:text-blue-700 transition-colors"
+                    >
+                      Report an Issue
+                    </button>
                   </div>
                 </div>
               </li>
@@ -159,6 +180,12 @@ export default function Navbar() {
     <LoginModal 
       isOpen={isLoginModalOpen} 
       onClose={() => setIsLoginModalOpen(false)} 
+    />
+    
+    {/* Report Modal - Rendered outside header */}
+    <ReportModal 
+      isOpen={isReportModalOpen} 
+      onClose={() => setIsReportModalOpen(false)} 
     />
     </>
   );
