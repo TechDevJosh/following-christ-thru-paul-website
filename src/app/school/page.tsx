@@ -12,6 +12,7 @@ export default function SchoolPage() {
   });
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSubmitted, setIsSubmitted] = useState(false);
+  const [error, setError] = useState('');
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -152,6 +153,12 @@ export default function SchoolPage() {
                           placeholder="Tell us about your interest in biblical education..."
                         />
                       </div>
+                      
+                      {error && (
+                        <div className="text-red-600 text-sm mb-4 p-3 bg-red-50 rounded-lg">
+                          {error}
+                        </div>
+                      )}
                       
                       <button
                         type="submit"
