@@ -13,8 +13,8 @@ export default function Navbar() {
   return (
     <>
     <header className="bg-white/95 backdrop-blur-sm border-b border-gray-100 sticky top-0 z-50 w-full overflow-hidden">
-      <nav className="container-custom py-4 max-w-full">
-        <div className="flex justify-between items-center">
+      <nav className="px-4 sm:px-6 lg:px-8 py-4 max-w-full">
+        <div className="flex justify-between items-center w-full max-w-7xl mx-auto">
           {/* Logo */}
           <div className="flex-shrink-0">
             <Link href="/" className="font-heading text-gray-900 hover:text-blue-700 transition-colors">
@@ -47,7 +47,7 @@ export default function Navbar() {
                   </svg>
                 </button>
                 {isConnectDropdownOpen && (
-                  <div className="absolute right-0 mt-2 w-48 card-elevated py-2 z-20">
+                  <div className="absolute right-0 mt-2 w-48 bg-white rounded-lg shadow-lg border border-gray-200 py-2 z-50">
                     <Link href="/newsletter" className="block px-4 py-2 font-body text-gray-700 hover:bg-gray-50 hover:text-blue-700 transition-colors">Subscribe</Link>
                     <Link href="/connect/contact" className="block px-4 py-2 font-body text-gray-700 hover:bg-gray-50 hover:text-blue-700 transition-colors">Contact</Link>
                     <Link href="/connect/support" className="block px-4 py-2 font-body text-gray-700 hover:bg-gray-50 hover:text-blue-700 transition-colors">Support</Link>
@@ -58,11 +58,11 @@ export default function Navbar() {
             </nav>
 
             {/* Right Navigation */}
-            <div className="flex items-center space-x-2 ml-4">
+            <div className="flex items-center space-x-1 ml-2">
               <GlobalSearch />
               <button
                 onClick={() => setIsLoginModalOpen(true)}
-                className="inline-flex items-center px-3 py-2 bg-blue-600 text-white font-body font-medium rounded-lg hover:bg-blue-700 transition-colors focus-ring whitespace-nowrap text-sm"
+                className="inline-flex items-center px-2 py-1.5 bg-blue-600 text-white font-body font-medium rounded-lg hover:bg-blue-700 transition-colors focus-ring whitespace-nowrap text-sm"
               >
                 <svg className="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M11 16l-4-4m0 0l4-4m-4 4h14m-5 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h7a3 3 0 013 3v1" />

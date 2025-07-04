@@ -72,7 +72,7 @@ export default function NewsletterPage() {
                         </svg>
                       </div>
                       <h3 className="font-heading text-3xl font-bold text-gray-900 mb-4">
-                        Join Our Community
+                        Receive Updates Straight to Your Inbox
                       </h3>
                       <p className="text-gray-600">
                         Be the first to receive new content and ministry updates
