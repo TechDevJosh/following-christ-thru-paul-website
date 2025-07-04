@@ -84,8 +84,8 @@ export default function GlobalSearch() {
       <div className="relative">
         <input
           type="text"
-          placeholder="Search studies, topics..."
-          className="w-full sm:w-64 px-4 py-2 pl-10 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all bg-white/90 backdrop-blur-sm"
+          placeholder="Search..."
+          className="w-full sm:w-48 lg:w-64 px-3 py-2 pl-9 text-sm rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all bg-white/90 backdrop-blur-sm"
           value={searchTerm}
           onChange={handleInputChange}
           onFocus={() => setIsOpen(true)}

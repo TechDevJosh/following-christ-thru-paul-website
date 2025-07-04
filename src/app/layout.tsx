@@ -45,8 +45,12 @@ export default function RootLayout({
           'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
           })(window,document,'script','dataLayer','GTM-PQ85MDM6');`}
         </Script>
-        <Script async src="https://www.googletagmanager.com/gtag/js?id=G-J7YNKRKHSP" />
-        <Script id="google-analytics" strategy="afterInteractive">
+        <Script
+          async
+          src="https://www.googletagmanager.com/gtag/js?id=G-J7YNKRKHSP"
+          strategy="beforeInteractive"
+        />
+        <Script id="google-analytics" strategy="beforeInteractive">
           {`
             window.dataLayer = window.dataLayer || [];
             function gtag(){dataLayer.push(arguments);}

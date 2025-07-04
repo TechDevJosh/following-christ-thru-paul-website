@@ -12,12 +12,12 @@ export default function Navbar() {
 
   return (
     <>
-    <header className="bg-white/95 backdrop-blur-sm border-b border-gray-100 sticky top-0 z-50">
-      <nav className="container-custom py-4">
+    <header className="bg-white/95 backdrop-blur-sm border-b border-gray-100 sticky top-0 z-50 w-full overflow-hidden">
+      <nav className="container-custom py-4 max-w-full">
         <div className="flex justify-between items-center">
           {/* Logo */}
-          <div className="flex-shrink-0">
-            <Link href="/" className="font-heading text-2xl lg:text-3xl text-gray-900 hover:text-blue-700 transition-colors">
+          <div className="flex-shrink-0 min-w-0">
+            <Link href="/" className="font-heading text-lg sm:text-xl lg:text-3xl text-gray-900 hover:text-blue-700 transition-colors block truncate">
               Following Christ Thru Paul
             </Link>
           </div>
@@ -72,11 +72,13 @@ export default function Navbar() {
           </div>
 
           {/* Mobile menu button */}
-          <div className="lg:hidden flex items-center space-x-4">
-            <GlobalSearch />
+          <div className="lg:hidden flex items-center space-x-2 flex-shrink-0">
+            <div className="hidden sm:block">
+              <GlobalSearch />
+            </div>
             <button 
               onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)} 
-              className="p-2 text-gray-700 hover:text-blue-700 focus-ring rounded-md"
+              className="p-2 text-gray-700 hover:text-blue-700 focus-ring rounded-md flex-shrink-0"
               aria-label="Toggle mobile menu"
             >
               <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
