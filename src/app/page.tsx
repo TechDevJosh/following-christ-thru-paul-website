@@ -1,10 +1,16 @@
 import Link from 'next/link';
 import RecentSermons from '@/components/RecentSermons';
 import Navbar from '@/components/Navbar';
+import ReportModal from '@/components/ReportModal';
 
 export const revalidate = 1800; // 30 minutes
 
+"use client";
+
+import { useState } from 'react';
+
 export default function HomePage() {
+  const [isReportModalOpen, setIsReportModalOpen] = useState(false);
   return (
     <div className="min-h-screen bg-white text-gray-800">
       <Navbar />
@@ -164,6 +170,14 @@ export default function HomePage() {
                 <li><Link href="/newsletter" className="hover:text-white transition-colors">Subscribe</Link></li>
                 <li><Link href="/connect/contact" className="hover:text-white transition-colors">Contact</Link></li>
                 <li><Link href="/connect/support" className="hover:text-white transition-colors">Support</Link></li>
+                <li>
+                  <button 
+                    onClick={() => setIsReportModalOpen(true)}
+                    className="hover:text-white transition-colors text-left"
+                  >
+                    Report an Issue
+                  </button>
+                </li>
               </ul>
             </div>
           </div>
@@ -205,6 +219,11 @@ export default function HomePage() {
           </div>
         </div>
       </footer>
+      
+      <ReportModal 
+        isOpen={isReportModalOpen} 
+        onClose={() => setIsReportModalOpen(false)} 
+      />
     </div>
   );
 }

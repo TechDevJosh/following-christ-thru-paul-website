@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
 import GlobalSearch from './GlobalSearch';
 import LoginModal from './LoginModal';
@@ -10,9 +10,20 @@ export default function Navbar() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [isLoginModalOpen, setIsLoginModalOpen] = useState(false);
 
+  // Close dropdown when clicking outside
+  useEffect(() => {
+    const handleClickOutside = () => {
+      setIsConnectDropdownOpen(false);
+    };
+    if (isConnectDropdownOpen) {
+      document.addEventListener('click', handleClickOutside);
+      return () => document.removeEventListener('click', handleClickOutside);
+    }
+  }, [isConnectDropdownOpen]);
+
   return (
     <>
-    <header className="bg-white/95 backdrop-blur-sm border-b border-gray-100 sticky top-0 z-50 w-full overflow-hidden">
+    <header className="bg-white/95 backdrop-blur-sm border-b border-gray-100 sticky top-0 z-40 w-full">
       <nav className="px-4 sm:px-6 lg:px-8 py-4 max-w-full">
         <div className="flex justify-between items-center w-full max-w-7xl mx-auto">
           {/* Logo */}
@@ -38,7 +49,10 @@ export default function Navbar() {
               {/* Connect Dropdown */}
               <li className="relative">
                 <button
-                  onClick={() => setIsConnectDropdownOpen(!isConnectDropdownOpen)}
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    setIsConnectDropdownOpen(!isConnectDropdownOpen);
+                  }}
                   className="font-body text-gray-700 hover:text-blue-700 transition-colors font-medium focus-ring flex items-center"
                 >
                   Connect
@@ -47,7 +61,7 @@ export default function Navbar() {
                   </svg>
                 </button>
                 {isConnectDropdownOpen && (
-                  <div className="absolute right-0 mt-2 w-48 bg-white rounded-lg shadow-lg border border-gray-200 py-2 z-50">
+                  <div className="absolute right-0 top-full mt-2 w-48 bg-white rounded-lg shadow-xl border border-gray-200 py-2 z-[60]">
                     <Link href="/newsletter" className="block px-4 py-2 font-body text-gray-700 hover:bg-gray-50 hover:text-blue-700 transition-colors">Subscribe</Link>
                     <Link href="/connect/contact" className="block px-4 py-2 font-body text-gray-700 hover:bg-gray-50 hover:text-blue-700 transition-colors">Contact</Link>
                     <Link href="/connect/support" className="block px-4 py-2 font-body text-gray-700 hover:bg-gray-50 hover:text-blue-700 transition-colors">Support</Link>
