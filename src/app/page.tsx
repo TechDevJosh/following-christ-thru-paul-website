@@ -2,6 +2,8 @@ import Link from 'next/link';
 import RecentSermons from '@/components/RecentSermons';
 import Navbar from '@/components/Navbar';
 
+export const revalidate = 1800; // 30 minutes
+
 export default function HomePage() {
   return (
     <div className="min-h-screen bg-white text-gray-800">
@@ -9,7 +11,7 @@ export default function HomePage() {
 
       {/* Hero Section */}
       <main className="gradient-hero relative overflow-hidden">
-        <div className="container-custom py-24 lg:py-32 text-center relative z-10">
+        <div className="container-custom py-16 lg:py-20 text-center relative z-10">
           {/* Decorative elements */}
           <div className="absolute inset-0 opacity-5">
             <div className="absolute top-20 left-10 w-32 h-32 bg-blue-200 rounded-full blur-3xl"></div>
@@ -32,7 +34,7 @@ export default function HomePage() {
             
             {/* Subtitle */}
             <p className="font-body text-xl md:text-2xl text-gray-600 mb-4 leading-relaxed max-w-3xl mx-auto">
-              A KJV Bible-believing ministry for serious Bible study, community engagement, and doctrinal teaching.
+              A KJV Bible-Believing ministry for serious Bible Study, saints engagement, and doctrinal teaching.
             </p>
             
             {/* Supporting text */}
@@ -46,25 +48,25 @@ export default function HomePage() {
                 href="/verse-by-verse"
                 className="btn-primary focus-ring w-full sm:w-auto"
               >
-                Begin Your Study
+                Start Here
               </Link>
               <Link
-                href="/connect#subscribe"
+                href="/school"
                 className="btn-secondary focus-ring w-full sm:w-auto"
               >
-                Join Our Community
+                Register Now
               </Link>
             </div>
             
             {/* Trust indicators */}
             <div className="mt-16 pt-8 border-t border-gray-200">
-              <p className="text-sm text-gray-500 mb-4">Trusted by Bible students worldwide</p>
-              <div className="flex justify-center items-center space-x-8 text-gray-400">
-                <span className="text-xs font-medium">KJV ONLY</span>
-                <span className="w-1 h-1 bg-gray-300 rounded-full"></span>
-                <span className="text-xs font-medium">DISPENSATIONAL</span>
-                <span className="w-1 h-1 bg-gray-300 rounded-full"></span>
-                <span className="text-xs font-medium">GRACE FOCUSED</span>
+              <p className="text-sm text-gray-500 mb-4">We Are Strong Proponents of</p>
+              <div className="flex flex-wrap justify-center items-center gap-4 text-gray-400">
+                <span className="text-xs font-medium whitespace-nowrap">AUTHORIZED VERSION (KJV)</span>
+                <span className="w-1 h-1 bg-gray-300 rounded-full hidden sm:block"></span>
+                <span className="text-xs font-medium whitespace-nowrap">PAULINE DISPENSATIONALISM</span>
+                <span className="w-1 h-1 bg-gray-300 rounded-full hidden sm:block"></span>
+                <span className="text-xs font-medium whitespace-nowrap">SUBMISSION TO A LOCAL BIBLE-BELIEVING CHURCH</span>
               </div>
             </div>
           </div>

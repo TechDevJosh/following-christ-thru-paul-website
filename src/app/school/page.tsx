@@ -1,11 +1,12 @@
 "use client";
 
 import { useState } from 'react';
+import Link from 'next/link';
 import Navbar from '@/components/Navbar';
 
-export default function ContactPage() {
+export default function SchoolPage() {
   const [formData, setFormData] = useState({
-    name: '',
+    fullName: '',
     email: '',
     message: ''
   });
@@ -34,15 +35,20 @@ export default function ContactPage() {
     <div className="min-h-screen bg-white text-gray-800">
       <Navbar />
 
-      {/* Hero Section */}
-      <section className="bg-gradient-to-r from-blue-900 to-blue-700 text-white py-20">
+      {/* Hero Banner */}
+      <section className="bg-blue-900 text-white py-16">
         <div className="container-custom">
           <div className="max-w-4xl mx-auto text-center">
-            <h1 className="font-heading text-4xl md:text-6xl font-bold mb-6">
-              Contact Us
-            </h1>
+            <div className="bg-red-600 text-white px-6 py-4 rounded-lg mb-8 inline-block">
+              <h1 className="font-heading text-2xl md:text-3xl font-bold">
+                FCTP School of the Bible is not a replacement for the local church.
+              </h1>
+            </div>
+            <h2 className="font-heading text-4xl md:text-5xl font-bold mb-6">
+              FCTP School of the Bible
+            </h2>
             <p className="text-xl opacity-90">
-              Get in touch for questions, prayer requests, or ministry inquiries
+              Biblical education rooted in Pauline doctrine and local church principles
             </p>
           </div>
         </div>
@@ -51,77 +57,47 @@ export default function ContactPage() {
       {/* Main Content */}
       <section className="py-16">
         <div className="container-custom">
-          <div className="max-w-6xl mx-auto">
-            <div className="grid lg:grid-cols-2 gap-12">
-              
-              {/* Contact Information */}
-              <div>
-                <h2 className="font-heading text-3xl font-bold text-gray-900 mb-8">
-                  Get in Touch
-                </h2>
+          <div className="max-w-4xl mx-auto">
+            
+            {/* Explanatory Content */}
+            <div className="prose prose-lg max-w-none mb-16">
+              <div className="font-serif text-gray-800 leading-relaxed space-y-6">
+                <p>
+                  FCTP adheres to the Local Church principle. While each believer is part of the One Body of Christ, they are also expected to be part of or help plant a local church consistent with Pauline Doctrine. We recognize that some believers may lack access to a nearby KJV Bible-believing local church. FCTP exists to offer Pauline doctrine education and edification—but in no wise substitutes the God-ordained role of the local church.
+                </p>
                 
-                <div className="space-y-6">
-                  <div className="flex items-start space-x-4">
-                    <div className="flex-shrink-0">
-                      <div className="w-12 h-12 bg-blue-100 rounded-lg flex items-center justify-center">
-                        <svg className="w-6 h-6 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 8l7.89 4.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
-                        </svg>
-                      </div>
-                    </div>
-                    <div>
-                      <h3 className="font-semibold text-gray-900 mb-1">Email</h3>
-                      <p className="text-gray-600">brotherjosiah@followingchristthrupaul.com</p>
-                    </div>
-                  </div>
-                  
-                  <div className="flex items-start space-x-4">
-                    <div className="flex-shrink-0">
-                      <div className="w-12 h-12 bg-blue-100 rounded-lg flex items-center justify-center">
-                        <svg className="w-6 h-6 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" />
-                        </svg>
-                      </div>
-                    </div>
-                    <div>
-                      <h3 className="font-semibold text-gray-900 mb-1">Phone</h3>
-                      <p className="text-gray-600">+63935-301-6431</p>
-                    </div>
-                  </div>
-                </div>
-                
-                <div className="mt-12">
-                  <h3 className="font-heading text-xl font-bold text-gray-900 mb-4">
-                    Ministry Hours
-                  </h3>
-                  <p className="text-gray-600">
-                    We strive to respond to all inquiries within 24-48 hours. For urgent matters, please call directly.
-                  </p>
-                </div>
+                <p>
+                  Founded by Bro. Josiah Manzano, FCTP upholds pastoral authority and encourages submission to the leadership of local pastors. This ministry exists to supplement the local church, not to supersede it. We operate as "helpers of your joy" (2 Cor. 1:24), not as "lords over God's heritage."
+                </p>
               </div>
+            </div>
 
-              {/* Contact Form */}
-              <div className="bg-gray-50 rounded-lg p-8">
+            {/* Waitlist Form */}
+            <div className="bg-gray-50 rounded-lg p-8">
+              <div className="max-w-2xl mx-auto">
                 {!isSubmitted ? (
                   <>
-                    <h3 className="font-heading text-2xl font-bold text-gray-900 mb-6">
-                      Send us a Message
+                    <h3 className="font-heading text-3xl font-bold text-gray-900 mb-6 text-center">
+                      Join the Waitlist
                     </h3>
+                    <p className="text-gray-600 mb-8 text-center">
+                      Be the first to know when enrollment opens for FCTP School of the Bible
+                    </p>
                     
                     <form onSubmit={handleSubmit} className="space-y-6">
                       <div>
-                        <label htmlFor="name" className="block text-sm font-medium text-gray-700 mb-2">
-                          Name *
+                        <label htmlFor="fullName" className="block text-sm font-medium text-gray-700 mb-2">
+                          Full Name *
                         </label>
                         <input
                           type="text"
-                          id="name"
-                          name="name"
+                          id="fullName"
+                          name="fullName"
                           required
-                          value={formData.name}
+                          value={formData.fullName}
                           onChange={handleChange}
                           className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors"
-                          placeholder="Enter your name"
+                          placeholder="Enter your full name"
                         />
                       </div>
                       
@@ -143,17 +119,16 @@ export default function ContactPage() {
                       
                       <div>
                         <label htmlFor="message" className="block text-sm font-medium text-gray-700 mb-2">
-                          Message *
+                          Brief Message / Interest
                         </label>
                         <textarea
                           id="message"
                           name="message"
-                          rows={5}
-                          required
+                          rows={4}
                           value={formData.message}
                           onChange={handleChange}
                           className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors resize-vertical"
-                          placeholder="Your message..."
+                          placeholder="Tell us about your interest in biblical education..."
                         />
                       </div>
                       
@@ -162,7 +137,7 @@ export default function ContactPage() {
                         disabled={isSubmitting}
                         className="w-full bg-blue-600 text-white py-3 px-6 rounded-lg font-medium hover:bg-blue-700 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
                       >
-                        {isSubmitting ? 'Sending...' : 'Send Message'}
+                        {isSubmitting ? 'Submitting...' : 'Join Waitlist'}
                       </button>
                     </form>
                   </>
@@ -174,11 +149,20 @@ export default function ContactPage() {
                       </svg>
                     </div>
                     <h3 className="font-heading text-2xl font-bold text-gray-900 mb-4">
-                      Message Received!
+                      Thank You!
                     </h3>
-                    <p className="text-gray-600">
-                      Thank you for contacting us. We'll get back to you as soon as possible.
+                    <p className="text-gray-600 mb-8">
+                      Thank you for expressing interest in FCTP School of the Bible. We will notify you as soon as we open enrollment.
                     </p>
+                    <Link
+                      href="/"
+                      className="inline-flex items-center px-6 py-3 bg-blue-600 text-white font-medium rounded-lg hover:bg-blue-700 transition-colors"
+                    >
+                      <svg className="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" />
+                      </svg>
+                      Return Home
+                    </Link>
                   </div>
                 )}
               </div>

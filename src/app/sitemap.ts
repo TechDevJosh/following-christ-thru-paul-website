@@ -1,6 +1,8 @@
 import { MetadataRoute } from 'next';
 import { client } from '@/sanity/lib/client';
 
+export const revalidate = 1800; // 30 minutes
+
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const baseUrl = 'https://followingchristthrupaul.com'; // Replace with your actual domain
 
@@ -50,6 +52,18 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     },
     {
       url: `${baseUrl}/connect/support`,
+      lastModified: new Date(),
+      changeFrequency: 'monthly' as const,
+      priority: 0.6,
+    },
+    {
+      url: `${baseUrl}/school`,
+      lastModified: new Date(),
+      changeFrequency: 'monthly' as const,
+      priority: 0.7,
+    },
+    {
+      url: `${baseUrl}/newsletter`,
       lastModified: new Date(),
       changeFrequency: 'monthly' as const,
       priority: 0.6,

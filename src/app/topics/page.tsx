@@ -1,22 +1,41 @@
-'use client';
-
 import Link from 'next/link';
 import { client } from '@/sanity/lib/client';
 import Navbar from '@/components/Navbar';
+
+export const revalidate = 1800; // 30 minutes
 
 interface Topic {
   _id: string;
   title: string;
   description: string;
   slug: { current: string };
-  sermons: number;
-  tags: string[];
+  sermons?: number;
+  tags?: string[];
   publishedAt: string;
+  _createdAt: string;
 }
 
-export default function TopicsPage() {
-  // For now, we'll create placeholder data until the schema is implemented
-  const topics: Topic[] = [
+const TOPICS_QUERY = `*[_type == "topics"] | order(publishedAt desc, _createdAt desc) {
+  _id,
+  title,
+  description,
+  slug,
+  tags,
+  publishedAt,
+  _createdAt
+}`;
+
+export default async function TopicsPage() {
+  let topics: Topic[] = [];
+  
+  try {
+    topics = await client.fetch(TOPICS_QUERY);
+  } catch (error) {
+    console.error('Error fetching topics:', error);
+  }
+
+  // Fallback placeholder data if no topics from Sanity
+  const placeholderTopics: Topic[] = [
     {
       _id: "1",
       title: "Salvation by Grace",
@@ -51,9 +70,12 @@ export default function TopicsPage() {
       slug: { current: "eternal-security" },
       sermons: 6,
       tags: ["Security", "Assurance", "Grace"],
-      publishedAt: "2024-01-01"
+      publishedAt: "2024-01-01",
+      _createdAt: "2024-01-01"
     }
   ];
+
+  const displayTopics = topics.length > 0 ? topics : placeholderTopics;
 
   return (
     <div className="min-h-screen bg-white text-gray-800">
@@ -78,7 +100,7 @@ export default function TopicsPage() {
       <section className="py-20">
         <div className="container-custom">
           <div className="grid gap-8 grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
-            {topics.map((topic) => (
+            {displayTopics.map((topic) => (
               <article key={topic._id} className="card-elevated p-8 group hover:-translate-y-1 transition-all duration-300">
                 <div className="mb-6">
                   <h2 className="font-heading text-2xl text-gray-900 mb-4 group-hover:text-blue-700 transition-colors">
@@ -90,27 +112,31 @@ export default function TopicsPage() {
                 </div>
 
                 <div className="flex items-center justify-between mb-6">
-                  <span className="font-body text-sm text-gray-500">
-                    {topic.sermons} sermon{topic.sermons !== 1 ? 's' : ''}
-                  </span>
+                  {topic.sermons && (
+                    <span className="font-body text-sm text-gray-500">
+                      {topic.sermons} sermon{topic.sermons !== 1 ? 's' : ''}
+                    </span>
+                  )}
                   <time className="font-body text-sm text-gray-500">
-                    {new Date(topic.publishedAt).toLocaleDateString('en-US', {
+                    {new Date(topic.publishedAt || topic._createdAt).toLocaleDateString('en-US', {
                       year: 'numeric',
                       month: 'short'
                     })}
                   </time>
                 </div>
 
-                <div className="flex flex-wrap gap-2 mb-6">
-                  {topic.tags.map(tag => (
-                    <span 
-                      key={tag} 
-                      className="inline-flex items-center px-3 py-1 rounded-full bg-blue-100 text-blue-800 font-body font-medium text-xs"
-                    >
-                      {tag}
-                    </span>
-                  ))}
-                </div>
+                {topic.tags && topic.tags.length > 0 && (
+                  <div className="flex flex-wrap gap-2 mb-6">
+                    {topic.tags.map(tag => (
+                      <span 
+                        key={tag} 
+                        className="inline-flex items-center px-3 py-1 rounded-full bg-blue-100 text-blue-800 font-body font-medium text-xs"
+                      >
+                        {tag}
+                      </span>
+                    ))}
+                  </div>
+                )}
 
                 <Link 
                   href={`/topics/${topic.slug.current}`}

@@ -1,6 +1,10 @@
 import { Metadata } from 'next';
 import Link from 'next/link';
 import { client } from '@/sanity/lib/client';
+import ShareButton from '@/components/ShareButton';
+import Navbar from '@/components/Navbar';
+
+export const revalidate = 1800; // 30 minutes
 
 interface TopicPageProps {
   params: Promise<{
@@ -139,6 +143,7 @@ export default async function TopicPage({ params }: TopicPageProps) {
   // If topic exists, render the full topic page
   return (
     <div className="min-h-screen bg-white">
+      <Navbar />
       <main className="container-custom py-16">
         <article className="max-w-4xl mx-auto">
           <header className="mb-12">
@@ -158,13 +163,21 @@ export default async function TopicPage({ params }: TopicPageProps) {
             </div>
           </header>
 
-          <div className="prose prose-lg max-w-none">
+          <div className="prose prose-lg max-w-none mb-12">
             {topic.content ? (
               <div dangerouslySetInnerHTML={{ __html: topic.content }} />
             ) : (
               <p className="text-gray-600">Content for this topic is being prepared.</p>
             )}
           </div>
+
+          {/* Share Button */}
+          <section className="mb-12 pb-8 border-t border-gray-200 pt-8">
+            <div className="flex items-center justify-between">
+              <h3 className="font-heading text-2xl text-gray-900">Share This Topic</h3>
+              <ShareButton title={topic.title} />
+            </div>
+          </section>
         </article>
       </main>
     </div>

@@ -1,6 +1,9 @@
 import { Metadata } from 'next';
 import Link from 'next/link';
 import { client } from '@/sanity/lib/client';
+import Navbar from '@/components/Navbar';
+
+export const revalidate = 1800; // 30 minutes
 
 export const metadata: Metadata = {
   title: 'Verse by Verse Studies | Following Christ Thru Paul',
@@ -52,6 +55,23 @@ export default async function VerseByVersePage() {
 
   return (
     <div className="min-h-screen bg-gray-50">
+      <Navbar />
+      
+      {/* Back to Home Link */}
+      <div className="bg-white border-b border-gray-200">
+        <div className="container-custom py-4">
+          <Link
+            href="/"
+            className="inline-flex items-center text-blue-600 hover:text-blue-700 font-medium transition-colors"
+          >
+            <svg className="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 19l-7-7m0 0l7-7m-7 7h18" />
+            </svg>
+            Back to Home
+          </Link>
+        </div>
+      </div>
+      
       {/* Hero Section */}
       <section className="bg-gradient-to-r from-blue-900 to-blue-700 text-white py-20">
         <div className="container-custom">

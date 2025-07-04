@@ -4,6 +4,9 @@ import { PortableText } from '@portabletext/react';
 import Link from 'next/link';
 import { getYouTubeEmbedUrl } from '@/utils/youtube';
 import Navbar from '@/components/Navbar';
+import ShareButton from '@/components/ShareButton';
+
+export const revalidate = 1800; // 30 minutes
 
 interface Sermon {
   _id: string;
@@ -308,6 +311,14 @@ export default async function SermonPage({ params }: PageProps) {
               </div>
             </section>
           )}
+
+          {/* Share Button */}
+          <section className="mb-12 pb-8 border-b border-gray-200">
+            <div className="flex items-center justify-between">
+              <h3 className="font-heading text-2xl text-gray-900">Share This Study</h3>
+              <ShareButton title={`${sermon.title} - ${sermon.passage}`} />
+            </div>
+          </section>
         </article>
       </main>
 
