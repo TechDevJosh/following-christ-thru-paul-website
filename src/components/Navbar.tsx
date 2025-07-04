@@ -14,23 +14,28 @@ export default function Navbar() {
 
   // Close dropdown when clicking outside
   useEffect(() => {
-    const handleClickOutside = () => {
-      setIsConnectDropdownOpen(false);
+    const handleClickOutside = (event: MouseEvent) => {
+      const target = event.target as Element;
+      if (!target.closest('[data-dropdown="connect"]')) {
+        setIsConnectDropdownOpen(false);
+      }
     };
     if (isConnectDropdownOpen) {
-      document.addEventListener('click', handleClickOutside);
+      setTimeout(() => {
+        document.addEventListener('click', handleClickOutside);
+      }, 0);
       return () => document.removeEventListener('click', handleClickOutside);
     }
   }, [isConnectDropdownOpen]);
 
   return (
     <>
-    <header className="bg-white/95 backdrop-blur-sm border-b border-gray-100 sticky top-0 z-[9998] w-full">
+    <header className="bg-white/95 backdrop-blur-sm border-b border-gray-100 sticky top-0 z-50 w-full" style={{zIndex: 50}}>
       <nav className="px-4 sm:px-6 lg:px-8 py-4 max-w-full">
         <div className="flex justify-between items-center w-full max-w-7xl mx-auto">
           {/* Logo */}
           <div className="flex-shrink-0">
-            <Link href="/" className="font-heading text-gray-900 hover:text-blue-700 transition-colors">
+            <Link href="/" className="font-heading text-gray-900 hover:text-blue-700 transition-colors" onClick={(e) => e.stopPropagation()}>
               <span className="block sm:hidden text-xl font-bold">FCTP</span>
               <span className="hidden sm:block text-xl lg:text-3xl">Following Christ Thru Paul</span>
             </Link>
@@ -49,13 +54,14 @@ export default function Navbar() {
               <li><Link href="/school" className="font-body text-gray-700 hover:text-blue-700 transition-colors font-medium">School</Link></li>
               
               {/* Connect Dropdown */}
-              <li className="relative">
+              <li className="relative" data-dropdown="connect">
                 <button
                   onClick={(e) => {
                     e.stopPropagation();
                     setIsConnectDropdownOpen(!isConnectDropdownOpen);
                   }}
                   className="font-body text-gray-700 hover:text-blue-700 transition-colors font-medium focus-ring flex items-center"
+                  data-dropdown="connect"
                 >
                   Connect
                   <svg className="ml-1 w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -63,7 +69,7 @@ export default function Navbar() {
                   </svg>
                 </button>
                 {isConnectDropdownOpen && (
-                  <div className="absolute right-0 top-full mt-2 w-48 bg-white rounded-lg shadow-xl border border-gray-200 py-2 z-[9999]" style={{zIndex: 9999}}>
+                  <div className="absolute right-0 top-full mt-2 w-48 bg-white rounded-lg shadow-xl border border-gray-200 py-2 z-[100]" style={{zIndex: 100, position: 'absolute'}} data-dropdown="connect">
                     <Link href="/newsletter" className="block px-4 py-2 font-body text-gray-700 hover:bg-gray-50 hover:text-blue-700 transition-colors">Subscribe</Link>
                     <Link href="/connect/contact" className="block px-4 py-2 font-body text-gray-700 hover:bg-gray-50 hover:text-blue-700 transition-colors">Contact</Link>
                     <Link href="/connect/support" className="block px-4 py-2 font-body text-gray-700 hover:bg-gray-50 hover:text-blue-700 transition-colors">Support</Link>

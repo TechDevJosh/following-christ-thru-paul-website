@@ -69,8 +69,9 @@ export default function ReportModal({ isOpen, onClose }: ReportModalProps) {
 
   return (
     <div 
-      className="fixed inset-0 flex items-center justify-center z-50 backdrop-blur-sm bg-black/40"
+      className="fixed inset-0 flex items-center justify-center z-[9999] backdrop-blur-sm bg-black/40"
       onClick={onClose}
+      style={{zIndex: 9999}}
     >
       <div 
         className="rounded-xl shadow-xl p-8 bg-white max-w-lg w-full mx-4"
