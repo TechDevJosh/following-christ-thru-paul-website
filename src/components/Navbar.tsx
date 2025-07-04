@@ -16,9 +16,10 @@ export default function Navbar() {
       <nav className="container-custom py-4 max-w-full">
         <div className="flex justify-between items-center">
           {/* Logo */}
-          <div className="flex-shrink-0 min-w-0">
-            <Link href="/" className="font-heading text-lg sm:text-xl lg:text-3xl text-gray-900 hover:text-blue-700 transition-colors block truncate">
-              Following Christ Thru Paul
+          <div className="flex-shrink-0">
+            <Link href="/" className="font-heading text-gray-900 hover:text-blue-700 transition-colors">
+              <span className="block sm:hidden text-xl font-bold">FCTP</span>
+              <span className="hidden sm:block text-xl lg:text-3xl">Following Christ Thru Paul</span>
             </Link>
           </div>
 
@@ -57,13 +58,13 @@ export default function Navbar() {
             </nav>
 
             {/* Right Navigation */}
-            <div className="flex items-center space-x-4 ml-8">
+            <div className="flex items-center space-x-2 ml-4">
               <GlobalSearch />
               <button
                 onClick={() => setIsLoginModalOpen(true)}
-                className="inline-flex items-center px-4 py-2 bg-blue-600 text-white font-body font-medium rounded-lg hover:bg-blue-700 transition-colors focus-ring whitespace-nowrap"
+                className="inline-flex items-center px-3 py-2 bg-blue-600 text-white font-body font-medium rounded-lg hover:bg-blue-700 transition-colors focus-ring whitespace-nowrap text-sm"
               >
-                <svg className="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <svg className="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M11 16l-4-4m0 0l4-4m-4 4h14m-5 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h7a3 3 0 013 3v1" />
                 </svg>
                 Login
@@ -72,8 +73,8 @@ export default function Navbar() {
           </div>
 
           {/* Mobile menu button */}
-          <div className="lg:hidden flex items-center space-x-2 flex-shrink-0">
-            <div className="hidden sm:block">
+          <div className="lg:hidden flex items-center space-x-1 flex-shrink-0">
+            <div className="hidden xs:block">
               <GlobalSearch />
             </div>
             <button 
@@ -96,6 +97,10 @@ export default function Navbar() {
       {isMobileMenuOpen && (
         <div className="lg:hidden border-t border-gray-100 bg-white/95 backdrop-blur-sm">
           <div className="container-custom py-4">
+            {/* Mobile Search for very small screens */}
+            <div className="xs:hidden mb-4">
+              <GlobalSearch />
+            </div>
             <ul className="space-y-1">
               <li><Link href="/about" className="block py-3 px-4 font-body text-gray-700 hover:text-blue-700 hover:bg-gray-50 rounded-md transition-colors">About</Link></li>
               <li><Link href="/verse-by-verse" className="block py-3 px-4 font-body text-gray-700 hover:text-blue-700 hover:bg-gray-50 rounded-md transition-colors whitespace-nowrap">Verse by Verse</Link></li>

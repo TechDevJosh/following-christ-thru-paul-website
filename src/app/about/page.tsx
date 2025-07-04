@@ -38,13 +38,6 @@ export default function AboutPage() {
       <section className="bg-gradient-to-r from-blue-900 to-blue-700 text-white py-20">
         <div className="container-custom">
           <div className="max-w-4xl mx-auto text-center">
-            <div className="mb-8">
-              <img
-                src="https://pub-8d4c47a32bf5437a90a2ba38a0f85223.r2.dev/about-section-picture.jpg"
-                alt="Bro. Josiah Manzano"
-                className="w-32 h-32 md:w-40 md:h-40 rounded-full mx-auto mb-6 border-4 border-white/20 shadow-xl object-cover"
-              />
-            </div>
             <h1 className="font-heading text-4xl md:text-6xl font-bold mb-6">
               About Bro. Josiah
             </h1>
@@ -71,8 +64,8 @@ export default function AboutPage() {
             
             {/* Right Column - Text Content */}
             <div className="w-full md:w-1/2">
-              <div className="prose prose-lg max-w-none">
-                <div className="font-serif text-gray-800 leading-relaxed space-y-6">
+              <div className="prose prose-xl max-w-none">
+                <div className="font-serif text-gray-800 leading-relaxed space-y-8 text-lg">
                   <p>
                     Following Christ Thru Paul is my personal burden and ministry. I'm Bro. Josiah Manzano, the eldest of four siblings, born on September 21, 2000 to Pastor Rodelio and Merly Manzano. I'm married to Jessa Lee Manzano and serve under Shining Light Baptist Church in San Isidro, Subic, Zambales.
                   </p>
