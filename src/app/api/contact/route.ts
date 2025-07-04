@@ -15,16 +15,9 @@ export async function POST(request: NextRequest) {
     // Check if SMTP credentials are configured
     if (!process.env.SMTP_USER || !process.env.SMTP_PASS) {
       console.error('SMTP credentials not configured');
-      // For now, simulate success to prevent user-facing errors
       return NextResponse.json(
-        { status: 'success' },
-        { 
-          status: 200,
-          headers: {
-            'Access-Control-Allow-Origin': '*',
-            'Cache-Control': 'no-cache, no-store, must-revalidate',
-          }
-        }
+        { error: 'Email service not configured. Please contact administrator.' },
+        { status: 500 }
       );
     }
 
@@ -49,14 +42,8 @@ export async function POST(request: NextRequest) {
   } catch (error) {
     console.error('Contact form error:', error);
     return NextResponse.json(
-      { status: 'success' },
-      { 
-        status: 200,
-        headers: {
-          'Access-Control-Allow-Origin': '*',
-          'Cache-Control': 'no-cache, no-store, must-revalidate',
-        }
-      }
+      { error: 'Failed to send message. Please try again.' },
+      { status: 500 }
     );
   }
 }

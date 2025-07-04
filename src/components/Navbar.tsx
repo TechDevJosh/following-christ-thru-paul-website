@@ -16,14 +16,12 @@ export default function Navbar() {
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
       const target = event.target as Element;
-      if (!target.closest('[data-dropdown="connect"]')) {
+      if (!target.closest('[data-dropdown="connect"]') && !target.closest('a[href="/"]')) {
         setIsConnectDropdownOpen(false);
       }
     };
     if (isConnectDropdownOpen) {
-      setTimeout(() => {
-        document.addEventListener('click', handleClickOutside);
-      }, 0);
+      document.addEventListener('click', handleClickOutside);
       return () => document.removeEventListener('click', handleClickOutside);
     }
   }, [isConnectDropdownOpen]);
@@ -35,7 +33,7 @@ export default function Navbar() {
         <div className="flex justify-between items-center w-full max-w-7xl mx-auto">
           {/* Logo */}
           <div className="flex-shrink-0">
-            <Link href="/" className="font-heading text-gray-900 hover:text-blue-700 transition-colors" onClick={(e) => e.stopPropagation()}>
+            <Link href="/" className="font-heading text-gray-900 hover:text-blue-700 transition-colors">
               <span className="block sm:hidden text-xl font-bold">FCTP</span>
               <span className="hidden sm:block text-xl lg:text-3xl">Following Christ Thru Paul</span>
             </Link>

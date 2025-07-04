@@ -160,7 +160,7 @@ export default async function TopicsPage() {
             <p className="font-body text-lg text-gray-600 mb-8 max-w-2xl mx-auto">
               We're continuously adding new topical studies covering essential doctrines and practical Christian living from Paul's epistles.
             </p>
-            <Link href="/connect/subscribe" className="btn-primary">
+            <Link href="/newsletter" className="btn-primary">
               Subscribe for Updates
             </Link>
           </div>
