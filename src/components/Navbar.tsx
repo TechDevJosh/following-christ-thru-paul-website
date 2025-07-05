@@ -25,15 +25,19 @@ export default function Navbar() {
           <div className="flex-shrink-0">
             <a 
               href="/"
-              className="font-heading text-gray-900 hover:text-blue-700 transition-colors block"
+              className="flex items-center space-x-3 font-heading text-gray-900 hover:text-blue-700 transition-colors"
               onClick={(e) => {
                 console.log('Home logo clicked via anchor tag');
                 // Let the default anchor behavior handle navigation
                 // No preventDefault() - let it work naturally
               }}
             >
-              <span className="block sm:hidden text-xl font-bold">FCTP</span>
-              <span className="hidden sm:block text-xl lg:text-3xl">Following Christ Thru Paul</span>
+              <img 
+                src="https://pub-8d4c47a32bf5437a90a2ba38a0f85223.r2.dev/FCTP%20Logo.png" 
+                alt="FCTP Logo" 
+                className="h-8 w-8 sm:h-10 sm:w-10"
+              />
+              <span className="hidden sm:block text-lg lg:text-xl font-bold">Following Christ Thru Paul</span>
             </a>
           </div>
 

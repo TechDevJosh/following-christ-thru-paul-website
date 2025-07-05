@@ -27,11 +27,18 @@ export default function HomePage() {
               </span>
             </div>
             
-            {/* Main heading */}
-            <h1 className="font-heading text-5xl md:text-6xl lg:text-7xl text-gray-900 mb-6 leading-tight">
-              Following Christ
-              <span className="block text-blue-700">Thru Paul</span>
-            </h1>
+            {/* Main heading with logo */}
+            <div className="flex flex-col sm:flex-row items-center justify-center gap-6 mb-6">
+              <img 
+                src="https://pub-8d4c47a32bf5437a90a2ba38a0f85223.r2.dev/FCTP%20Logo.png" 
+                alt="FCTP Logo" 
+                className="h-20 w-20 sm:h-24 sm:w-24 md:h-28 md:w-28 flex-shrink-0"
+              />
+              <h1 className="font-heading text-5xl md:text-6xl lg:text-7xl text-gray-900 leading-tight text-center sm:text-left">
+                Following Christ
+                <span className="block text-blue-700">Thru Paul</span>
+              </h1>
+            </div>
             
             {/* Dynamic Tagline Rotator */}
             <div className="mb-4">

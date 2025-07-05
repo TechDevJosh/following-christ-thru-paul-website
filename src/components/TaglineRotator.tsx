@@ -16,12 +16,17 @@ export default function TaglineRotator() {
 
   useEffect(() => {
     setIsClient(true);
+  }, []);
+
+  useEffect(() => {
+    if (!isClient) return;
+    
     const interval = setInterval(() => {
       setCurrentIndex((prev) => (prev + 1) % taglines.length);
     }, 7000);
 
     return () => clearInterval(interval);
-  }, []);
+  }, [isClient]);
 
   if (!isClient) {
     return (
@@ -35,7 +40,10 @@ export default function TaglineRotator() {
 
   return (
     <div className="relative min-h-[6rem] sm:min-h-[5rem] w-full max-w-4xl mx-auto overflow-hidden px-4" aria-live="polite">
-      <p className="text-center font-body text-lg sm:text-xl md:text-2xl text-gray-600 leading-relaxed transition-opacity duration-1000 ease-in-out">
+      <p 
+        key={currentIndex}
+        className="text-center font-body text-lg sm:text-xl md:text-2xl text-gray-600 leading-relaxed transition-opacity duration-1000 ease-in-out"
+      >
         {taglines[currentIndex]}
       </p>
     </div>

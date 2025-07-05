@@ -38,9 +38,45 @@ export async function generateMetadata({ params }: TopicPageProps): Promise<Meta
       };
     }
 
+    // Get image for social sharing
+    let imageUrl = 'https://pub-8d4c47a32bf5437a90a2ba38a0f85223.r2.dev/FCTP%20Logo.png'; // Default logo
+    
+    if (topic.youtubeUrl) {
+      // Use YouTube thumbnail
+      let videoId = '';
+      if (topic.youtubeUrl.includes('youtube.com/watch?v=')) {
+        videoId = topic.youtubeUrl.split('watch?v=')[1]?.split('&')[0] || '';
+      } else if (topic.youtubeUrl.includes('youtu.be/')) {
+        videoId = topic.youtubeUrl.split('youtu.be/')[1]?.split('?')[0] || '';
+      }
+      if (videoId) {
+        imageUrl = `https://img.youtube.com/vi/${videoId}/maxresdefault.jpg`;
+      }
+    } else if (topic.featuredImage) {
+      // Use featured image from Sanity
+      imageUrl = topic.featuredImage.asset?.url || imageUrl;
+    }
+
     return {
       title: `${topic.title} | Following Christ Thru Paul`,
       description: topic.description || `Learn about ${topic.title} through biblical study and teaching.`,
+      openGraph: {
+        title: `${topic.title} | Following Christ Thru Paul`,
+        description: topic.description || `Learn about ${topic.title} through biblical study and teaching.`,
+        images: [{
+          url: imageUrl,
+          width: 1200,
+          height: 630,
+          alt: topic.title,
+        }],
+        type: 'article',
+      },
+      twitter: {
+        card: 'summary_large_image',
+        title: `${topic.title} | Following Christ Thru Paul`,
+        description: topic.description || `Learn about ${topic.title} through biblical study and teaching.`,
+        images: [imageUrl],
+      },
     };
   } catch (error) {
     return {
