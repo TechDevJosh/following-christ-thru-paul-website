@@ -1,53 +1,15 @@
-"use client";
-
-import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 import RecentSermons from '@/components/RecentSermons';
 import Navbar from '@/components/Navbar';
 import Hero from '@/components/Hero';
-import SplashScreen from '@/components/SplashScreen';
+import ClientSplashWrapper from '@/components/ClientSplashWrapper';
 
 export default function HomePage() {
-  const [showSplash, setShowSplash] = useState(false);
-  const [isLoading, setIsLoading] = useState(true);
-
-  useEffect(() => {
-    try {
-      const hasVisited = sessionStorage.getItem('fctp-visited');
-      if (!hasVisited) {
-        setShowSplash(true);
-        sessionStorage.setItem('fctp-visited', 'true');
-      }
-    } catch (error) {
-      console.error('Session storage error:', error);
-    }
-    setIsLoading(false);
-  }, []);
-
-  useEffect(() => {
-    if (showSplash) {
-      const timer = setTimeout(() => {
-        setShowSplash(false);
-      }, 3000);
-      return () => clearTimeout(timer);
-    }
-  }, [showSplash]);
-
-  if (isLoading) {
-    return (
-      <div className="min-h-screen bg-white flex items-center justify-center">
-        <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-600"></div>
-      </div>
-    );
-  }
-
-  if (showSplash) {
-    return <SplashScreen onComplete={() => setShowSplash(false)} />;
-  }
 
   return (
-    <div className="min-h-screen bg-white text-gray-800">
+    <ClientSplashWrapper>
+      <div className="min-h-screen bg-white text-gray-800">
       <header role="banner">
         <Navbar />
       </header>
@@ -199,6 +161,7 @@ export default function HomePage() {
           </div>
         </div>
       </footer>
-    </div>
+      </div>
+    </ClientSplashWrapper>
   );
 }
