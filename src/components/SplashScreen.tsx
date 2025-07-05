@@ -15,7 +15,8 @@ export default function SplashScreen({ onComplete }: SplashScreenProps) {
   useEffect(() => {
     const runAnimation = async () => {
       // Dynamic import to avoid build issues
-      const anime = (await import('animejs')).default;
+      const animeModule = await import('animejs');
+      const anime = animeModule.default || animeModule;
       
       if (!logoLeftRef.current || !logoRightRef.current || !slashLineRef.current || !containerRef.current) return;
 
