@@ -1,10 +1,38 @@
+"use client";
+
+import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 import RecentSermons from '@/components/RecentSermons';
 import Navbar from '@/components/Navbar';
 import Hero from '@/components/Hero';
+import SplashScreen from '@/components/SplashScreen';
 
 export default function HomePage() {
+  const [showSplash, setShowSplash] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
+
+  useEffect(() => {
+    const hasVisited = sessionStorage.getItem('fctp-visited');
+    if (!hasVisited) {
+      setShowSplash(true);
+      sessionStorage.setItem('fctp-visited', 'true');
+    }
+    setIsLoading(false);
+  }, []);
+
+  const handleSplashComplete = () => {
+    setShowSplash(false);
+  };
+
+  if (isLoading) {
+    return null;
+  }
+
+  if (showSplash) {
+    return <SplashScreen onComplete={handleSplashComplete} />;
+  }
+
   return (
     <div className="min-h-screen bg-white text-gray-800">
       <Navbar />
@@ -115,12 +143,12 @@ export default function HomePage() {
                   <button 
                     onClick={() => {
                       // Find and trigger the navbar's report modal
-                      const reportButtons = document.querySelectorAll('[data-report-trigger]');
+                      const reportButtons = document.querySelectorAll('[data-report-trigger="true"]');
                       if (reportButtons.length > 0) {
                         (reportButtons[0] as HTMLElement).click();
                       }
                     }}
-                    className="hover:text-white transition-colors text-left cursor-pointer relative z-50 pointer-events-auto"
+                    className="hover:text-white transition-colors text-left cursor-pointer"
                   >
                     Report an Issue
                   </button>

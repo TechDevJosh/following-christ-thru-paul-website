@@ -15,11 +15,26 @@ export default function Navbar() {
   const [isLoginModalOpen, setIsLoginModalOpen] = useState(false);
   const [isReportModalOpen, setIsReportModalOpen] = useState(false);
 
+  // Close dropdown when clicking outside
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      const target = event.target as Element;
+      if (!target.closest('.connect-dropdown')) {
+        setIsConnectDropdownOpen(false);
+      }
+    };
+
+    if (isConnectDropdownOpen) {
+      document.addEventListener('click', handleClickOutside);
+      return () => document.removeEventListener('click', handleClickOutside);
+    }
+  }, [isConnectDropdownOpen]);
+
 
 
   return (
     <>
-    <header className="bg-white/95 backdrop-blur-sm border-b border-gray-100 sticky top-0 w-full" style={{zIndex: 998}}>
+    <header className="bg-white/95 backdrop-blur-sm border-b border-gray-100 sticky top-0 w-full relative" style={{zIndex: 998}}>
       <nav className="px-4 sm:px-6 lg:px-8 py-4 max-w-full">
         <div className="flex justify-between items-center w-full max-w-7xl mx-auto">
           {/* Logo */}
@@ -54,20 +69,37 @@ export default function Navbar() {
               <li><Link href="/school" className="font-body text-gray-700 hover:text-blue-700 transition-colors font-medium">School</Link></li>
               
               {/* Connect Dropdown */}
-              <li className="relative group">
-                <button className="font-body text-gray-700 hover:text-blue-700 transition-colors font-medium focus-ring flex items-center">
+              <li className="relative connect-dropdown">
+                <button 
+                  className="font-body text-gray-700 hover:text-blue-700 transition-colors font-medium focus-ring flex items-center relative z-10"
+                  onMouseEnter={() => setIsConnectDropdownOpen(true)}
+                  onMouseLeave={() => setIsConnectDropdownOpen(false)}
+                  onClick={(e) => {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    setIsConnectDropdownOpen(!isConnectDropdownOpen);
+                  }}
+                >
                   Connect
                   <svg className="ml-1 w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
                   </svg>
                 </button>
-                <div className="absolute right-0 top-full mt-2 w-48 bg-white rounded-lg shadow-xl border border-gray-200 py-2 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200" style={{zIndex: 9999}}>
+                <div 
+                  className={`absolute right-0 top-full mt-2 w-48 bg-white rounded-lg shadow-xl border border-gray-200 py-2 transition-all duration-200 ${
+                    isConnectDropdownOpen ? 'opacity-100 visible pointer-events-auto' : 'opacity-0 invisible pointer-events-none'
+                  }`}
+                  style={{zIndex: 10000}}
+                  onMouseEnter={() => setIsConnectDropdownOpen(true)}
+                  onMouseLeave={() => setIsConnectDropdownOpen(false)}
+                >
                   <Link href="/newsletter" className="block px-4 py-2 font-body text-gray-700 hover:bg-gray-50 hover:text-blue-700 transition-colors">Subscribe</Link>
                   <Link href="/connect/contact" className="block px-4 py-2 font-body text-gray-700 hover:bg-gray-50 hover:text-blue-700 transition-colors">Contact</Link>
                   <Link href="/connect/support" className="block px-4 py-2 font-body text-gray-700 hover:bg-gray-50 hover:text-blue-700 transition-colors">Support</Link>
                   <button 
                     onClick={() => setIsReportModalOpen(true)}
                     className="block w-full text-left px-4 py-2 font-body text-gray-700 hover:bg-gray-50 hover:text-blue-700 transition-colors"
+                    data-report-trigger="true"
                   >
                     Report an Issue
                   </button>
@@ -85,8 +117,8 @@ export default function Navbar() {
                   e.stopPropagation();
                   setIsLoginModalOpen(true);
                 }}
-                className="inline-flex items-center px-2 py-1.5 bg-blue-600 text-white font-body font-medium rounded-lg hover:bg-blue-700 transition-colors focus-ring whitespace-nowrap text-sm"
-                style={{zIndex: 100}}
+                className="inline-flex items-center px-2 py-1.5 bg-blue-600 text-white font-body font-medium rounded-lg hover:bg-blue-700 transition-colors focus-ring whitespace-nowrap text-sm relative"
+                style={{zIndex: 1001}}
               >
                 <svg className="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M11 16l-4-4m0 0l4-4m-4 4h14m-5 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h7a3 3 0 013 3v1" />
@@ -148,6 +180,7 @@ export default function Navbar() {
                         setIsMobileMenuOpen(false);
                       }}
                       className="block w-full text-left py-2 font-body text-gray-600 hover:text-blue-700 transition-colors"
+                      data-report-trigger="true"
                     >
                       Report an Issue
                     </button>
