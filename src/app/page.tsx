@@ -1,14 +1,11 @@
 "use client";
 
-import { useState } from 'react';
 import Link from 'next/link';
 import RecentSermons from '@/components/RecentSermons';
 import Navbar from '@/components/Navbar';
-import ReportModal from '@/components/ReportModal';
 import TaglineRotator from '@/components/TaglineRotator';
 
 export default function HomePage() {
-  const [isReportModalOpen, setIsReportModalOpen] = useState(false);
   return (
     <div className="min-h-screen bg-white text-gray-800">
       <Navbar />
@@ -170,7 +167,13 @@ export default function HomePage() {
                 <li><Link href="/connect/support" className="hover:text-white transition-colors">Support</Link></li>
                 <li>
                   <button 
-                    onClick={() => setIsReportModalOpen(true)}
+                    onClick={() => {
+                      // Find and trigger the navbar's report modal
+                      const reportButtons = document.querySelectorAll('[data-report-trigger]');
+                      if (reportButtons.length > 0) {
+                        (reportButtons[0] as HTMLElement).click();
+                      }
+                    }}
                     className="hover:text-white transition-colors text-left"
                   >
                     Report an Issue
@@ -217,11 +220,6 @@ export default function HomePage() {
           </div>
         </div>
       </footer>
-      
-      <ReportModal 
-        isOpen={isReportModalOpen} 
-        onClose={() => setIsReportModalOpen(false)} 
-      />
     </div>
   );
 }

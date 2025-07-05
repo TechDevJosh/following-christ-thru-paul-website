@@ -29,7 +29,7 @@ export default function Navbar() {
 
   return (
     <>
-    <header className="bg-white/95 backdrop-blur-sm border-b border-gray-100 sticky top-0 w-full" style={{zIndex: 40}}>
+    <header className="bg-white/95 backdrop-blur-sm border-b border-gray-100 sticky top-0 w-full" style={{zIndex: 50}}>
       <nav className="px-4 sm:px-6 lg:px-8 py-4 max-w-full">
         <div className="flex justify-between items-center w-full max-w-7xl mx-auto">
           {/* Logo */}
@@ -61,9 +61,12 @@ export default function Navbar() {
               <li><Link href="/school" className="font-body text-gray-700 hover:text-blue-700 transition-colors font-medium">School</Link></li>
               
               {/* Connect Dropdown */}
-              <li className="relative">
+              <li className="relative" style={{zIndex: 10000}}>
                 <button
-                  onClick={() => setIsConnectDropdownOpen(!isConnectDropdownOpen)}
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    setIsConnectDropdownOpen(!isConnectDropdownOpen);
+                  }}
                   className="font-body text-gray-700 hover:text-blue-700 transition-colors font-medium focus-ring flex items-center"
                 >
                   Connect
@@ -72,7 +75,7 @@ export default function Navbar() {
                   </svg>
                 </button>
                 {isConnectDropdownOpen && (
-                  <div className="absolute right-0 top-full mt-2 w-48 bg-white rounded-lg shadow-xl border border-gray-200 py-2" style={{zIndex: 1000}}>
+                  <div className="absolute right-0 top-full mt-2 w-48 bg-white rounded-lg shadow-xl border border-gray-200 py-2" style={{zIndex: 9999}}>
                     <Link href="/newsletter" className="block px-4 py-2 font-body text-gray-700 hover:bg-gray-50 hover:text-blue-700 transition-colors">Subscribe</Link>
                     <Link href="/connect/contact" className="block px-4 py-2 font-body text-gray-700 hover:bg-gray-50 hover:text-blue-700 transition-colors">Contact</Link>
                     <Link href="/connect/support" className="block px-4 py-2 font-body text-gray-700 hover:bg-gray-50 hover:text-blue-700 transition-colors">Support</Link>
@@ -82,6 +85,7 @@ export default function Navbar() {
                         setIsConnectDropdownOpen(false);
                       }}
                       className="block w-full text-left px-4 py-2 font-body text-gray-700 hover:bg-gray-50 hover:text-blue-700 transition-colors"
+                      data-report-trigger
                     >
                       Report an Issue
                     </button>
