@@ -20,7 +20,10 @@ const TOPIC_QUERY = `*[_type == "topics" && slug.current == $slug][0]{
   content,
   slug,
   publishedAt,
-  _createdAt
+  _createdAt,
+  youtubeUrl,
+  featuredImage,
+  tags
 }`;
 
 export async function generateMetadata({ params }: TopicPageProps): Promise<Metadata> {
@@ -163,13 +166,60 @@ export default async function TopicPage({ params }: TopicPageProps) {
             </div>
           </header>
 
+          {/* YouTube Video */}
+          {topic.youtubeUrl && (
+            <div className="mb-12">
+              <div className="aspect-video w-full rounded-lg overflow-hidden bg-gray-100">
+                <iframe
+                  src={topic.youtubeUrl.replace('watch?v=', 'embed/')}
+                  title={topic.title}
+                  frameBorder="0"
+                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                  allowFullScreen
+                  className="w-full h-full"
+                />
+              </div>
+            </div>
+          )}
+
+          {/* Content */}
           <div className="prose prose-lg max-w-none mb-12">
-            {topic.content ? (
-              <div dangerouslySetInnerHTML={{ __html: topic.content }} />
+            {topic.content && Array.isArray(topic.content) && topic.content.length > 0 ? (
+              <div className="space-y-6">
+                {topic.content.map((block: any, index: number) => {
+                  if (block._type === 'block') {
+                    return (
+                      <div key={index} className="font-body text-lg leading-relaxed text-gray-800">
+                        {block.children?.map((child: any, childIndex: number) => (
+                          <span key={childIndex}>{child.text}</span>
+                        ))}
+                      </div>
+                    );
+                  }
+                  return null;
+                })}
+              </div>
             ) : (
-              <p className="text-gray-600">Content for this topic is being prepared.</p>
+              <p className="text-gray-600 font-body text-lg">Content for this topic is being prepared.</p>
             )}
           </div>
+
+          {/* Tags */}
+          {topic.tags && Array.isArray(topic.tags) && topic.tags.length > 0 && (
+            <div className="mb-12">
+              <h3 className="font-heading text-xl text-gray-900 mb-4">Related Topics</h3>
+              <div className="flex flex-wrap gap-2">
+                {topic.tags.map((tag: any, index: number) => (
+                  <span 
+                    key={index}
+                    className="inline-flex items-center px-3 py-1 rounded-full bg-blue-100 text-blue-800 font-body font-medium text-sm"
+                  >
+                    {typeof tag === 'string' ? tag : String(tag)}
+                  </span>
+                ))}
+              </div>
+            </div>
+          )}
 
           {/* Share Button */}
           <section className="mb-12 pb-8 border-t border-gray-200 pt-8">

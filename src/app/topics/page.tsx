@@ -13,6 +13,9 @@ interface Topic {
   tags?: string[];
   publishedAt: string;
   _createdAt: string;
+  youtubeUrl?: string;
+  content?: any[];
+  featuredImage?: any;
 }
 
 const TOPICS_QUERY = `*[_type == "topics"] | order(publishedAt desc, _createdAt desc) {
@@ -22,7 +25,10 @@ const TOPICS_QUERY = `*[_type == "topics"] | order(publishedAt desc, _createdAt 
   slug,
   tags,
   publishedAt,
-  _createdAt
+  _createdAt,
+  youtubeUrl,
+  content,
+  featuredImage
 }`;
 
 export default async function TopicsPage() {
@@ -128,14 +134,14 @@ export default async function TopicsPage() {
                   </time>
                 </div>
 
-                {topic.tags && topic.tags.length > 0 && (
+                {topic.tags && Array.isArray(topic.tags) && topic.tags.length > 0 && (
                   <div className="flex flex-wrap gap-2 mb-6">
-                    {topic.tags.map(tag => (
+                    {topic.tags.map((tag, index) => (
                       <span 
-                        key={tag} 
+                        key={`${topic._id}-tag-${index}`}
                         className="inline-flex items-center px-3 py-1 rounded-full bg-blue-100 text-blue-800 font-body font-medium text-xs"
                       >
-                        {tag}
+                        {typeof tag === 'string' ? tag : String(tag)}
                       </span>
                     ))}
                   </div>

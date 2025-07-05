@@ -44,6 +44,12 @@ export default defineType({
       },
     }),
     defineField({
+      name: 'youtubeUrl',
+      title: 'YouTube URL',
+      type: 'url',
+      description: 'YouTube video URL for this topic (optional)',
+    }),
+    defineField({
       name: 'relatedSermons',
       title: 'Related Sermons',
       type: 'array',
