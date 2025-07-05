@@ -1,8 +1,6 @@
 "use client";
 
 import { useEffect, useRef } from 'react';
-// @ts-ignore
-import anime from 'animejs/lib/anime.es.js';
 
 interface SplashScreenProps {
   onComplete: () => void;
@@ -15,86 +13,61 @@ export default function SplashScreen({ onComplete }: SplashScreenProps) {
   const containerRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    if (!logoLeftRef.current || !logoRightRef.current || !slashLineRef.current || !containerRef.current) return;
+    const runAnimation = async () => {
+      // Dynamic import to avoid build issues
+      const anime = (await import('animejs')).default;
+      
+      if (!logoLeftRef.current || !logoRightRef.current || !slashLineRef.current || !containerRef.current) return;
 
-    // Set initial states
-    anime.set([logoLeftRef.current, logoRightRef.current], {
-      opacity: 1,
-      translateX: 0
-    });
-    
-    anime.set(slashLineRef.current, {
-      translateY: '-100%',
-      opacity: 0
-    });
-
-    anime.set(containerRef.current, {
-      opacity: 1,
-      scale: 1
-    });
-
-    // Animation timeline
-    const timeline = anime.timeline({
-      complete: () => {
-        setTimeout(onComplete, 500);
-      }
-    });
-
-    timeline
-      // Sword slash appears and moves down
-      .add({
-        targets: slashLineRef.current,
-        opacity: [0, 1],
-        translateY: ['-100%', '100%'],
-        duration: 800,
-        easing: 'easeInOutQuad'
-      })
-      // Logo halves split apart
-      .add({
-        targets: logoLeftRef.current,
-        translateX: -20,
-        duration: 200,
-        easing: 'easeOutQuad'
-      }, '-=600')
-      .add({
-        targets: logoRightRef.current,
-        translateX: 20,
-        duration: 200,
-        easing: 'easeOutQuad'
-      }, '-=200')
-      // Logo shimmer effect
-      .add({
-        targets: [logoLeftRef.current, logoRightRef.current],
-        filter: ['brightness(1)', 'brightness(1.3)', 'brightness(1)'],
-        duration: 300,
-        easing: 'easeInOutQuad'
-      }, '-=400')
-      // Logo halves snap back together
-      .add({
-        targets: [logoLeftRef.current, logoRightRef.current],
-        translateX: 0,
-        duration: 400,
-        easing: 'easeOutElastic(1, .8)'
-      })
-      // Slash line fades out
-      .add({
-        targets: slashLineRef.current,
-        opacity: 0,
-        duration: 300
-      }, '-=200')
-      // Hold for a moment
-      .add({
-        duration: 800
-      })
-      // Fade out entire splash
-      .add({
-        targets: containerRef.current,
-        opacity: 0,
-        scale: 0.9,
-        duration: 600,
-        easing: 'easeInQuad'
+      // Animation timeline
+      const timeline = anime.timeline({
+        complete: () => setTimeout(onComplete, 500)
       });
 
+      timeline
+        .add({
+          targets: slashLineRef.current,
+          opacity: [0, 1],
+          translateY: ['-100%', '100%'],
+          duration: 800,
+          easing: 'easeInOutQuad'
+        })
+        .add({
+          targets: [logoLeftRef.current, logoRightRef.current],
+          translateX: (el: HTMLElement, i: number) => i === 0 ? -20 : 20,
+          duration: 200,
+          easing: 'easeOutQuad'
+        }, '-=600')
+        .add({
+          targets: [logoLeftRef.current, logoRightRef.current],
+          filter: ['brightness(1)', 'brightness(1.3)', 'brightness(1)'],
+          duration: 300,
+          easing: 'easeInOutQuad'
+        }, '-=400')
+        .add({
+          targets: [logoLeftRef.current, logoRightRef.current],
+          translateX: 0,
+          duration: 400,
+          easing: 'easeOutElastic(1, .8)'
+        })
+        .add({
+          targets: slashLineRef.current,
+          opacity: 0,
+          duration: 300
+        }, '-=200')
+        .add({
+          duration: 800
+        })
+        .add({
+          targets: containerRef.current,
+          opacity: 0,
+          scale: 0.9,
+          duration: 600,
+          easing: 'easeInQuad'
+        });
+    };
+    
+    runAnimation();
   }, [onComplete]);
 
   return (
@@ -132,7 +105,7 @@ export default function SplashScreen({ onComplete }: SplashScreenProps) {
         {/* Sword slash line */}
         <div 
           ref={slashLineRef}
-          className="absolute top-0 left-1/2 w-1 h-full transform -translate-x-1/2"
+          className="absolute top-0 left-1/2 w-1 h-full transform -translate-x-1/2 opacity-0"
           style={{
             background: 'linear-gradient(to bottom, transparent, #fbbf24, #f59e0b, #d97706, transparent)',
             boxShadow: '0 0 20px #fbbf24, 0 0 40px #f59e0b, 0 0 60px #d97706'
