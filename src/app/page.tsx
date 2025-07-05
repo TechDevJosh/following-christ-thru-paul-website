@@ -76,7 +76,14 @@ export default function HomePage() {
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 mb-12">
             {/* Ministry Info */}
             <div className="lg:col-span-2">
-              <h3 className="font-heading text-2xl mb-4">Following Christ Thru Paul</h3>
+              <div className="flex items-center space-x-3 mb-4">
+                <img 
+                  src="https://pub-8d4c47a32bf5437a90a2ba38a0f85223.r2.dev/FCTP%20Logo.png" 
+                  alt="FCTP Logo" 
+                  className="h-10 w-10 rounded-full"
+                />
+                <h3 className="font-heading text-2xl text-white">Following Christ Thru Paul</h3>
+              </div>
               <p className="font-body text-gray-300 mb-6 leading-relaxed">
                 &quot;To make all men see what is the fellowship of the mystery&quot; (Eph. 3:9)
               </p>
