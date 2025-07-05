@@ -3,7 +3,7 @@
 import Link from 'next/link';
 import RecentSermons from '@/components/RecentSermons';
 import Navbar from '@/components/Navbar';
-import TaglineRotator from '@/components/TaglineRotator';
+import Hero from '@/components/Hero';
 
 export default function HomePage() {
   return (
@@ -11,75 +11,7 @@ export default function HomePage() {
       <Navbar />
 
       {/* Hero Section */}
-      <main className="gradient-hero relative overflow-x-hidden">
-        <div className="container-custom py-8 lg:py-12 text-center relative">
-          {/* Decorative elements - simplified for performance */}
-          <div className="absolute inset-0 opacity-3">
-            <div className="absolute top-20 left-10 w-24 h-24 bg-blue-100 rounded-full blur-2xl"></div>
-            <div className="absolute bottom-20 right-10 w-32 h-32 bg-gray-100 rounded-full blur-2xl"></div>
-          </div>
-          
-          <div className="max-w-4xl mx-auto relative">
-            {/* Scripture reference */}
-            <div className="mb-6">
-              <span className="inline-block px-4 py-2 bg-white/80 backdrop-blur-sm rounded-full text-sm font-medium text-gray-600 border border-gray-200">
-                "To make all men see what is the fellowship of the mystery" - Ephesians 3:9
-              </span>
-            </div>
-            
-            {/* Main heading with logo */}
-            <div className="flex flex-col sm:flex-row items-center justify-center gap-6 mb-6">
-              <img 
-                src="https://pub-8d4c47a32bf5437a90a2ba38a0f85223.r2.dev/FCTP%20Logo.png" 
-                alt="FCTP Logo" 
-                className="h-20 w-20 sm:h-24 sm:w-24 md:h-28 md:w-28 flex-shrink-0"
-              />
-              <h1 className="font-heading text-5xl md:text-6xl lg:text-7xl text-gray-900 leading-tight text-center sm:text-left">
-                Following Christ
-                <span className="block text-blue-700">Thru Paul</span>
-              </h1>
-            </div>
-            
-            {/* Dynamic Tagline Rotator */}
-            <div className="mb-4">
-              <TaglineRotator />
-            </div>
-            
-            {/* Supporting text */}
-            <p className="font-body text-base md:text-lg text-gray-500 mb-12 max-w-2xl mx-auto">
-              Exploring the depths of Pauline dispensational truth with reverence, precision, and unwavering commitment to Scripture.
-            </p>
-            
-            {/* Call-to-action buttons */}
-            <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
-              <Link
-                href="/verse-by-verse"
-                className="btn-primary focus-ring w-full sm:w-auto"
-              >
-                Start Here
-              </Link>
-              <Link
-                href="/school"
-                className="btn-secondary focus-ring w-full sm:w-auto"
-              >
-                Register Now
-              </Link>
-            </div>
-            
-            {/* Trust indicators */}
-            <div className="mt-16 pt-8 border-t border-gray-200">
-              <p className="text-sm text-gray-500 mb-4">We Are Strong Proponents of</p>
-              <div className="flex flex-wrap justify-center items-center gap-4 text-gray-400">
-                <span className="text-xs font-medium whitespace-nowrap">AUTHORIZED VERSION (KJV)</span>
-                <span className="w-1 h-1 bg-gray-300 rounded-full hidden sm:block"></span>
-                <span className="text-xs font-medium whitespace-nowrap">PAULINE DISPENSATIONALISM</span>
-                <span className="w-1 h-1 bg-gray-300 rounded-full hidden sm:block"></span>
-                <span className="text-xs font-medium whitespace-nowrap">SUBMISSION TO A LOCAL BIBLE-BELIEVING CHURCH</span>
-              </div>
-            </div>
-          </div>
-        </div>
-      </main>
+      <Hero />
 
       {/* Recent Sermons Section */}
       <section className="py-20 bg-gray-50">
