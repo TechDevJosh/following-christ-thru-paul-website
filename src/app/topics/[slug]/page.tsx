@@ -171,7 +171,17 @@ export default async function TopicPage({ params }: TopicPageProps) {
             <div className="mb-12">
               <div className="aspect-video w-full rounded-lg overflow-hidden bg-gray-100">
                 <iframe
-                  src={topic.youtubeUrl.replace('watch?v=', 'embed/')}
+                  src={(() => {
+                    const url = topic.youtubeUrl;
+                    if (url.includes('youtube.com/watch?v=')) {
+                      return url.replace('youtube.com/watch?v=', 'youtube.com/embed/');
+                    } else if (url.includes('youtu.be/')) {
+                      return url.replace('youtu.be/', 'youtube.com/embed/');
+                    } else if (url.includes('youtube.com/embed/')) {
+                      return url;
+                    }
+                    return url;
+                  })()}
                   title={topic.title}
                   frameBorder="0"
                   allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"

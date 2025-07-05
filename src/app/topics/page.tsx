@@ -110,15 +110,57 @@ export default async function TopicsPage() {
         <div className="container-custom">
           <div className="grid gap-8 grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
             {displayTopics.map((topic) => (
-              <article key={topic._id} className="card-elevated p-8 group hover:-translate-y-1 transition-all duration-300">
-                <div className="mb-6">
-                  <h2 className="font-heading text-2xl text-gray-900 mb-4 group-hover:text-blue-700 transition-colors">
-                    {topic.title}
-                  </h2>
-                  <p className="font-body text-gray-600 leading-relaxed mb-4">
-                    {topic.description}
-                  </p>
-                </div>
+              <article key={topic._id} className="card-elevated p-0 group hover:-translate-y-1 transition-all duration-300 overflow-hidden">
+                {/* YouTube Thumbnail */}
+                {topic.youtubeUrl && (
+                  <div className="aspect-video w-full bg-gray-100 relative">
+                    <img
+                      src={(() => {
+                        const url = topic.youtubeUrl;
+                        let videoId = '';
+                        if (url.includes('youtube.com/watch?v=')) {
+                          videoId = url.split('watch?v=')[1]?.split('&')[0] || '';
+                        } else if (url.includes('youtu.be/')) {
+                          videoId = url.split('youtu.be/')[1]?.split('?')[0] || '';
+                        }
+                        return videoId ? `https://img.youtube.com/vi/${videoId}/maxresdefault.jpg` : '';
+                      })()}
+                      alt={topic.title}
+                      className="w-full h-full object-cover"
+                      onError={(e) => {
+                        const target = e.target as HTMLImageElement;
+                        target.src = `https://img.youtube.com/vi/${(() => {
+                          const url = topic.youtubeUrl;
+                          if (url.includes('youtube.com/watch?v=')) {
+                            return url.split('watch?v=')[1]?.split('&')[0] || '';
+                          } else if (url.includes('youtu.be/')) {
+                            return url.split('youtu.be/')[1]?.split('?')[0] || '';
+                          }
+                          return '';
+                        })()}/hqdefault.jpg`;
+                      }}
+                    />
+                    <div className="absolute inset-0 bg-black/20 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
+                      <div className="w-16 h-16 bg-white/90 rounded-full flex items-center justify-center">
+                        <svg className="w-6 h-6 text-red-600 ml-1" fill="currentColor" viewBox="0 0 24 24">
+                          <path d="M8 5v14l11-7z"/>
+                        </svg>
+                      </div>
+                    </div>
+                  </div>
+                )}
+                
+                <div className="p-8">
+                  <div className="mb-6">
+                    <h2 className="font-heading text-2xl text-gray-900 mb-4 group-hover:text-blue-700 transition-colors">
+                      {topic.title}
+                    </h2>
+                    <p className="font-body text-gray-600 leading-relaxed mb-4">
+                      {topic.description && topic.description.length > 150 
+                        ? `${topic.description.substring(0, 150)}...` 
+                        : topic.description}
+                    </p>
+                  </div>
 
                 <div className="flex items-center justify-between mb-6">
                   {topic.sermons && (
@@ -147,15 +189,16 @@ export default async function TopicsPage() {
                   </div>
                 )}
 
-                <Link 
-                  href={`/topics/${topic.slug.current}`}
-                  className="inline-flex items-center font-body text-blue-700 hover:text-blue-800 font-semibold transition-colors group"
-                >
-                  Explore Topic
-                  <svg className="ml-2 w-4 h-4 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
-                  </svg>
-                </Link>
+                  <Link 
+                    href={`/topics/${topic.slug.current}`}
+                    className="inline-flex items-center font-body text-blue-700 hover:text-blue-800 font-semibold transition-colors group"
+                  >
+                    Explore Topic
+                    <svg className="ml-2 w-4 h-4 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                    </svg>
+                  </Link>
+                </div>
               </article>
             ))}
           </div>
