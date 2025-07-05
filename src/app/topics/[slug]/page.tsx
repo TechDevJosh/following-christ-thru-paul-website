@@ -173,14 +173,17 @@ export default async function TopicPage({ params }: TopicPageProps) {
                 <iframe
                   src={(() => {
                     const url = topic.youtubeUrl;
+                    let videoId = '';
+                    
                     if (url.includes('youtube.com/watch?v=')) {
-                      return url.replace('youtube.com/watch?v=', 'youtube.com/embed/');
+                      videoId = url.split('watch?v=')[1]?.split('&')[0] || '';
                     } else if (url.includes('youtu.be/')) {
-                      return url.replace('youtu.be/', 'youtube.com/embed/');
+                      videoId = url.split('youtu.be/')[1]?.split('?')[0] || '';
                     } else if (url.includes('youtube.com/embed/')) {
-                      return url;
+                      videoId = url.split('embed/')[1]?.split('?')[0] || '';
                     }
-                    return url;
+                    
+                    return videoId ? `https://www.youtube.com/embed/${videoId}` : url;
                   })()}
                   title={topic.title}
                   frameBorder="0"
