@@ -13,18 +13,24 @@ export default function HomePage() {
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
+    console.log('HomePage: Checking session storage');
     const hasVisited = sessionStorage.getItem('fctp-visited');
     if (!hasVisited) {
+      console.log('HomePage: First visit, showing splash');
       setShowSplash(true);
       sessionStorage.setItem('fctp-visited', 'true');
+    } else {
+      console.log('HomePage: Return visit, skipping splash');
     }
     setIsLoading(false);
   }, []);
 
   const handleSplashComplete = () => {
-    console.log('Splash animation completed, showing main content');
+    console.log('HomePage: Splash completed, hiding splash screen');
     setShowSplash(false);
   };
+
+  console.log('HomePage render:', { isLoading, showSplash });
 
   if (isLoading) {
     return null;
@@ -33,6 +39,17 @@ export default function HomePage() {
   if (showSplash) {
     return <SplashScreen onComplete={handleSplashComplete} />;
   }
+
+  // Fallback: Force show main content after 5 seconds regardless
+  useEffect(() => {
+    if (showSplash) {
+      const fallbackTimer = setTimeout(() => {
+        console.log('HomePage: Fallback timer triggered, forcing main content');
+        setShowSplash(false);
+      }, 5000);
+      return () => clearTimeout(fallbackTimer);
+    }
+  }, [showSplash]);
 
   return (
     <div className="min-h-screen bg-white text-gray-800">
