@@ -61,19 +61,10 @@ export default function Navbar() {
               <li><Link href="/school" className="font-body text-gray-700 hover:text-blue-700 transition-colors font-medium">School</Link></li>
               
               {/* Connect Dropdown */}
-              <li className="relative" style={{zIndex: 10000}}>
+              <li className="relative">
                 <button
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    console.log('Connect button clicked, current state:', isConnectDropdownOpen);
-                    setIsConnectDropdownOpen(!isConnectDropdownOpen);
-                  }}
+                  onClick={() => setIsConnectDropdownOpen(!isConnectDropdownOpen)}
                   className="font-body text-gray-700 hover:text-blue-700 transition-colors font-medium focus-ring flex items-center"
-                  style={{
-                    background: 'rgba(0,255,0,0.1)', // Temporary green background for debugging
-                    border: '1px solid green', // Temporary green border for debugging
-                    padding: '4px 8px'
-                  }}
                 >
                   Connect
                   <svg className="ml-1 w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -83,15 +74,7 @@ export default function Navbar() {
                 {isConnectDropdownOpen && (
                   <div 
                     className="absolute right-0 top-full mt-2 w-48 bg-white rounded-lg shadow-xl border border-gray-200 py-2" 
-                    style={{
-                      zIndex: 99999,
-                      background: 'rgba(0,0,255,0.1)', // Temporary blue background for debugging
-                      border: '2px solid blue' // Temporary blue border for debugging
-                    }}
-                    onClick={(e) => {
-                      console.log('Dropdown clicked');
-                      e.stopPropagation();
-                    }}
+                    style={{zIndex: 9999, position: 'absolute'}}
                   >
                     <Link href="/newsletter" className="block px-4 py-2 font-body text-gray-700 hover:bg-gray-50 hover:text-blue-700 transition-colors">Subscribe</Link>
                     <Link href="/connect/contact" className="block px-4 py-2 font-body text-gray-700 hover:bg-gray-50 hover:text-blue-700 transition-colors">Contact</Link>
