@@ -2,8 +2,10 @@ import type { Metadata } from "next";
 import { Inter, Crimson_Text } from "next/font/google";
 import "./globals.css";
 import CookieBanner from "@/components/CookieBanner";
+import SkipLink from "@/components/SkipLink";
 import { Analytics } from '@vercel/analytics/react';
 import Script from 'next/script';
+import { generateStructuredData } from '@/lib/metadata';
 
 const inter = Inter({
   subsets: ["latin"],
@@ -44,6 +46,9 @@ export const metadata: Metadata = {
     description: "A KJV Bible-believing ministry for serious Bible study and doctrinal teaching.",
     images: ["https://pub-8d4c47a32bf5437a90a2ba38a0f85223.r2.dev/FCTP%20Logo.png"],
   },
+  alternates: {
+    canonical: "https://followingchristthrupaul.com",
+  },
   robots: {
     index: true,
     follow: true,
@@ -65,6 +70,9 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const websiteStructuredData = generateStructuredData('WebSite', {});
+  const organizationStructuredData = generateStructuredData('Organization', {});
+
   return (
     <html lang="en">
       <head>
@@ -95,6 +103,21 @@ export default function RootLayout({
         {/* Viewport and theme */}
         <meta name="theme-color" content="#1e40af" />
         <meta name="color-scheme" content="light" />
+        
+        {/* Structured Data */}
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify(websiteStructuredData),
+          }}
+        />
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify(organizationStructuredData),
+          }}
+        />
+        
         <Script id="google-tag-manager" strategy="afterInteractive" defer>
           {`(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
           new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
@@ -110,8 +133,10 @@ export default function RootLayout({
             height="0" 
             width="0" 
             style={{display: 'none', visibility: 'hidden'}}
+            title="Google Tag Manager"
           />
         </noscript>
+        <SkipLink />
         {children}
         <CookieBanner />
         <Analytics />

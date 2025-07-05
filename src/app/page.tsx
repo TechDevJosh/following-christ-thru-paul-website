@@ -35,10 +35,13 @@ export default function HomePage() {
 
   return (
     <div className="min-h-screen bg-white text-gray-800">
-      <Navbar />
+      <header role="banner">
+        <Navbar />
+      </header>
 
-      {/* Hero Section */}
-      <Hero />
+      <main id="main-content" role="main">
+        {/* Hero Section */}
+        <Hero />
 
       {/* Recent Sermons Section */}
       <section className="py-20 bg-gray-50">
@@ -96,8 +99,10 @@ export default function HomePage() {
         </div>
       </section>
 
+      </main>
+
       {/* Footer */}
-      <footer className="bg-gray-900 text-white py-16">
+      <footer className="bg-gray-900 text-white py-16" role="contentinfo">
         <div className="container-custom">
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 mb-12">
             {/* Ministry Info */}
@@ -108,6 +113,7 @@ export default function HomePage() {
                   alt="Following Christ Thru Paul Ministry Logo" 
                   width={40}
                   height={40}
+                  loading="lazy"
                   className="h-10 w-10 rounded-full"
                 />
                 <h3 className="font-heading text-2xl text-white">Following Christ Thru Paul</h3>

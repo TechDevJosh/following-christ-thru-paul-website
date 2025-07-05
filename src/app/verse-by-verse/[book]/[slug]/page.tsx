@@ -5,6 +5,7 @@ import Link from 'next/link';
 import { getYouTubeEmbedUrl } from '@/utils/youtube';
 import Navbar from '@/components/Navbar';
 import ShareButton from '@/components/ShareButton';
+import { generateMetadata as generatePageMetadata, generateStructuredData } from '@/lib/metadata';
 
 export const revalidate = 1800; // 30 minutes
 
@@ -40,6 +41,10 @@ export async function generateMetadata({ params }: PageProps) {
     title,
     passage,
     youtubeUrl,
+    content,
+    publishedAt,
+    _updatedAt,
+    tags
   }`;
   const sermon = await client.fetch(query, { book, slug });
 
@@ -50,14 +55,23 @@ export async function generateMetadata({ params }: PageProps) {
   }
 
   const embedUrl = getYouTubeEmbedUrl(sermon.youtubeUrl);
+  const ogImage = embedUrl ? `https://img.youtube.com/vi/${embedUrl.split('/')[4].split('?')[0]}/hqdefault.jpg` : undefined;
+  
+  // Extract description from content
+  const description = sermon.content && sermon.content.length > 0 
+    ? sermon.content[0].children?.[0]?.text?.substring(0, 160) + '...' 
+    : `Bible study on ${sermon.passage} - ${sermon.title}`;
 
-  return {
+  return generatePageMetadata({
     title: `${sermon.title} - ${sermon.passage}`,
-    openGraph: {
-      images: [embedUrl ? `https://img.youtube.com/vi/${embedUrl.split('/')[4].split('?')[0]}/hqdefault.jpg` : ''], // OG image from YouTube thumbnail
-    },
-    canonical: `https://yourwebsite.com/verse-by-verse/${book}/${slug}`, // Replace with your actual domain
-  };
+    description,
+    canonical: `https://followingchristthrupaul.com/verse-by-verse/${book}/${slug}`,
+    ogImage,
+    ogType: 'article',
+    publishedTime: sermon.publishedAt,
+    modifiedTime: sermon._updatedAt,
+    tags: sermon.tags,
+  });
 }
 
 export default async function SermonPage({ params }: PageProps) {
@@ -173,10 +187,29 @@ export default async function SermonPage({ params }: PageProps) {
 
   const youtubeEmbedUrl = getYouTubeEmbedUrl(sermon.youtubeUrl);
 
+  const structuredData = generateStructuredData('Article', {
+    title: sermon.title,
+    description: sermon.content && sermon.content.length > 0 
+      ? sermon.content[0].children?.[0]?.text?.substring(0, 160) + '...' 
+      : `Bible study on ${sermon.passage} - ${sermon.title}`,
+    url: `https://followingchristthrupaul.com/verse-by-verse/${book}/${slug}`,
+    publishedTime: sermon.publishedAt,
+    modifiedTime: sermon._updatedAt || sermon.publishedAt,
+    image: embedUrl ? `https://img.youtube.com/vi/${embedUrl.split('/')[4].split('?')[0]}/hqdefault.jpg` : undefined,
+  });
+
   return (
     <div className="min-h-screen bg-white text-gray-800">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify(structuredData),
+        }}
+      />
 
-      <Navbar />
+      <header role="banner">
+        <Navbar />
+      </header>
 
       <main className="container-custom py-12">
         {/* Breadcrumbs */}
@@ -195,9 +228,9 @@ export default async function SermonPage({ params }: PageProps) {
             <h1 className="font-heading text-4xl md:text-5xl text-gray-900 mb-4 leading-tight">
               {sermon.title}
             </h1>
-            <h2 className="font-subheading text-2xl md:text-3xl text-blue-700 mb-6">
+            <p className="font-subheading text-2xl md:text-3xl text-blue-700 mb-6">
               {sermon.passage}
-            </h2>
+            </p>
             
             {/* Publication Date */}
             {sermon.publishedAt && (
