@@ -16,10 +16,10 @@ export default function HomePage() {
       {/* Hero Section */}
       <main className="gradient-hero relative overflow-hidden">
         <div className="container-custom py-8 lg:py-12 text-center relative z-10">
-          {/* Decorative elements */}
-          <div className="absolute inset-0 opacity-5">
-            <div className="absolute top-20 left-10 w-32 h-32 bg-blue-200 rounded-full blur-3xl"></div>
-            <div className="absolute bottom-20 right-10 w-40 h-40 bg-gray-200 rounded-full blur-3xl"></div>
+          {/* Decorative elements - simplified for performance */}
+          <div className="absolute inset-0 opacity-3">
+            <div className="absolute top-20 left-10 w-24 h-24 bg-blue-100 rounded-full blur-2xl"></div>
+            <div className="absolute bottom-20 right-10 w-32 h-32 bg-gray-100 rounded-full blur-2xl"></div>
           </div>
           
           <div className="max-w-4xl mx-auto relative">

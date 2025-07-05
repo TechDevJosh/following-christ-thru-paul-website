@@ -12,8 +12,10 @@ const taglines = [
 
 export default function TaglineRotator() {
   const [currentIndex, setCurrentIndex] = useState(0);
+  const [isClient, setIsClient] = useState(false);
 
   useEffect(() => {
+    setIsClient(true);
     const interval = setInterval(() => {
       setCurrentIndex((prev) => (prev + 1) % taglines.length);
     }, 7000);
@@ -21,22 +23,21 @@ export default function TaglineRotator() {
     return () => clearInterval(interval);
   }, []);
 
-  return (
-    <div className="relative min-h-[5rem] w-full max-w-4xl mx-auto overflow-hidden" aria-live="polite">
-      {taglines.map((tagline, index) => (
-        <p
-          key={index}
-          className={`absolute top-0 left-0 w-full min-w-full text-center font-body text-xl md:text-2xl text-gray-600 leading-relaxed px-4 whitespace-normal break-words transition-all duration-1000 ease-in-out transform ${
-            index === currentIndex
-              ? 'translate-x-0 opacity-100'
-              : index === (currentIndex - 1 + taglines.length) % taglines.length
-              ? '-translate-x-full opacity-0'
-              : 'translate-x-full opacity-0'
-          }`}
-        >
-          {tagline}
+  if (!isClient) {
+    return (
+      <div className="min-h-[6rem] sm:min-h-[5rem] w-full max-w-4xl mx-auto px-4">
+        <p className="text-center font-body text-lg sm:text-xl md:text-2xl text-gray-600 leading-relaxed">
+          {taglines[0]}
         </p>
-      ))}
+      </div>
+    );
+  }
+
+  return (
+    <div className="relative min-h-[6rem] sm:min-h-[5rem] w-full max-w-4xl mx-auto overflow-hidden px-4" aria-live="polite">
+      <p className="text-center font-body text-lg sm:text-xl md:text-2xl text-gray-600 leading-relaxed transition-opacity duration-1000 ease-in-out">
+        {taglines[currentIndex]}
+      </p>
     </div>
   );
 }
