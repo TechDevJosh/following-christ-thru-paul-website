@@ -12,7 +12,7 @@ export default function HomePage() {
 
       {/* Hero Section */}
       <main className="gradient-hero relative overflow-x-hidden">
-        <div className="container-custom py-8 lg:py-12 text-center relative z-10">
+        <div className="container-custom py-8 lg:py-12 text-center relative">
           {/* Decorative elements - simplified for performance */}
           <div className="absolute inset-0 opacity-3">
             <div className="absolute top-20 left-10 w-24 h-24 bg-blue-100 rounded-full blur-2xl"></div>
@@ -168,13 +168,23 @@ export default function HomePage() {
                 <li>
                   <button 
                     onClick={() => {
+                      console.log('Footer Report button clicked');
                       // Find and trigger the navbar's report modal
                       const reportButtons = document.querySelectorAll('[data-report-trigger]');
+                      console.log('Found report triggers:', reportButtons.length);
                       if (reportButtons.length > 0) {
+                        console.log('Clicking first report trigger');
                         (reportButtons[0] as HTMLElement).click();
+                      } else {
+                        console.log('No report triggers found');
                       }
                     }}
-                    className="hover:text-white transition-colors text-left"
+                    className="hover:text-white transition-colors text-left cursor-pointer relative z-50 pointer-events-auto"
+                    style={{
+                      background: 'rgba(255,0,0,0.1)', // Temporary red background for debugging
+                      border: '1px solid red', // Temporary red border for debugging
+                      padding: '4px 8px'
+                    }}
                   >
                     Report an Issue
                   </button>
