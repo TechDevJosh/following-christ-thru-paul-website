@@ -34,24 +34,18 @@ export default function Navbar() {
         <div className="flex justify-between items-center w-full max-w-7xl mx-auto">
           {/* Logo */}
           <div className="flex-shrink-0">
-            <button 
+            <a 
+              href="/"
+              className="font-heading text-gray-900 hover:text-blue-700 transition-colors block"
               onClick={(e) => {
-                e.preventDefault();
-                e.stopPropagation();
-                // Try router first, then fallback to window.location
-                try {
-                  router.push('/');
-                } catch (error) {
-                  console.log('Router failed, using window.location');
-                  window.location.href = '/';
-                }
+                console.log('Home logo clicked via anchor tag');
+                // Let the default anchor behavior handle navigation
+                // No preventDefault() - let it work naturally
               }}
-              className="font-heading text-gray-900 hover:text-blue-700 transition-colors cursor-pointer bg-transparent border-none p-0 text-left" 
-              style={{zIndex: 1}}
             >
               <span className="block sm:hidden text-xl font-bold">FCTP</span>
               <span className="hidden sm:block text-xl lg:text-3xl">Following Christ Thru Paul</span>
-            </button>
+            </a>
           </div>
 
           {/* Desktop Navigation */}
