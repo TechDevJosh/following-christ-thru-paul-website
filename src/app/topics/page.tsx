@@ -129,15 +129,16 @@ export default async function TopicsPage() {
                       className="w-full h-full object-cover"
                       onError={(e) => {
                         const target = e.target as HTMLImageElement;
-                        target.src = `https://img.youtube.com/vi/${(() => {
-                          const url = topic.youtubeUrl;
+                        const url = topic.youtubeUrl;
+                        if (url) {
+                          let videoId = '';
                           if (url.includes('youtube.com/watch?v=')) {
-                            return url.split('watch?v=')[1]?.split('&')[0] || '';
+                            videoId = url.split('watch?v=')[1]?.split('&')[0] || '';
                           } else if (url.includes('youtu.be/')) {
-                            return url.split('youtu.be/')[1]?.split('?')[0] || '';
+                            videoId = url.split('youtu.be/')[1]?.split('?')[0] || '';
                           }
-                          return '';
-                        })()}/hqdefault.jpg`;
+                          target.src = `https://img.youtube.com/vi/${videoId}/hqdefault.jpg`;
+                        }
                       }}
                     />
                     <div className="absolute inset-0 bg-black/20 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
