@@ -49,6 +49,18 @@ export default function Hero() {
             Register Now
           </Link>
         </div>
+
+        {/* We Are Strong Proponents Of Section */}
+        <div className="mt-16 pt-8 border-t border-gray-600 w-full max-w-2xl">
+          <p className="text-sm text-gray-400 mb-4">We Are Strong Proponents of</p>
+          <div className="flex flex-wrap justify-center items-center gap-4 text-gray-300">
+            <span className="text-xs font-medium whitespace-nowrap">AUTHORIZED VERSION (KJV)</span>
+            <span className="w-1 h-1 bg-gray-500 rounded-full hidden sm:block"></span>
+            <span className="text-xs font-medium whitespace-nowrap">PAULINE DISPENSATIONALISM</span>
+            <span className="w-1 h-1 bg-gray-500 rounded-full hidden sm:block"></span>
+            <span className="text-xs font-medium whitespace-nowrap">SUBMISSION TO A LOCAL BIBLE-BELIEVING CHURCH</span>
+          </div>
+        </div>
       </div>
     </section>
   );
