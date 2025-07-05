@@ -9,6 +9,9 @@ export default function manifest(): MetadataRoute.Manifest {
     display: 'standalone',
     background_color: '#ffffff',
     theme_color: '#1e40af',
+    orientation: 'portrait-primary',
+    scope: '/',
+    categories: ['education', 'lifestyle', 'books'],
     icons: [
       {
         src: 'https://pub-8d4c47a32bf5437a90a2ba38a0f85223.r2.dev/FCTP%20FAVICON%2048X48.png',

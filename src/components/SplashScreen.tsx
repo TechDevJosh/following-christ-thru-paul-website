@@ -10,14 +10,20 @@ export default function SplashScreen({ onComplete }: SplashScreenProps) {
   const [isVisible, setIsVisible] = useState(true);
 
   useEffect(() => {
-    // Fade out after 2 seconds
-    const timer = setTimeout(() => {
+    // Start fade out after 2 seconds (after clip-path animation completes)
+    const fadeTimer = setTimeout(() => {
       setIsVisible(false);
-      // Complete after fade transition
-      setTimeout(onComplete, 500);
     }, 2000);
 
-    return () => clearTimeout(timer);
+    // Call onComplete after fade transition completes
+    const completeTimer = setTimeout(() => {
+      onComplete();
+    }, 2500);
+
+    return () => {
+      clearTimeout(fadeTimer);
+      clearTimeout(completeTimer);
+    };
   }, [onComplete]);
 
   return (

@@ -22,6 +22,7 @@ export default function HomePage() {
   }, []);
 
   const handleSplashComplete = () => {
+    console.log('Splash animation completed, showing main content');
     setShowSplash(false);
   };
 
