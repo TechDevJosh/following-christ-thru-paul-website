@@ -1,7 +1,8 @@
 "use client";
 
 import { useEffect, useRef } from 'react';
-import * as anime from 'animejs';
+// @ts-ignore
+import anime from 'animejs/lib/anime.es.js';
 
 interface SplashScreenProps {
   onComplete: () => void;
