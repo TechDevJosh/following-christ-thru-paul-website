@@ -42,7 +42,7 @@ export default function HomePage() {
             </div>
             
             {/* Supporting text */}
-            <p className="font-body text-lg text-gray-500 mb-12 max-w-2xl mx-auto">
+            <p className="font-body text-base md:text-lg text-gray-500 mb-12 max-w-2xl mx-auto">
               Exploring the depths of Pauline dispensational truth with reverence, precision, and unwavering commitment to Scripture.
             </p>
             

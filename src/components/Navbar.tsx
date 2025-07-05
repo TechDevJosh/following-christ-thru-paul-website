@@ -2,11 +2,13 @@
 
 import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 import GlobalSearch from './GlobalSearch';
 import LoginModal from './LoginModal';
 import ReportModal from './ReportModal';
 
 export default function Navbar() {
+  const router = useRouter();
   const [isConnectDropdownOpen, setIsConnectDropdownOpen] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [isLoginModalOpen, setIsLoginModalOpen] = useState(false);
@@ -32,10 +34,24 @@ export default function Navbar() {
         <div className="flex justify-between items-center w-full max-w-7xl mx-auto">
           {/* Logo */}
           <div className="flex-shrink-0">
-            <Link href="/" className="font-heading text-gray-900 hover:text-blue-700 transition-colors" style={{zIndex: 1}}>
+            <button 
+              onClick={(e) => {
+                e.preventDefault();
+                e.stopPropagation();
+                // Try router first, then fallback to window.location
+                try {
+                  router.push('/');
+                } catch (error) {
+                  console.log('Router failed, using window.location');
+                  window.location.href = '/';
+                }
+              }}
+              className="font-heading text-gray-900 hover:text-blue-700 transition-colors cursor-pointer bg-transparent border-none p-0 text-left" 
+              style={{zIndex: 1}}
+            >
               <span className="block sm:hidden text-xl font-bold">FCTP</span>
               <span className="hidden sm:block text-xl lg:text-3xl">Following Christ Thru Paul</span>
-            </Link>
+            </button>
           </div>
 
           {/* Desktop Navigation */}
@@ -103,8 +119,9 @@ export default function Navbar() {
             </div>
             <button 
               onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)} 
-              className="p-2 text-gray-700 hover:text-blue-700 focus-ring rounded-md flex-shrink-0"
+              className="p-2 text-gray-700 hover:text-blue-700 focus-ring rounded-md flex-shrink-0 relative"
               aria-label="Toggle mobile menu"
+              style={{zIndex: 100}}
             >
               <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 {isMobileMenuOpen ? (
@@ -119,7 +136,7 @@ export default function Navbar() {
       </nav>
       {/* Mobile Menu */}
       {isMobileMenuOpen && (
-        <div className="lg:hidden border-t border-gray-100 bg-white/95 backdrop-blur-sm">
+        <div className="lg:hidden border-t border-gray-100 bg-white/95 backdrop-blur-sm" style={{zIndex: 50}}>
           <div className="container-custom py-4">
             {/* Mobile Search for very small screens */}
             <div className="xs:hidden mb-4">
