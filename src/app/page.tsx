@@ -11,7 +11,7 @@ export default function HomePage() {
       <Navbar />
 
       {/* Hero Section */}
-      <main className="gradient-hero relative overflow-hidden">
+      <main className="gradient-hero relative overflow-x-hidden">
         <div className="container-custom py-8 lg:py-12 text-center relative z-10">
           {/* Decorative elements - simplified for performance */}
           <div className="absolute inset-0 opacity-3">
