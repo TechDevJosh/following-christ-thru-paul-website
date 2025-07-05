@@ -13,42 +13,37 @@ export default function HomePage() {
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
-    console.log('HomePage: Checking session storage');
-    const hasVisited = sessionStorage.getItem('fctp-visited');
-    if (!hasVisited) {
-      console.log('HomePage: First visit, showing splash');
-      setShowSplash(true);
-      sessionStorage.setItem('fctp-visited', 'true');
-    } else {
-      console.log('HomePage: Return visit, skipping splash');
+    try {
+      const hasVisited = sessionStorage.getItem('fctp-visited');
+      if (!hasVisited) {
+        setShowSplash(true);
+        sessionStorage.setItem('fctp-visited', 'true');
+      }
+    } catch (error) {
+      console.error('Session storage error:', error);
     }
     setIsLoading(false);
   }, []);
 
-  const handleSplashComplete = () => {
-    console.log('HomePage: Splash completed, hiding splash screen');
-    setShowSplash(false);
-  };
-
-  console.log('HomePage render:', { isLoading, showSplash });
-
-  if (isLoading) {
-    return null;
-  }
-
-  // Fallback: Force show main content after 5 seconds regardless
   useEffect(() => {
     if (showSplash) {
-      const fallbackTimer = setTimeout(() => {
-        console.log('HomePage: Fallback timer triggered, forcing main content');
+      const timer = setTimeout(() => {
         setShowSplash(false);
-      }, 5000);
-      return () => clearTimeout(fallbackTimer);
+      }, 3000);
+      return () => clearTimeout(timer);
     }
   }, [showSplash]);
 
+  if (isLoading) {
+    return (
+      <div className="min-h-screen bg-white flex items-center justify-center">
+        <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-600"></div>
+      </div>
+    );
+  }
+
   if (showSplash) {
-    return <SplashScreen onComplete={handleSplashComplete} />;
+    return <SplashScreen onComplete={() => setShowSplash(false)} />;
   }
 
   return (
