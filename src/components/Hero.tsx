@@ -10,13 +10,13 @@ export default function Hero() {
         </p>
 
         {/* Logo + Title Combined */}
-        <div className="flex items-center justify-center gap-6 mb-4">
+        <div className="flex items-center justify-center gap-4 sm:gap-6 mb-4">
           <img 
             src="https://pub-8d4c47a32bf5437a90a2ba38a0f85223.r2.dev/FCTP%20Logo.png" 
             alt="FCTP Logo" 
-            className="h-24 w-24 sm:h-32 sm:w-32 rounded-full shadow-lg flex-shrink-0"
+            className="h-20 w-20 sm:h-24 sm:w-24 md:h-28 md:w-28 rounded-full shadow-lg flex-shrink-0"
           />
-          <h1 className="font-heading text-4xl sm:text-5xl md:text-6xl font-bold tracking-tight leading-tight">
+          <h1 className="font-heading text-3xl sm:text-4xl md:text-5xl font-bold tracking-tight leading-tight">
             <span className="block text-gray-900">Following Christ</span>
             <span className="block text-blue-700">Thru Paul</span>
           </h1>

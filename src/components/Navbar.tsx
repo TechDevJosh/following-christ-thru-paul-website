@@ -21,13 +21,18 @@ export default function Navbar() {
     <header className="bg-white/95 backdrop-blur-sm border-b border-gray-100 sticky top-0 w-full" style={{zIndex: 998}}>
       <nav className="px-4 sm:px-6 lg:px-8 py-4 max-w-full">
         <div className="flex justify-between items-center w-full max-w-7xl mx-auto">
-          {/* Home Link */}
+          {/* Logo */}
           <div className="flex-shrink-0">
             <a 
               href="/"
-              className="font-heading text-lg lg:text-xl font-bold text-gray-900 hover:text-blue-700 transition-colors"
+              className="flex items-center space-x-2 font-heading text-gray-900 hover:text-blue-700 transition-colors"
             >
-              Following Christ Thru Paul
+              <img 
+                src="https://pub-8d4c47a32bf5437a90a2ba38a0f85223.r2.dev/FCTP%20Logo.png" 
+                alt="FCTP Logo" 
+                className="h-8 w-8 sm:h-10 sm:w-10 rounded-full"
+              />
+              <span className="hidden sm:block text-lg lg:text-xl font-bold">Following Christ Thru Paul</span>
             </a>
           </div>
 
@@ -92,12 +97,8 @@ export default function Navbar() {
               <GlobalSearch />
             </div>
             <button 
-              onClick={(e) => {
-                e.preventDefault();
-                e.stopPropagation();
-                setIsMobileMenuOpen(!isMobileMenuOpen);
-              }} 
-              className="p-3 text-gray-700 hover:text-blue-700 focus-ring rounded-md flex-shrink-0 touch-manipulation"
+              onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)} 
+              className="p-3 text-gray-700 hover:text-blue-700 focus-ring rounded-md flex-shrink-0 touch-manipulation relative"
               aria-label="Toggle mobile menu"
               style={{zIndex: 1000, minHeight: '44px', minWidth: '44px'}}
             >
