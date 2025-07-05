@@ -1,5 +1,3 @@
-"use client";
-
 import Link from 'next/link';
 import RecentSermons from '@/components/RecentSermons';
 import Navbar from '@/components/Navbar';

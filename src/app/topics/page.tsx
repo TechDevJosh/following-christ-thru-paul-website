@@ -17,9 +17,11 @@ interface Topic {
   youtubeUrl?: string;
   content?: any[];
   featuredImage?: any;
+  series?: string;
+  seriesOrder?: number;
 }
 
-const TOPICS_QUERY = `*[_type == "topics"] | order(publishedAt desc, _createdAt desc) {
+const TOPICS_QUERY = `*[_type == "topics"] | order(series asc, seriesOrder asc, publishedAt desc, _createdAt desc) {
   _id,
   title,
   description,
@@ -29,7 +31,9 @@ const TOPICS_QUERY = `*[_type == "topics"] | order(publishedAt desc, _createdAt 
   _createdAt,
   youtubeUrl,
   content,
-  featuredImage
+  featuredImage,
+  series,
+  seriesOrder
 }`;
 
 export default function TopicsPage() {
@@ -188,11 +192,17 @@ export default function TopicsPage() {
                     </p>
                   </div>
 
-                <div className="flex items-center justify-between mb-6">
-                  {topic.sermons && (
+                <div className="flex items-center justify-between mb-4">
+                  {topic.series ? (
+                    <span className="font-body text-sm text-blue-600 font-medium">
+                      {topic.series} {topic.seriesOrder && `#${topic.seriesOrder}`}
+                    </span>
+                  ) : topic.sermons ? (
                     <span className="font-body text-sm text-gray-500">
                       {topic.sermons} sermon{topic.sermons !== 1 ? 's' : ''}
                     </span>
+                  ) : (
+                    <span></span>
                   )}
                   <time className="font-body text-sm text-gray-500">
                     {new Date(topic.publishedAt || topic._createdAt).toLocaleDateString('en-US', {

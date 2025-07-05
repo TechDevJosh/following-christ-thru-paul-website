@@ -9,26 +9,26 @@ export default function Hero() {
           "To make all men see what is the fellowship of the mystery" – Ephesians 3:9
         </p>
 
-        {/* Logo + Title Combined */}
-        <div className="flex items-center justify-center gap-4 sm:gap-6 mb-4">
+        {/* Logo + Title Combined - Mobile: Stacked, Desktop: Side by side */}
+        <div className="flex flex-col sm:flex-row items-center justify-center gap-3 sm:gap-6 mb-4">
           <img 
             src="https://pub-8d4c47a32bf5437a90a2ba38a0f85223.r2.dev/FCTP%20Logo.png" 
             alt="FCTP Logo" 
-            className="h-20 w-20 sm:h-24 sm:w-24 md:h-28 md:w-28 rounded-full shadow-lg flex-shrink-0"
+            className="h-16 w-16 sm:h-24 sm:w-24 md:h-28 md:w-28 rounded-full shadow-lg flex-shrink-0"
           />
-          <h1 className="font-heading text-3xl sm:text-4xl md:text-5xl font-bold tracking-tight leading-tight">
+          <h1 className="font-heading text-2xl sm:text-4xl md:text-5xl font-bold tracking-tight leading-tight text-center sm:text-left">
             <span className="block text-gray-900">Following Christ</span>
             <span className="block text-blue-700">Thru Paul</span>
           </h1>
         </div>
 
         {/* Primary Statement */}
-        <p className="text-lg sm:text-xl text-gray-700 max-w-3xl leading-relaxed mb-3">
+        <p className="text-base sm:text-lg md:text-xl text-gray-700 max-w-3xl leading-relaxed mb-3">
           A <strong className="font-semibold">KJV Bible-believing ministry</strong> committed to serious Bible study, saintly edification, and sound doctrinal teaching.
         </p>
 
         {/* Doctrinal Focus */}
-        <p className="text-base sm:text-lg text-gray-600 max-w-2xl leading-relaxed mb-6">
+        <p className="text-sm sm:text-base md:text-lg text-gray-600 max-w-2xl leading-relaxed mb-6">
           Exploring the depths of Pauline dispensational truth with reverence, precision, and unwavering commitment to Scripture.
         </p>
 

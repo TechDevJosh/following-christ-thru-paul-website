@@ -12,6 +12,18 @@ export default defineType({
       validation: (Rule) => Rule.required(),
     }),
     defineField({
+      name: 'series',
+      title: 'Series',
+      type: 'string',
+      description: 'Name of the sermon series this topic belongs to (e.g., "True Spirituality")',
+    }),
+    defineField({
+      name: 'seriesOrder',
+      title: 'Order in Series',
+      type: 'number',
+      description: 'Order of this topic within the series (1, 2, 3, etc.)',
+    }),
+    defineField({
       name: 'slug',
       title: 'Slug',
       type: 'slug',
