@@ -2,6 +2,7 @@
 
 import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
+import Image from 'next/image';
 import { useRouter } from 'next/navigation';
 import GlobalSearch from './GlobalSearch';
 import LoginModal from './LoginModal';
@@ -27,10 +28,14 @@ export default function Navbar() {
               href="/"
               className="flex items-center space-x-2 font-heading text-gray-900 hover:text-blue-700 transition-colors"
             >
-              <img 
+              <Image 
                 src="https://pub-8d4c47a32bf5437a90a2ba38a0f85223.r2.dev/FCTP%20Logo.png" 
-                alt="FCTP Logo" 
+                alt="Following Christ Thru Paul Ministry Logo" 
+                width={40}
+                height={40}
+                priority
                 className="h-8 w-8 sm:h-10 sm:w-10 rounded-full"
+                sizes="(max-width: 640px) 32px, 40px"
               />
               <span className="hidden sm:block text-lg lg:text-xl font-bold">Following Christ Thru Paul</span>
             </a>

@@ -1,6 +1,7 @@
 import Link from 'next/link';
 import { client } from '@/sanity/lib/client';
 import { getYouTubeEmbedUrl } from '@/utils/youtube';
+import OptimizedYouTubeEmbed from './OptimizedYouTubeEmbed';
 
 interface Sermon {
   _id: string;
@@ -25,19 +26,18 @@ export default async function RecentSermons() {
   return (
     <>
       {sermons.map((sermon) => {
-        const youtubeEmbedUrl = sermon.youtubeUrl ? getYouTubeEmbedUrl(sermon.youtubeUrl) : null;
+        const youtubeVideoId = sermon.youtubeUrl ? 
+          sermon.youtubeUrl.match(/(?:youtube\.com\/watch\?v=|youtu\.be\/)([^&\n?#]+)/)?.[1] : null;
+        
         return (
           <div key={sermon._id} className="card-elevated p-6 group hover:-translate-y-1 transition-all duration-300">
-            {youtubeEmbedUrl ? (
+            {youtubeVideoId ? (
               <div className="relative w-full aspect-video mb-6 rounded-lg overflow-hidden">
-                <iframe
-                  src={youtubeEmbedUrl}
-                  title="YouTube video player"
-                  frameBorder="0"
-                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-                  allowFullScreen
+                <OptimizedYouTubeEmbed
+                  videoId={youtubeVideoId}
+                  title={sermon.title}
                   className="absolute top-0 left-0 w-full h-full"
-                ></iframe>
+                />
               </div>
             ) : (
               <div className="w-full aspect-video bg-gradient-to-br from-gray-100 to-gray-200 rounded-lg mb-6 flex items-center justify-center">

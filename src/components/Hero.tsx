@@ -1,4 +1,5 @@
 import Link from 'next/link';
+import Image from 'next/image';
 
 export default function Hero() {
   return (
@@ -11,10 +12,14 @@ export default function Hero() {
 
         {/* Logo + Title Combined - Mobile: Stacked, Desktop: Side by side */}
         <div className="flex flex-col sm:flex-row items-center justify-center gap-3 sm:gap-6 mb-4">
-          <img 
+          <Image 
             src="https://pub-8d4c47a32bf5437a90a2ba38a0f85223.r2.dev/FCTP%20Logo.png" 
-            alt="FCTP Logo" 
+            alt="Following Christ Thru Paul Ministry Logo" 
+            width={112}
+            height={112}
+            priority
             className="h-16 w-16 sm:h-24 sm:w-24 md:h-28 md:w-28 rounded-full shadow-lg flex-shrink-0"
+            sizes="(max-width: 640px) 64px, (max-width: 768px) 96px, 112px"
           />
           <h1 className="font-heading text-2xl sm:text-4xl md:text-5xl font-bold tracking-tight leading-tight text-center sm:text-left">
             <span className="block text-gray-900">Following Christ</span>

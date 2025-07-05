@@ -157,6 +157,60 @@ export default async function VerseByVersePage() {
           </div>
         </div>
       </section>
+
+      {/* Footer */}
+      <footer className="bg-gray-900 text-white py-16">
+        <div className="container-custom">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 mb-12">
+            <div className="lg:col-span-2">
+              <div className="flex items-center space-x-3 mb-4">
+                <img 
+                  src="https://pub-8d4c47a32bf5437a90a2ba38a0f85223.r2.dev/FCTP%20Logo.png" 
+                  alt="FCTP Logo" 
+                  className="h-10 w-10 rounded-full"
+                />
+                <h3 className="font-heading text-2xl text-white">Following Christ Thru Paul</h3>
+              </div>
+              <p className="font-body text-gray-300 mb-6 leading-relaxed">
+                "To make all men see what is the fellowship of the mystery" (Eph. 3:9)
+              </p>
+              <p className="font-body text-gray-400 text-sm">
+                A KJV Bible-believing ministry dedicated to serious Bible study and doctrinal teaching.
+              </p>
+            </div>
+            
+            <div>
+              <h4 className="font-subheading text-lg mb-4">Quick Links</h4>
+              <ul className="space-y-2 font-body text-gray-300">
+                <li><Link href="/verse-by-verse" className="hover:text-white transition-colors">Verse by Verse</Link></li>
+                <li><Link href="/topics" className="hover:text-white transition-colors">Topics</Link></li>
+                <li><Link href="/resources" className="hover:text-white transition-colors">Resources</Link></li>
+                <li><Link href="/ask" className="hover:text-white transition-colors">Ask Questions</Link></li>
+              </ul>
+            </div>
+            
+            <div>
+              <h4 className="font-subheading text-lg mb-4">Connect</h4>
+              <ul className="space-y-2 font-body text-gray-300">
+                <li><Link href="/newsletter" className="hover:text-white transition-colors">Subscribe</Link></li>
+                <li><Link href="/connect/contact" className="hover:text-white transition-colors">Contact</Link></li>
+                <li><Link href="/connect/support" className="hover:text-white transition-colors">Support</Link></li>
+              </ul>
+            </div>
+          </div>
+          
+          <div className="flex flex-col md:flex-row justify-between items-center pt-8 border-t border-gray-800">
+            <p className="font-body text-gray-400 text-sm">&copy; {new Date().getFullYear()} Following Christ Thru Paul. All Rights Reserved.</p>
+            <div className="flex space-x-4 mt-4 md:mt-0">
+              <Link href="/terms-of-service" className="font-body text-gray-400 hover:text-white transition-colors text-sm">Terms</Link>
+              <Link href="/privacy-policy" className="font-body text-gray-400 hover:text-white transition-colors text-sm">Privacy</Link>
+            </div>
+          </div>
+        </div>
+      </footer>
+    </div>
+  );
+}
               </div>
             </div>
           ) : (

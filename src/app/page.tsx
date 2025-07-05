@@ -1,4 +1,5 @@
 import Link from 'next/link';
+import Image from 'next/image';
 import RecentSermons from '@/components/RecentSermons';
 import Navbar from '@/components/Navbar';
 import Hero from '@/components/Hero';
@@ -53,15 +54,14 @@ export default function HomePage() {
             </p>
             
             <div className="card-elevated p-2 max-w-4xl mx-auto">
-              <div className="aspect-video w-full rounded-lg overflow-hidden">
-                <iframe
-                  src="https://www.youtube.com/embed/YOUR_YOUTUBE_VIDEO_ID"
-                  title="Welcome to Following Christ Thru Paul"
-                  frameBorder="0"
-                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-                  allowFullScreen
-                  className="w-full h-full"
-                ></iframe>
+              <div className="aspect-video w-full rounded-lg overflow-hidden bg-gradient-to-br from-gray-100 to-gray-200 flex items-center justify-center">
+                <div className="text-center">
+                  <svg className="w-16 h-16 text-gray-400 mx-auto mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z" />
+                  </svg>
+                  <p className="text-gray-600 font-medium">Welcome Video Coming Soon</p>
+                  <p className="text-sm text-gray-500 mt-1">Check back for our ministry introduction</p>
+                </div>
               </div>
             </div>
           </div>
@@ -75,9 +75,11 @@ export default function HomePage() {
             {/* Ministry Info */}
             <div className="lg:col-span-2">
               <div className="flex items-center space-x-3 mb-4">
-                <img 
+                <Image 
                   src="https://pub-8d4c47a32bf5437a90a2ba38a0f85223.r2.dev/FCTP%20Logo.png" 
-                  alt="FCTP Logo" 
+                  alt="Following Christ Thru Paul Ministry Logo" 
+                  width={40}
+                  height={40}
                   className="h-10 w-10 rounded-full"
                 />
                 <h3 className="font-heading text-2xl text-white">Following Christ Thru Paul</h3>
