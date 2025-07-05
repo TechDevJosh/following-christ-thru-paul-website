@@ -36,10 +36,6 @@ export default function HomePage() {
     return null;
   }
 
-  if (showSplash) {
-    return <SplashScreen onComplete={handleSplashComplete} />;
-  }
-
   // Fallback: Force show main content after 5 seconds regardless
   useEffect(() => {
     if (showSplash) {
@@ -50,6 +46,10 @@ export default function HomePage() {
       return () => clearTimeout(fallbackTimer);
     }
   }, [showSplash]);
+
+  if (showSplash) {
+    return <SplashScreen onComplete={handleSplashComplete} />;
+  }
 
   return (
     <div className="min-h-screen bg-white text-gray-800">
@@ -163,20 +163,6 @@ export default function HomePage() {
                 <li><Link href="/newsletter" className="hover:text-white transition-colors">Subscribe</Link></li>
                 <li><Link href="/connect/contact" className="hover:text-white transition-colors">Contact</Link></li>
                 <li><Link href="/connect/support" className="hover:text-white transition-colors">Support</Link></li>
-                <li>
-                  <button 
-                    onClick={() => {
-                      // Find and trigger the navbar's report modal
-                      const reportButtons = document.querySelectorAll('[data-report-trigger="true"]');
-                      if (reportButtons.length > 0) {
-                        (reportButtons[0] as HTMLElement).click();
-                      }
-                    }}
-                    className="hover:text-white transition-colors text-left cursor-pointer"
-                  >
-                    Report an Issue
-                  </button>
-                </li>
               </ul>
             </div>
           </div>
