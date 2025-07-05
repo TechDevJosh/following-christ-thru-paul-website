@@ -41,6 +41,14 @@ export default function RootLayout({
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
         <link rel="dns-prefetch" href="https://www.googletagmanager.com" />
+        
+        {/* Favicons */}
+        <link rel="icon" type="image/png" sizes="48x48" href="https://pub-8d4c47a32bf5437a90a2ba38a0f85223.r2.dev/FCTP%20FAVICON%2048X48.png" />
+        <link rel="icon" type="image/png" sizes="66x66" href="https://pub-8d4c47a32bf5437a90a2ba38a0f85223.r2.dev/FCTP%20FAVICON%2066X66.png" />
+        <link rel="icon" type="image/png" sizes="84x84" href="https://pub-8d4c47a32bf5437a90a2ba38a0f85223.r2.dev/FCTP%20FAVICON%2084X84.png" />
+        <link rel="icon" type="image/png" sizes="120x120" href="https://pub-8d4c47a32bf5437a90a2ba38a0f85223.r2.dev/FCTP%20FAVICON%20120X120.png" />
+        <link rel="apple-touch-icon" sizes="120x120" href="https://pub-8d4c47a32bf5437a90a2ba38a0f85223.r2.dev/FCTP%20FAVICON%20120X120.png" />
+        <link rel="shortcut icon" href="https://pub-8d4c47a32bf5437a90a2ba38a0f85223.r2.dev/FCTP%20FAVICON%2048X48.png" />
         <Script id="google-tag-manager" strategy="afterInteractive">
           {`(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
           new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],

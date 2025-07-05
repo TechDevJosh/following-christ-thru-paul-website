@@ -1,8 +1,9 @@
+"use client";
+
 import Link from 'next/link';
 import { client } from '@/sanity/lib/client';
 import Navbar from '@/components/Navbar';
-
-export const revalidate = 1800; // 30 minutes
+import { useEffect, useState } from 'react';
 
 interface Topic {
   _id: string;
@@ -31,14 +32,24 @@ const TOPICS_QUERY = `*[_type == "topics"] | order(publishedAt desc, _createdAt 
   featuredImage
 }`;
 
-export default async function TopicsPage() {
-  let topics: Topic[] = [];
+export default function TopicsPage() {
+  const [topics, setTopics] = useState<Topic[]>([]);
+  const [loading, setLoading] = useState(true);
   
-  try {
-    topics = await client.fetch(TOPICS_QUERY);
-  } catch (error) {
-    console.error('Error fetching topics:', error);
-  }
+  useEffect(() => {
+    async function fetchTopics() {
+      try {
+        const fetchedTopics = await client.fetch(TOPICS_QUERY);
+        setTopics(fetchedTopics);
+      } catch (error) {
+        console.error('Error fetching topics:', error);
+      } finally {
+        setLoading(false);
+      }
+    }
+    
+    fetchTopics();
+  }, []);
 
   // Fallback placeholder data if no topics from Sanity
   const placeholderTopics: Topic[] = [
@@ -84,7 +95,21 @@ export default async function TopicsPage() {
     }
   ];
 
-  const displayTopics = topics.length > 0 ? topics : placeholderTopics;
+  const displayTopics = topics.length > 0 ? topics : (loading ? [] : placeholderTopics);
+
+  if (loading) {
+    return (
+      <div className="min-h-screen bg-white text-gray-800">
+        <Navbar />
+        <div className="flex items-center justify-center min-h-[50vh]">
+          <div className="text-center">
+            <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600 mx-auto mb-4"></div>
+            <p className="text-gray-600">Loading topics...</p>
+          </div>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="min-h-screen bg-white text-gray-800">
