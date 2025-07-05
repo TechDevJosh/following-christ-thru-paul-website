@@ -59,7 +59,7 @@ export default function LoginModal({ isOpen, onClose }: LoginModalProps) {
   if (!isOpen) return null;
 
   return (
-    <div className="fixed inset-0 z-[9999] overflow-y-auto">
+    <div className="fixed inset-0 overflow-y-auto" style={{zIndex: 99998}}>
       {/* Backdrop with blur effect */}
       <div 
         className="fixed inset-0 bg-black/50 backdrop-blur-sm transition-all duration-300"
@@ -67,7 +67,7 @@ export default function LoginModal({ isOpen, onClose }: LoginModalProps) {
       />
       
       {/* Modal */}
-      <div className="flex min-h-full items-center justify-center p-4 relative z-[10000]">
+      <div className="flex min-h-full items-center justify-center p-4 relative" style={{zIndex: 99999}}>
         <div className="relative bg-white rounded-lg shadow-xl max-w-md w-full mx-auto">
           {/* Header */}
           <div className="flex items-center justify-between p-6 border-b border-gray-200">
