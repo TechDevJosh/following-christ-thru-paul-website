@@ -6,6 +6,7 @@ import { getYouTubeEmbedUrl } from '@/utils/youtube';
 import Navbar from '@/components/Navbar';
 import ShareButton from '@/components/ShareButton';
 
+
 export const revalidate = 1800; // 30 minutes
 
 interface Sermon {
@@ -22,6 +23,7 @@ interface Sermon {
   }[];
   tags: string[];
   publishedAt: string;
+  _updatedAt?: string;
 }
 
 interface PageProps {
@@ -40,6 +42,10 @@ export async function generateMetadata({ params }: PageProps) {
     title,
     passage,
     youtubeUrl,
+    content,
+    publishedAt,
+    _updatedAt,
+    tags
   }`;
   const sermon = await client.fetch(query, { book, slug });
 
@@ -50,13 +56,34 @@ export async function generateMetadata({ params }: PageProps) {
   }
 
   const embedUrl = getYouTubeEmbedUrl(sermon.youtubeUrl);
+  const ogImage = embedUrl ? `https://img.youtube.com/vi/${embedUrl.split('/')[4].split('?')[0]}/hqdefault.jpg` : undefined;
+  
+  // Extract description from content
+  const description = sermon.content && sermon.content.length > 0 
+    ? sermon.content[0].children?.[0]?.text?.substring(0, 160) + '...' 
+    : `Bible study on ${sermon.passage} - ${sermon.title}`;
 
   return {
-    title: `${sermon.title} - ${sermon.passage}`,
+    title: `${sermon.title} - ${sermon.passage} | Following Christ Thru Paul`,
+    description,
     openGraph: {
-      images: [embedUrl ? `https://img.youtube.com/vi/${embedUrl.split('/')[4].split('?')[0]}/hqdefault.jpg` : ''], // OG image from YouTube thumbnail
+      title: `${sermon.title} - ${sermon.passage}`,
+      description,
+      type: 'article',
+      url: `https://followingchristthrupaul.com/verse-by-verse/${book}/${slug}`,
+      images: ogImage ? [{ url: ogImage, width: 1200, height: 630, alt: sermon.title }] : [],
+      publishedTime: sermon.publishedAt,
+      modifiedTime: sermon._updatedAt,
     },
-    canonical: `https://yourwebsite.com/verse-by-verse/${book}/${slug}`, // Replace with your actual domain
+    twitter: {
+      card: 'summary_large_image',
+      title: `${sermon.title} - ${sermon.passage}`,
+      description,
+      images: ogImage ? [ogImage] : [],
+    },
+    alternates: {
+      canonical: `https://followingchristthrupaul.com/verse-by-verse/${book}/${slug}`,
+    },
   };
 }
 
@@ -173,10 +200,46 @@ export default async function SermonPage({ params }: PageProps) {
 
   const youtubeEmbedUrl = getYouTubeEmbedUrl(sermon.youtubeUrl);
 
+  const structuredData = {
+    "@context": "https://schema.org",
+    "@type": "Article",
+    "headline": sermon.title,
+    "description": sermon.content && sermon.content.length > 0 
+      ? sermon.content[0].children?.[0]?.text?.substring(0, 160) + '...' 
+      : `Bible study on ${sermon.passage} - ${sermon.title}`,
+    "url": `https://followingchristthrupaul.com/verse-by-verse/${book}/${slug}`,
+    "datePublished": sermon.publishedAt,
+    "dateModified": sermon._updatedAt || sermon.publishedAt,
+    "author": {
+      "@type": "Organization",
+      "name": "Following Christ Thru Paul"
+    },
+    "publisher": {
+      "@type": "Organization",
+      "name": "Following Christ Thru Paul",
+      "logo": {
+        "@type": "ImageObject",
+        "url": "https://pub-8d4c47a32bf5437a90a2ba38a0f85223.r2.dev/FCTP%20Logo.png"
+      }
+    },
+    "mainEntityOfPage": {
+      "@type": "WebPage",
+      "@id": `https://followingchristthrupaul.com/verse-by-verse/${book}/${slug}`
+    }
+  };
+
   return (
     <div className="min-h-screen bg-white text-gray-800">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify(structuredData),
+        }}
+      />
 
-      <Navbar />
+      <header role="banner">
+        <Navbar />
+      </header>
 
       <main className="container-custom py-12">
         {/* Breadcrumbs */}
@@ -195,9 +258,9 @@ export default async function SermonPage({ params }: PageProps) {
             <h1 className="font-heading text-4xl md:text-5xl text-gray-900 mb-4 leading-tight">
               {sermon.title}
             </h1>
-            <h2 className="font-subheading text-2xl md:text-3xl text-blue-700 mb-6">
+            <p className="font-subheading text-2xl md:text-3xl text-blue-700 mb-6">
               {sermon.passage}
-            </h2>
+            </p>
             
             {/* Publication Date */}
             {sermon.publishedAt && (
@@ -314,9 +377,11 @@ export default async function SermonPage({ params }: PageProps) {
 
           {/* Share Button */}
           <section className="mb-12 pb-8 border-b border-gray-200">
-            <div className="flex items-center justify-between">
-              <h3 className="font-heading text-2xl text-gray-900">Share This Study</h3>
-              <ShareButton title={`${sermon.title} - ${sermon.passage}`} />
+            <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+              <h3 className="font-heading text-xl sm:text-2xl text-gray-900">Share This Study</h3>
+              <div className="flex justify-end">
+                <ShareButton title={`${sermon.title} - ${sermon.passage}`} />
+              </div>
             </div>
           </section>
         </article>

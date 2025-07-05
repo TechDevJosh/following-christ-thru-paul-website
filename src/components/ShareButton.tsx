@@ -81,7 +81,7 @@ export default function ShareButton({ title, url }: ShareButtonProps) {
       </button>
 
       {isOpen && (
-        <div className="absolute bottom-full mb-2 left-0 bg-white border border-gray-200 rounded-lg shadow-lg p-4 min-w-64 z-50">
+        <div className="absolute bottom-full mb-2 right-0 sm:left-0 bg-white border border-gray-200 rounded-lg shadow-lg p-4 w-64 max-w-[calc(100vw-2rem)] z-50">
           <h4 className="font-medium text-gray-900 mb-3">Share this article</h4>
           
           <div className="space-y-2">
@@ -94,7 +94,7 @@ export default function ShareButton({ title, url }: ShareButtonProps) {
                 className={`flex items-center space-x-3 p-2 rounded-lg hover:bg-gray-50 transition-colors ${link.color}`}
               >
                 {link.icon}
-                <span className="text-gray-700">{link.name}</span>
+                <span className="text-gray-700 truncate">{link.name}</span>
               </a>
             ))}
             
@@ -105,7 +105,7 @@ export default function ShareButton({ title, url }: ShareButtonProps) {
               <svg className="w-5 h-5 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z" />
               </svg>
-              <span className="text-gray-700">
+              <span className="text-gray-700 truncate">
                 {copied ? 'Copied!' : 'Copy Link'}
               </span>
             </button>

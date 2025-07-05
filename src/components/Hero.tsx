@@ -3,7 +3,7 @@ import Image from 'next/image';
 
 export default function Hero() {
   return (
-    <section className="py-12 px-6 bg-white">
+    <section className="py-12 px-6 bg-white" role="banner" aria-labelledby="hero-title">
       <div className="max-w-5xl mx-auto flex flex-col items-center text-center space-y-4">
         {/* Scripture Reference */}
         <p className="text-sm italic text-gray-600 mb-2">
@@ -18,10 +18,11 @@ export default function Hero() {
             width={112}
             height={112}
             priority
+            loading="eager"
             className="h-16 w-16 sm:h-24 sm:w-24 md:h-28 md:w-28 rounded-full shadow-lg flex-shrink-0"
             sizes="(max-width: 640px) 64px, (max-width: 768px) 96px, 112px"
           />
-          <h1 className="font-heading text-2xl sm:text-4xl md:text-5xl font-bold tracking-tight leading-tight text-center sm:text-left">
+          <h1 id="hero-title" className="font-heading text-2xl sm:text-4xl md:text-5xl font-bold tracking-tight leading-tight text-center sm:text-left">
             <span className="block text-gray-900">Following Christ</span>
             <span className="block text-blue-700">Thru Paul</span>
           </h1>
@@ -41,16 +42,20 @@ export default function Hero() {
         <div className="flex flex-col sm:flex-row gap-4 justify-center mb-8">
           <Link
             href="/verse-by-verse"
-            className="px-6 py-3 bg-blue-600 hover:bg-blue-700 text-white rounded-lg text-lg font-medium shadow-lg transition-colors"
+            className="px-6 py-3 bg-blue-600 hover:bg-blue-700 text-white rounded-lg text-lg font-medium shadow-lg transition-colors focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
+            aria-describedby="start-here-desc"
           >
             Start Here
           </Link>
+          <span id="start-here-desc" className="sr-only">Begin your Bible study journey with our verse-by-verse teachings</span>
           <Link
             href="/school"
-            className="px-6 py-3 border border-gray-300 bg-white text-gray-900 rounded-lg text-lg font-medium shadow-md hover:bg-gray-50 transition-colors"
+            className="px-6 py-3 border border-gray-300 bg-white text-gray-900 rounded-lg text-lg font-medium shadow-md hover:bg-gray-50 transition-colors focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
+            aria-describedby="register-desc"
           >
             Register Now
           </Link>
+          <span id="register-desc" className="sr-only">Register for our Bible school program</span>
         </div>
 
         {/* We Are Strong Proponents Of Section */}

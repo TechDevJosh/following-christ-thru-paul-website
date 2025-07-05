@@ -2,6 +2,7 @@
 
 import { useState } from 'react';
 import Navbar from '@/components/Navbar';
+import Head from 'next/head';
 
 export default function AboutPage() {
   const [formData, setFormData] = useState({
@@ -49,14 +50,30 @@ export default function AboutPage() {
   };
 
   return (
-    <div className="min-h-screen bg-white text-gray-800">
-      <Navbar />
+    <>
+      <Head>
+        <title>About Us | Following Christ Thru Paul</title>
+        <meta name="description" content="Learn about our KJV Bible-believing ministry, our heart for studying God's Word, and our commitment to Pauline dispensational truth." />
+        <meta property="og:title" content="About Us | Following Christ Thru Paul" />
+        <meta property="og:description" content="Learn about our KJV Bible-believing ministry and our commitment to Pauline dispensational truth." />
+        <meta property="og:type" content="website" />
+        <meta property="og:url" content="https://followingchristthrupaul.com/about" />
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta name="twitter:title" content="About Us | Following Christ Thru Paul" />
+        <meta name="twitter:description" content="Learn about our KJV Bible-believing ministry and our commitment to Pauline dispensational truth." />
+        <link rel="canonical" href="https://followingchristthrupaul.com/about" />
+      </Head>
+      <div className="min-h-screen bg-white text-gray-800">
+        <header role="banner">
+          <Navbar />
+        </header>
 
-      {/* Hero Section */}
-      <section className="bg-gradient-to-r from-blue-900 to-blue-700 text-white py-20">
+      <main id="main-content" role="main">
+        {/* Hero Section */}
+        <section className="bg-gradient-to-r from-blue-900 to-blue-700 text-white py-20" aria-labelledby="about-title">
         <div className="container-custom">
           <div className="max-w-4xl mx-auto text-center">
-            <h1 className="font-heading text-4xl md:text-6xl font-bold mb-6">
+            <h1 id="about-title" className="font-heading text-4xl md:text-6xl font-bold mb-6">
               About Bro. Josiah
             </h1>
             <p className="text-xl opacity-90">
@@ -214,6 +231,8 @@ export default function AboutPage() {
           </div>
         </div>
       </section>
-    </div>
+        </main>
+      </div>
+    </>
   );
 }

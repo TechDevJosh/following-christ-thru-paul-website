@@ -3,14 +3,20 @@ import Image from 'next/image';
 import RecentSermons from '@/components/RecentSermons';
 import Navbar from '@/components/Navbar';
 import Hero from '@/components/Hero';
+import ClientSplashWrapper from '@/components/ClientSplashWrapper';
 
 export default function HomePage() {
-  return (
-    <div className="min-h-screen bg-white text-gray-800">
-      <Navbar />
 
-      {/* Hero Section */}
-      <Hero />
+  return (
+    <ClientSplashWrapper>
+      <div className="min-h-screen bg-white text-gray-800">
+      <header role="banner">
+        <Navbar />
+      </header>
+
+      <main id="main-content" role="main">
+        {/* Hero Section */}
+        <Hero />
 
       {/* Recent Sermons Section */}
       <section className="py-20 bg-gray-50">
@@ -68,8 +74,10 @@ export default function HomePage() {
         </div>
       </section>
 
+      </main>
+
       {/* Footer */}
-      <footer className="bg-gray-900 text-white py-16">
+      <footer className="bg-gray-900 text-white py-16" role="contentinfo">
         <div className="container-custom">
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 mb-12">
             {/* Ministry Info */}
@@ -80,6 +88,7 @@ export default function HomePage() {
                   alt="Following Christ Thru Paul Ministry Logo" 
                   width={40}
                   height={40}
+                  loading="lazy"
                   className="h-10 w-10 rounded-full"
                 />
                 <h3 className="font-heading text-2xl text-white">Following Christ Thru Paul</h3>
@@ -111,20 +120,6 @@ export default function HomePage() {
                 <li><Link href="/newsletter" className="hover:text-white transition-colors">Subscribe</Link></li>
                 <li><Link href="/connect/contact" className="hover:text-white transition-colors">Contact</Link></li>
                 <li><Link href="/connect/support" className="hover:text-white transition-colors">Support</Link></li>
-                <li>
-                  <button 
-                    onClick={() => {
-                      // Find and trigger the navbar's report modal
-                      const reportButtons = document.querySelectorAll('[data-report-trigger]');
-                      if (reportButtons.length > 0) {
-                        (reportButtons[0] as HTMLElement).click();
-                      }
-                    }}
-                    className="hover:text-white transition-colors text-left cursor-pointer relative z-50 pointer-events-auto"
-                  >
-                    Report an Issue
-                  </button>
-                </li>
               </ul>
             </div>
           </div>
@@ -166,6 +161,7 @@ export default function HomePage() {
           </div>
         </div>
       </footer>
-    </div>
+      </div>
+    </ClientSplashWrapper>
   );
 }
