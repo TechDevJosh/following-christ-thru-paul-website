@@ -21,23 +21,13 @@ export default function Navbar() {
     <header className="bg-white/95 backdrop-blur-sm border-b border-gray-100 sticky top-0 w-full" style={{zIndex: 998}}>
       <nav className="px-4 sm:px-6 lg:px-8 py-4 max-w-full">
         <div className="flex justify-between items-center w-full max-w-7xl mx-auto">
-          {/* Logo */}
+          {/* Home Link */}
           <div className="flex-shrink-0">
             <a 
               href="/"
-              className="flex items-center space-x-3 font-heading text-gray-900 hover:text-blue-700 transition-colors"
-              onClick={(e) => {
-                console.log('Home logo clicked via anchor tag');
-                // Let the default anchor behavior handle navigation
-                // No preventDefault() - let it work naturally
-              }}
+              className="font-heading text-lg lg:text-xl font-bold text-gray-900 hover:text-blue-700 transition-colors"
             >
-              <img 
-                src="https://pub-8d4c47a32bf5437a90a2ba38a0f85223.r2.dev/FCTP%20Logo.png" 
-                alt="FCTP Logo" 
-                className="h-8 w-8 sm:h-10 sm:w-10"
-              />
-              <span className="hidden sm:block text-lg lg:text-xl font-bold">Following Christ Thru Paul</span>
+              Following Christ Thru Paul
             </a>
           </div>
 
