@@ -5,7 +5,7 @@ import Link from 'next/link';
 import { getYouTubeEmbedUrl } from '@/utils/youtube';
 import Navbar from '@/components/Navbar';
 import ShareButton from '@/components/ShareButton';
-import { generateMetadata as generatePageMetadata, generateStructuredData } from '@/lib/metadata';
+
 
 export const revalidate = 1800; // 30 minutes
 
@@ -62,16 +62,28 @@ export async function generateMetadata({ params }: PageProps) {
     ? sermon.content[0].children?.[0]?.text?.substring(0, 160) + '...' 
     : `Bible study on ${sermon.passage} - ${sermon.title}`;
 
-  return generatePageMetadata({
-    title: `${sermon.title} - ${sermon.passage}`,
+  return {
+    title: `${sermon.title} - ${sermon.passage} | Following Christ Thru Paul`,
     description,
-    canonical: `https://followingchristthrupaul.com/verse-by-verse/${book}/${slug}`,
-    ogImage,
-    ogType: 'article',
-    publishedTime: sermon.publishedAt,
-    modifiedTime: sermon._updatedAt,
-    tags: sermon.tags,
-  });
+    openGraph: {
+      title: `${sermon.title} - ${sermon.passage}`,
+      description,
+      type: 'article',
+      url: `https://followingchristthrupaul.com/verse-by-verse/${book}/${slug}`,
+      images: ogImage ? [{ url: ogImage, width: 1200, height: 630, alt: sermon.title }] : [],
+      publishedTime: sermon.publishedAt,
+      modifiedTime: sermon._updatedAt,
+    },
+    twitter: {
+      card: 'summary_large_image',
+      title: `${sermon.title} - ${sermon.passage}`,
+      description,
+      images: ogImage ? [ogImage] : [],
+    },
+    alternates: {
+      canonical: `https://followingchristthrupaul.com/verse-by-verse/${book}/${slug}`,
+    },
+  };
 }
 
 export default async function SermonPage({ params }: PageProps) {
@@ -187,16 +199,33 @@ export default async function SermonPage({ params }: PageProps) {
 
   const youtubeEmbedUrl = getYouTubeEmbedUrl(sermon.youtubeUrl);
 
-  const structuredData = generateStructuredData('Article', {
-    title: sermon.title,
-    description: sermon.content && sermon.content.length > 0 
+  const structuredData = {
+    "@context": "https://schema.org",
+    "@type": "Article",
+    "headline": sermon.title,
+    "description": sermon.content && sermon.content.length > 0 
       ? sermon.content[0].children?.[0]?.text?.substring(0, 160) + '...' 
       : `Bible study on ${sermon.passage} - ${sermon.title}`,
-    url: `https://followingchristthrupaul.com/verse-by-verse/${book}/${slug}`,
-    publishedTime: sermon.publishedAt,
-    modifiedTime: sermon._updatedAt || sermon.publishedAt,
-    image: embedUrl ? `https://img.youtube.com/vi/${embedUrl.split('/')[4].split('?')[0]}/hqdefault.jpg` : undefined,
-  });
+    "url": `https://followingchristthrupaul.com/verse-by-verse/${book}/${slug}`,
+    "datePublished": sermon.publishedAt,
+    "dateModified": sermon._updatedAt || sermon.publishedAt,
+    "author": {
+      "@type": "Organization",
+      "name": "Following Christ Thru Paul"
+    },
+    "publisher": {
+      "@type": "Organization",
+      "name": "Following Christ Thru Paul",
+      "logo": {
+        "@type": "ImageObject",
+        "url": "https://pub-8d4c47a32bf5437a90a2ba38a0f85223.r2.dev/FCTP%20Logo.png"
+      }
+    },
+    "mainEntityOfPage": {
+      "@type": "WebPage",
+      "@id": `https://followingchristthrupaul.com/verse-by-verse/${book}/${slug}`
+    }
+  };
 
   return (
     <div className="min-h-screen bg-white text-gray-800">
@@ -347,9 +376,11 @@ export default async function SermonPage({ params }: PageProps) {
 
           {/* Share Button */}
           <section className="mb-12 pb-8 border-b border-gray-200">
-            <div className="flex items-center justify-between">
-              <h3 className="font-heading text-2xl text-gray-900">Share This Study</h3>
-              <ShareButton title={`${sermon.title} - ${sermon.passage}`} />
+            <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+              <h3 className="font-heading text-xl sm:text-2xl text-gray-900">Share This Study</h3>
+              <div className="flex justify-end">
+                <ShareButton title={`${sermon.title} - ${sermon.passage}`} />
+              </div>
             </div>
           </section>
         </article>

@@ -272,9 +272,11 @@ export default async function TopicPage({ params }: TopicPageProps) {
 
           {/* Share Button */}
           <section className="mb-12 pb-8 border-t border-gray-200 pt-8">
-            <div className="flex items-center justify-between">
-              <h3 className="font-heading text-2xl text-gray-900">Share This Topic</h3>
-              <ShareButton title={topic.title} />
+            <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+              <h3 className="font-heading text-xl sm:text-2xl text-gray-900">Share This Topic</h3>
+              <div className="flex justify-end">
+                <ShareButton title={topic.title} />
+              </div>
             </div>
           </section>
         </article>

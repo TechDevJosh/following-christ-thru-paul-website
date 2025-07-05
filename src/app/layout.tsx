@@ -5,7 +5,7 @@ import CookieBanner from "@/components/CookieBanner";
 import SkipLink from "@/components/SkipLink";
 import { Analytics } from '@vercel/analytics/react';
 import Script from 'next/script';
-import { generateStructuredData } from '@/lib/metadata';
+
 
 const inter = Inter({
   subsets: ["latin"],
@@ -70,8 +70,31 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  const websiteStructuredData = generateStructuredData('WebSite', {});
-  const organizationStructuredData = generateStructuredData('Organization', {});
+  const websiteStructuredData = {
+    "@context": "https://schema.org",
+    "@type": "WebSite",
+    "name": "Following Christ Thru Paul",
+    "url": "https://followingchristthrupaul.com",
+    "description": "A KJV Bible-believing ministry for serious Bible study and doctrinal teaching.",
+    "potentialAction": {
+      "@type": "SearchAction",
+      "target": "https://followingchristthrupaul.com/search?q={search_term_string}",
+      "query-input": "required name=search_term_string"
+    }
+  };
+
+  const organizationStructuredData = {
+    "@context": "https://schema.org",
+    "@type": "Organization",
+    "name": "Following Christ Thru Paul",
+    "url": "https://followingchristthrupaul.com",
+    "logo": "https://pub-8d4c47a32bf5437a90a2ba38a0f85223.r2.dev/FCTP%20Logo.png",
+    "description": "A KJV Bible-believing ministry committed to serious Bible study, saintly edification, and sound doctrinal teaching through Pauline dispensational truth.",
+    "sameAs": [
+      "https://facebook.com/FollowingChristThruPaul",
+      "https://www.youtube.com/@FollowingChristThruPaul"
+    ]
+  };
 
   return (
     <html lang="en">
