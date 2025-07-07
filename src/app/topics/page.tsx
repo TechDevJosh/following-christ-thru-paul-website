@@ -46,8 +46,6 @@ export default async function TopicsPage() {
   // Get top 3 salvation messages: most clicked, user preference, latest
   const latestSalvation = allSalvationMessages
     .sort((a, b) => new Date(b.published_at || b.created_at).getTime() - new Date(a.published_at || a.created_at).getTime())[0];
-  const topClicked = allSalvationMessages
-    .sort((a, b) => (b.view_count || 0) - (a.view_count || 0))[0];
   const userPreferred = allSalvationMessages
     .filter(msg => msg.featured)[0] || allSalvationMessages[1]; // fallback to second item
 
