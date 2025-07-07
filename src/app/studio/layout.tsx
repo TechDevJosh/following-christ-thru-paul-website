@@ -49,19 +49,19 @@ export default function StudioLayout({
   }, [searchParams]);
 
   const handleSelectSection = (section: string) => {
-    router.push(`/studio?section=${section}`, { shallow: true });
+    router.push(`/studio?section=${section}`);
   };
 
   const handleSelectItem = (id: string) => {
     const params = new URLSearchParams(searchParams);
     params.set('item', id);
-    router.push(`/studio?${params.toString()}`, { shallow: true });
+    router.push(`/studio?${params.toString()}`);
   };
 
   const handleCreateNew = () => {
     const params = new URLSearchParams(searchParams);
     params.set('item', 'new');
-    router.push(`/studio?${params.toString()}`, { shallow: true });
+    router.push(`/studio?${params.toString()}`);
   };
 
   const loadSectionItems = async (section: string) => {
@@ -213,7 +213,7 @@ export default function StudioLayout({
         
         const params = new URLSearchParams(searchParams);
         params.set('item', data.id);
-        router.push(`/studio?${params.toString()}`, { shallow: true });
+        router.push(`/studio?${params.toString()}`);
       } else {
         const { error } = await supabase
           .from(tableName)
