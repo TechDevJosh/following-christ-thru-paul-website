@@ -10,20 +10,19 @@ interface AskPageProps {
 }
 
 // Define the query to get a specific Q&A
-const ASK_QUERY = `*[_type == "ask" && slug.current == $slug][0]{
-  _id,
-  question,
-  answer,
-  slug,
-  publishedAt,
-  _createdAt
-}`;
+
 
 export async function generateMetadata({ params }: AskPageProps): Promise<Metadata> {
   try {
     const resolvedParams = await params;
     const { slug } = resolvedParams;
-    const qa = await client.fetch(ASK_QUERY, { slug: slug });
+    const { data: qa, error } = await supabase
+      .from('ask')
+      .select('question, answer, slug, published_at, created_at')
+      .eq('slug', slug)
+      .single();
+
+    if (error) throw error;
     
     if (!qa) {
       return {
@@ -50,7 +49,14 @@ export default async function AskPage({ params }: AskPageProps) {
   let qa;
   
   try {
-    qa = await client.fetch(ASK_QUERY, { slug: slug });
+    const { data, error } = await supabase
+      .from('ask')
+      .select('question, answer, slug, published_at, created_at')
+      .eq('slug', slug)
+      .single();
+
+    if (error) throw error;
+    qa = data;
   } catch (error) {
     console.error('Error fetching Q&A:', error);
   }
