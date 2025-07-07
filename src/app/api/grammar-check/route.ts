@@ -1,5 +1,5 @@
 import { NextResponse } from 'next/server';
-import { supabase } from '../../../lib/supabase';
+import { supabase } from '../../../../lib/supabase';
 
 // Simple grammar and style checker using built-in rules
 // This replaces Harper with a custom implementation
