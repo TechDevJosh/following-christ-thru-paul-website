@@ -314,7 +314,7 @@ export default function StudioLayout({
                     title={selectedItem === 'new' ? `New ${getSectionTitle(selectedSection).slice(0, -1)}` : 'Edit Document'}
                     fields={getEditorFields(selectedSection)}
                     data={editorData}
-                    onChange={(field, value) => setEditorData(prev => ({ ...prev, [field]: value }))}
+                    onChange={(field, value) => setEditorData((prev: any) => ({ ...prev, [field]: value }))}
                     onSave={handleSave}
                     saving={saving}
                     isDraft={selectedItem === 'new'}
