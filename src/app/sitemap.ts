@@ -84,62 +84,54 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
 
   try {
     // Dynamic sermon pages
-    const sermonsQuery = `*[_type == "verseByVerse" && defined(slug.current)]{
-      "slug": slug.current,
-      book,
-      publishedAt,
-      _updatedAt
-    }`;
-    const sermons = await client.fetch(sermonsQuery);
+    const { data: sermons, error: sermonsError } = await supabase
+      .from('verse_by_verse')
+      .select('slug, book, published_at, updated_at');
+    if (sermonsError) throw sermonsError;
     
-    const sermonPages = sermons.map((sermon: any) => ({
+    const sermonPages = (sermons || []).map((sermon: any) => ({
       url: `${baseUrl}/verse-by-verse/${sermon.book}/${sermon.slug}`,
-      lastModified: new Date(sermon._updatedAt || sermon.publishedAt),
+      lastModified: new Date(sermon.updated_at || sermon.published_at),
       changeFrequency: 'monthly' as const,
       priority: 0.8,
     }));
 
     // Dynamic topic pages
-    const topicsQuery = `*[_type == "topics" && defined(slug.current)]{
-      "slug": slug.current,
-      publishedAt,
-      _updatedAt
-    }`;
-    const topics = await client.fetch(topicsQuery);
+    const { data: topics, error: topicsError } = await supabase
+      .from('topics')
+      .select('slug, published_at, updated_at');
+    if (topicsError) throw topicsError;
     
-    const topicPages = topics.map((topic: any) => ({
+    const topicPages = (topics || []).map((topic: any) => ({
       url: `${baseUrl}/topics/${topic.slug}`,
-      lastModified: new Date(topic._updatedAt || topic.publishedAt),
+      lastModified: new Date(topic.updated_at || topic.published_at),
       changeFrequency: 'monthly' as const,
       priority: 0.7,
     }));
 
     // Dynamic resource pages
-    const resourcesQuery = `*[_type == "resources" && defined(slug.current)]{
-      "slug": slug.current,
-      publishedAt,
-      _updatedAt
-    }`;
-    const resources = await client.fetch(resourcesQuery);
+    const { data: resources, error: resourcesError } = await supabase
+      .from('resources')
+      .select('slug, published_at, updated_at');
+    if (resourcesError) throw resourcesError;
     
-    const resourcePages = resources.map((resource: any) => ({
+    const resourcePages = (resources || []).map((resource: any) => ({
       url: `${baseUrl}/resources/${resource.slug}`,
-      lastModified: new Date(resource._updatedAt || resource.publishedAt),
+      lastModified: new Date(resource.updated_at || resource.published_at),
       changeFrequency: 'monthly' as const,
       priority: 0.6,
     }));
 
     // Dynamic Q&A pages
-    const askQuery = `*[_type == "ask" && defined(slug.current) && status == "published"]{
-      "slug": slug.current,
-      publishedAt,
-      _updatedAt
-    }`;
-    const askPages = await client.fetch(askQuery);
+    const { data: askPages, error: askError } = await supabase
+      .from('ask')
+      .select('slug, published_at, updated_at')
+      .eq('status', 'published');
+    if (askError) throw askError;
     
-    const qaPages = askPages.map((qa: any) => ({
+    const qaPages = (askPages || []).map((qa: any) => ({
       url: `${baseUrl}/ask/${qa.slug}`,
-      lastModified: new Date(qa._updatedAt || qa.publishedAt),
+      lastModified: new Date(qa.updated_at || qa.published_at),
       changeFrequency: 'monthly' as const,
       priority: 0.5,
     }));
