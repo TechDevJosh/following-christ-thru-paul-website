@@ -303,7 +303,7 @@ export default function StudioLayout({
                     items={formatItemsForList(items, selectedSection)}
                     onCreateNew={handleCreateNew}
                     onSelectItem={handleSelectItem}
-                    selectedItemId={selectedItem}
+                    selectedItemId={selectedItem as string | undefined}
                     loading={loading}
                   />
                 )
