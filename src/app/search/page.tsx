@@ -29,48 +29,90 @@ export default async function SearchResultsPage({ searchParams }: SearchPageProp
     );
   }
 
-  const groqQuery = `{
-    "verseByVerse": *[_type == "verseByVerse" && (title match $query || passage match $query || content[].children[].text match $query || $query in tags)]{
-      _id,
-      _type,
-      title,
-      "slug": slug.current,
-      "book": book,
-      "excerpt": pt::text(content[0])
-    },
-    "topics": *[_type == "topics" && (title match $query || content[].children[].text match $query || $query in tags)]{
-      _id,
-      _type,
-      title,
-      "slug": slug.current,
-      "excerpt": pt::text(content[0])
-    },
-    "resources": *[_type == "resources" && (title match $query || description match $query || $query in tags)]{
-      _id,
-      _type,
-      title,
-      "slug": slug.current,
-      "excerpt": description
-    },
-    "ask": *[_type == "ask" && (question match $query || answer match $query || $query in tags)]{
-      _id,
-      _type,
-      "title": question,
-      "slug": slug.current,
-      "excerpt": answer
-    },
-    "conferences": *[_type == "conferences" && (title match $query || description match $query || $query in tags)]{
-      _id,
-      _type,
-      title,
-      "slug": slug.current,
-      "excerpt": description
-    }
-  }`;
+  const searchResults: SearchResult[] = [];
 
-  const results = await (client as any).fetch(groqQuery, { query: `*${query}*` });
+  // Search in verse_by_verse table
+  const { data: verseByVerseData, error: verseByVerseError } = await supabase
+    .from('verse_by_verse')
+    .select('id, title, passage, book, slug')
+    .or(`title.ilike.%${query}%,passage.ilike.%${query}%`);
+  if (verseByVerseError) console.error('Error fetching verseByVerse:', verseByVerseError);
+  if (verseByVerseData) {
+    searchResults.push(...verseByVerseData.map(item => ({
+      _id: item.id,
+      _type: 'verseByVerse',
+      title: item.title,
+      slug: item.slug,
+      book: item.book,
+      excerpt: item.passage,
+    })));
+  }
 
-  const flattenedResults: SearchResult[] = Object.values(results).flat() as SearchResult[];
+  // Search in topics table
+  const { data: topicsData, error: topicsError } = await supabase
+    .from('topics')
+    .select('id, title, slug, description')
+    .ilike('title', `%${query}%`);
+  if (topicsError) console.error('Error fetching topics:', topicsError);
+  if (topicsData) {
+    searchResults.push(...topicsData.map(item => ({
+      _id: item.id,
+      _type: 'topics',
+      title: item.title,
+      slug: item.slug,
+      excerpt: item.description,
+    })));
+  }
+
+  // Search in resources table
+  const { data: resourcesData, error: resourcesError } = await supabase
+    .from('resources')
+    .select('id, title, description, slug')
+    .or(`title.ilike.%${query}%,description.ilike.%${query}%`);
+  if (resourcesError) console.error('Error fetching resources:', resourcesError);
+  if (resourcesData) {
+    searchResults.push(...resourcesData.map(item => ({
+      _id: item.id,
+      _type: 'resources',
+      title: item.title,
+      slug: item.slug,
+      excerpt: item.description,
+    })));
+  }
+
+  // Search in ask table
+  const { data: askData, error: askError } = await supabase
+    .from('ask')
+    .select('id, question, answer, slug')
+    .ilike('question', `%${query}%`);
+  if (askError) console.error('Error fetching ask:', askError);
+  if (askData) {
+    searchResults.push(...askData.map(item => ({
+      _id: item.id,
+      _type: 'ask',
+      title: item.question,
+      slug: item.slug,
+      excerpt: item.answer,
+    })));
+  }
+
+  // Search in conferences table
+  const { data: conferencesData, error: conferencesError } = await supabase
+    .from('conferences')
+    .select('id, title, description, slug')
+    .or(`title.ilike.%${query}%,description.ilike.%${query}%`);
+  if (conferencesError) console.error('Error fetching conferences:', conferencesError);
+  if (conferencesData) {
+    searchResults.push(...conferencesData.map(item => ({
+      _id: item.id,
+      _type: 'conferences',
+      title: item.title,
+      slug: item.slug,
+      excerpt: item.description,
+    })));
+  }
+
+  const flattenedResults: SearchResult[] = searchResults;
 
   const getResultLink = (result: SearchResult) => {
     switch (result._type) {
