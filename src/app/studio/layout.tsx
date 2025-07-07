@@ -318,7 +318,7 @@ export default function StudioLayout({
                     onSave={handleSave}
                     saving={saving}
                     isDraft={selectedItem === 'new'}
-                    documentId={selectedItem !== 'new' ? selectedItem : null}
+                    documentId={selectedItem !== 'new' ? (selectedItem as string | undefined) : null}
                     schemaName={selectedSection}
                   />
                 ) : undefined
