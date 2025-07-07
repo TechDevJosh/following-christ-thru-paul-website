@@ -47,6 +47,7 @@ export default async function ResourcePage({ params }: ResourcePageProps) {
   let resource;
   
   try {
+    const { slug } = resolvedParams;
     const { data: resource, error } = await supabase
       .from('resources')
       .select('title, description, content, slug, published_at, created_at')
