@@ -261,7 +261,7 @@ export default function StudioLayout({
         <StudioSidebar 
           onCreateNew={() => {}}
           onSelectItem={handleSelectSection}
-          selectedItem={selectedSection}
+          selectedItem={selectedSection as string | undefined}
           onSearch={(query) => {
             // Implement search functionality
             if (query.trim()) {
