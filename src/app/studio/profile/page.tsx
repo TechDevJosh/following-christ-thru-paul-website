@@ -67,9 +67,8 @@ export default function ProfilePage() {
   };
 
   if (loading) {
-    return (
-      <p>Loading...</p>
-    );
+    return <p>Loading...</p>;
+  }
 
   return (
     <div className=\"flex-1 bg-[#222] overflow-y-auto\">
