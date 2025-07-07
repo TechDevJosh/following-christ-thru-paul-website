@@ -158,9 +158,9 @@ export default async function AskPage({ params }: AskPageProps) {
               {qa.question}
             </h1>
             <div className="text-sm text-gray-500 mb-8">
-              Answered: {qa.publishedAt ? 
-                new Date(qa.publishedAt).toLocaleDateString() : 
-                new Date(qa._createdAt).toLocaleDateString()
+              Answered: {qa.published_at ? 
+                new Date(qa.published_at).toLocaleDateString() : 
+                new Date(qa.created_at).toLocaleDateString()
               }
             </div>
           </header>
