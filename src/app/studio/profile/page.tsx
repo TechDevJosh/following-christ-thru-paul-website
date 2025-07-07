@@ -60,7 +60,7 @@ export default function ProfilePage() {
 
       if (error) throw error;
       
-      setProfile(prev => ({ ...prev, ...formData }));
+      setProfile((prev: any) => ({ ...prev, ...formData }));
     } catch (error) {
       console.error('Error updating profile:', error);
     } finally {
