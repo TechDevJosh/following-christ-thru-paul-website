@@ -16,13 +16,19 @@ export default function LoginPage() {
     setLoading(true);
     setError('');
 
+    console.log('Attempting login with:', { email, password: '********' });
     try {
       const { error } = await supabase.auth.signInWithPassword({
         email,
         password,
       });
 
-      if (error) throw error;
+      if (error) {
+        console.error('Supabase login error:', error);
+        throw error;
+      }
+
+      console.log('Login successful, redirecting...');
 
       router.push('/studio');
     } catch (error: any) {

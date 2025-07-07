@@ -68,11 +68,8 @@ export default function ProfilePage() {
 
   if (loading) {
     return (
-      <div className=\"flex-1 bg-[#222] flex items-center justify-center\">
-        <div className=\"animate-spin rounded-full h-8 w-8 border-b-2 border-[#2EA3F2]\"></div>
-      </div>
+      <p>Loading...</p>
     );
-  }
 
   return (
     <div className=\"flex-1 bg-[#222] overflow-y-auto\">

@@ -4,7 +4,7 @@ import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import AuthGuard from '../../components/AuthGuard';
 import { supabase } from '../../../../../lib/supabase';
-import SimpleGrammarChecker from '../../../../components/SimpleGrammarChecker';
+import GrammarChecker from '../../../../components/GrammarChecker';
 
 export default function NewResourcePage() {
   const [formData, setFormData] = useState({
@@ -132,7 +132,7 @@ export default function NewResourcePage() {
                   <span className="text-xs text-green-600 ml-2">Grammar checking enabled</span>
                 </label>
                 <div className="mt-1">
-                  <SimpleGrammarChecker
+                  <GrammarChecker
                     text={formData.description}
                     onTextChange={(description) => setFormData({...formData, description})}
                     placeholder="Brief description of the resource... Grammar checking will analyze your text automatically."
@@ -146,7 +146,7 @@ export default function NewResourcePage() {
                   <span className="text-xs text-green-600 ml-2">Grammar checking enabled</span>
                 </label>
                 <div className="mt-1">
-                  <SimpleGrammarChecker
+                  <GrammarChecker
                     text={formData.content}
                     onTextChange={(content) => setFormData({...formData, content})}
                     placeholder="Detailed content about the resource... Grammar checking will analyze your text automatically."

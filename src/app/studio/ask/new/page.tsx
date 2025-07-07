@@ -4,7 +4,7 @@ import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import AuthGuard from '../../components/AuthGuard';
 import { supabase } from '../../../../../lib/supabase';
-import SimpleGrammarChecker from '../../../../components/SimpleGrammarChecker';
+import GrammarChecker from '../../../../components/GrammarChecker';
 
 export default function NewAskPage() {
   const [formData, setFormData] = useState({
@@ -77,7 +77,7 @@ export default function NewAskPage() {
                   <span className="text-xs text-green-600 ml-2">Grammar checking enabled</span>
                 </label>
                 <div className="mt-1">
-                  <SimpleGrammarChecker
+                  <GrammarChecker
                     text={formData.question}
                     onTextChange={(question) => setFormData({...formData, question})}
                     placeholder="Enter the question... Grammar checking will analyze your text automatically."
@@ -121,7 +121,7 @@ export default function NewAskPage() {
                   <span className="text-xs text-green-600 ml-2">Grammar checking enabled</span>
                 </label>
                 <div className="mt-1">
-                  <SimpleGrammarChecker
+                  <GrammarChecker
                     text={formData.short_answer}
                     onTextChange={(short_answer) => setFormData({...formData, short_answer})}
                     placeholder="Brief answer summary... Grammar checking will analyze your text automatically."
@@ -135,7 +135,7 @@ export default function NewAskPage() {
                   <span className="text-xs text-green-600 ml-2">Grammar checking enabled</span>
                 </label>
                 <div className="mt-1">
-                  <SimpleGrammarChecker
+                  <GrammarChecker
                     text={formData.detailed_answer}
                     onTextChange={(detailed_answer) => setFormData({...formData, detailed_answer})}
                     placeholder="Comprehensive answer with biblical references... Grammar checking will analyze your text automatically."
