@@ -1,15 +1,16 @@
 "use client";
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import Navbar from '@/components/Navbar';
+import { supabase } from '@/lib/supabase';
 
 interface FAQ {
   id: string;
   question: string;
   answer: string;
   tags: string[];
-  publishedAt: string;
+  published_at: string;
 }
 
 export default function AskPage() {
@@ -21,31 +22,31 @@ export default function AskPage() {
   });
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitStatus, setSubmitStatus] = useState<'idle' | 'success' | 'error'>('idle');
+  const [faqs, setFaqs] = useState<FAQ[]>([]);
+  const [loadingFaqs, setLoadingFaqs] = useState(true);
 
-  // Sample FAQ data - will be replaced with Sanity CMS data
-  const faqs: FAQ[] = [
-    {
-      id: "1",
-      question: "What is the difference between the gospel of the kingdom and the gospel of grace?",
-      answer: "The gospel of the kingdom was preached to Israel, promising the establishment of the Messianic kingdom on earth. The gospel of grace, revealed through Paul, is the good news of salvation by faith alone through Christ's finished work, apart from works or law-keeping.",
-      tags: ["Gospel", "Kingdom", "Grace", "Dispensations"],
-      publishedAt: "2024-01-15"
-    },
-    {
-      id: "2",
-      question: "How do we rightly divide the word of truth?",
-      answer: "Rightly dividing (2 Timothy 2:15) means recognizing God's different dispensational programs. We must distinguish between what was written TO us versus what was written FOR us, understanding the progressive revelation of God's plan.",
-      tags: ["Rightly Dividing", "Dispensations", "Scripture"],
-      publishedAt: "2024-01-10"
-    },
-    {
-      id: "3",
-      question: "Is water baptism required for salvation today?",
-      answer: "Under Paul's gospel of grace, water baptism is not required for salvation. We are baptized by the Holy Spirit into the body of Christ (1 Cor 12:13). Water baptism was part of the kingdom program but is not essential under grace.",
-      tags: ["Baptism", "Salvation", "Grace", "Paul"],
-      publishedAt: "2024-01-05"
-    }
-  ];
+  useEffect(() => {
+    const fetchFaqs = async () => {
+      try {
+        const { data, error } = await supabase
+          .from('ask')
+          .select('id, question, answer, tags, published_at')
+          .eq('status', 'published')
+          .eq('featured', true) // Assuming you want featured FAQs
+          .order('published_at', { ascending: false })
+          .limit(3); // Limit to 3 FAQs
+
+        if (error) throw error;
+        setFaqs(data || []);
+      } catch (error) {
+        console.error('Error fetching FAQs:', error);
+      } finally {
+        setLoadingFaqs(false);
+      }
+    };
+
+    fetchFaqs();
+  }, []);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -215,37 +216,43 @@ export default function AskPage() {
           <div>
             <h2 className="font-heading text-3xl text-gray-900 mb-8">Frequently Asked Questions</h2>
             
-            <div className="space-y-6">
-              {faqs.map((faq) => (
-                <div key={faq.id} className="card-elevated p-6">
-                  <h3 className="font-subheading text-xl text-gray-900 mb-3">
-                    {faq.question}
-                  </h3>
-                  <p className="font-body text-gray-700 leading-relaxed mb-4">
-                    {faq.answer}
-                  </p>
-                  
-                  <div className="flex flex-wrap gap-2 mb-3">
-                    {faq.tags.map(tag => (
-                      <span 
-                        key={tag} 
-                        className="inline-flex items-center px-3 py-1 rounded-full bg-gray-100 text-gray-700 font-body font-medium text-xs"
-                      >
-                        {tag}
-                      </span>
-                    ))}
+            {loadingFaqs ? (
+              <p className="text-center text-gray-600">Loading FAQs...</p>
+            ) : faqs.length > 0 ? (
+              <div className="space-y-6">
+                {faqs.map((faq) => (
+                  <div key={faq.id} className="card-elevated p-6">
+                    <h3 className="font-subheading text-xl text-gray-900 mb-3">
+                      {faq.question}
+                    </h3>
+                    <p className="font-body text-gray-700 leading-relaxed mb-4">
+                      {faq.answer}
+                    </p>
+                    
+                    <div className="flex flex-wrap gap-2 mb-3">
+                      {faq.tags.map(tag => (
+                        <span 
+                          key={tag} 
+                          className="inline-flex items-center px-3 py-1 rounded-full bg-gray-100 text-gray-700 font-body font-medium text-xs"
+                        >
+                          {tag}
+                        </span>
+                      ))}
+                    </div>
+                    
+                    <time className="font-body text-sm text-gray-500">
+                      {new Date(faq.published_at).toLocaleDateString('en-US', {
+                        year: 'numeric',
+                        month: 'long',
+                        day: 'numeric'
+                      })}
+                    </time>
                   </div>
-                  
-                  <time className="font-body text-sm text-gray-500">
-                    {new Date(faq.publishedAt).toLocaleDateString('en-US', {
-                      year: 'numeric',
-                      month: 'long',
-                      day: 'numeric'
-                    })}
-                  </time>
-                </div>
-              ))}
-            </div>
+                ))}
+              </div>
+            ) : (
+              <p className="text-center text-gray-600">No FAQs available at the moment.</p>
+            )}
 
             <div className="mt-8 text-center">
               <Link 

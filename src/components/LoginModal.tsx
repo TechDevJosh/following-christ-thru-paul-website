@@ -38,18 +38,22 @@ export default function LoginModal({ isOpen, onClose }: LoginModalProps) {
     setError('');
 
     try {
-      // Check credentials
-      if (email === 'PreacherJosiah' && password === 'fctp2025') {
-        // Successful authentication
-        window.open('/studio', '_blank');
-        onClose();
-        // Reset form
-        setEmail('');
-        setPassword('');
-      } else {
-        setError('Invalid username or password. Please try again.');
+      const { error: signInError } = await supabase.auth.signInWithPassword({
+        email,
+        password,
+      });
+
+      if (signInError) {
+        setError(signInError.message);
+        return;
       }
+
+      window.open('/studio', '_blank');
+      onClose();
+      setEmail('');
+      setPassword('');
     } catch (err) {
+      console.error('Login failed:', err);
       setError('Login failed. Please try again.');
     } finally {
       setIsLoading(false);

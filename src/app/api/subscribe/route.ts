@@ -3,18 +3,11 @@ import { sendMail } from '../../../lib/sendMail';
 
 export async function POST(request: NextRequest) {
   try {
-    const { name, email, message } = await request.json();
+    const { fullName, email } = await request.json();
 
-    if (!name || !email || !message) {
+    if (!fullName || !email) {
       return NextResponse.json(
-        { error: 'All fields are required' },
-        { status: 400 }
-      );
-    }
-
-    if (message.length < 10) {
-      return NextResponse.json(
-        { error: 'Message must be at least 10 characters long' },
+        { error: 'Full name and email are required' },
         { status: 400 }
       );
     }
@@ -29,11 +22,11 @@ export async function POST(request: NextRequest) {
     }
 
     await sendMail({
-      name,
+      name: fullName,
       email,
-      message,
-      to: 'report@followingchristthrupaul.com',
-      subject: 'Website Issue Report - FCTP',
+      message: `New newsletter subscription from ${fullName} (${email}).`,
+      to: 'newsletter@followingchristthrupaul.com',
+      subject: 'New Newsletter Subscription - FCTP Website',
     });
 
     return NextResponse.json(
@@ -47,9 +40,9 @@ export async function POST(request: NextRequest) {
       }
     );
   } catch (error) {
-    console.error('Report form error:', error);
+    console.error('Newsletter form error:', error);
     return NextResponse.json(
-      { error: 'Failed to send message. Please try again.' },
+      { error: 'Failed to subscribe. Please try again.' },
       { status: 500 }
     );
   }

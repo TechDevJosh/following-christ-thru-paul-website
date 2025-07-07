@@ -15,7 +15,10 @@ export async function POST(request: NextRequest) {
     // Check if SMTP credentials are configured
     if (!process.env.SMTP_USER || !process.env.SMTP_PASS) {
       console.error('SMTP credentials not configured');
-      return NextResponse.json({ status: 'success' }, { status: 200 });
+      return NextResponse.json(
+        { error: 'Email service not configured. Please contact administrator.' },
+        { status: 500 }
+      );
     }
 
     await sendMail({
@@ -38,6 +41,6 @@ export async function POST(request: NextRequest) {
     );
   } catch (error) {
     console.error('School form error:', error);
-    return NextResponse.json({ status: 'success' }, { status: 200 });
+    return NextResponse.json({ error: 'Failed to send registration' }, { status: 500 });
   }
 }

@@ -13,6 +13,7 @@ interface VerseByVerseEntry {
   published_at?: string;
   created_at: string;
   youtube_url?: string;
+  seo_description?: string;
 }
 
 interface VerseByVerseClientProps {

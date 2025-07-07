@@ -38,6 +38,6 @@ export async function POST(request: NextRequest) {
     );
   } catch (error) {
     console.error('Ask form error:', error);
-    return NextResponse.json({ status: 'success' }, { status: 200 });
+    return NextResponse.json({ error: 'Failed to send message' }, { status: 500 });
   }
 }
