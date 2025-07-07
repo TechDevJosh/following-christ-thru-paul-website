@@ -23,6 +23,7 @@ export default function ProfilePage() {
   }, [user]);
 
   const fetchProfile = async () => {
+    if (!user) return; // Add this check
     try {
       const { data, error } = await supabase
         .from('profiles')
@@ -47,6 +48,7 @@ export default function ProfilePage() {
 
   const handleSave = async () => {
     setSaving(true);
+    if (!user) return; // Add this check
     try {
       const { error } = await supabase
         .from('profiles')
