@@ -44,16 +44,7 @@ export default function TopicsClient({ topics }: TopicsClientProps) {
             <div className="aspect-video w-full bg-gray-100 relative">
               <img
                 data-topic-id={topic.id}
-                src={(() => {
-                  const url = topic.youtube_url;
-                  let videoId = '';
-                  if (url.includes('youtube.com/watch?v=')) {
-                    videoId = url.split('watch?v=')[1]?.split('&')[0] || '';
-                  } else if (url.includes('youtu.be/')) {
-                    videoId = url.split('youtu.be/')[1]?.split('?')[0] || '';
-                  }
-                  return videoId ? `https://img.youtube.com/vi/${videoId}/maxresdefault.jpg` : '';
-                })()}
+                src={topic.youtube_url ? `https://img.youtube.com/vi/${topic.youtube_url.split('v=')[1]?.split('&')[0]}/maxresdefault.jpg` : ''}
                 alt={topic.title}
                 className="w-full h-full object-cover"
                 onError={() => {

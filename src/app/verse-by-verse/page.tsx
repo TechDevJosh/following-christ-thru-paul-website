@@ -87,9 +87,11 @@ export default async function VerseByVersePage() {
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 mb-12">
             <div className="lg:col-span-2">
               <div className="flex items-center space-x-3 mb-4">
-                <img
+                <Image
                   src="https://pub-8d4c47a32bf5437a90a2ba38a0f85223.r2.dev/FCTP%20Logo.png"
                   alt="FCTP Logo"
+                  width={40}
+                  height={40}
                   className="h-10 w-10 rounded-full"
                 />
                 <h3 className="font-heading text-2xl text-white">

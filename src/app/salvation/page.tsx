@@ -14,6 +14,8 @@ interface Topic {
   slug: string;
   youtube_url?: string;
   published_at: string;
+  content?: string;
+  series?: string;
 }
 
 export async function generateMetadata() {
@@ -44,8 +46,8 @@ export default async function SalvationPage() {
         title="Salvation Messages"
         description="A collection of sermons focused on the topic of salvation."
         author="Following Christ Thru Paul Ministry"
-        publishedDate={new Date().toISOString()}
-        modifiedDate={new Date().toISOString()}
+        publishedDate={messages[0]?.published_at || new Date().toISOString()}
+        modifiedDate={messages[0]?.updated_at || new Date().toISOString()}
         imageUrl="https://pub-8d4c47a32bf5437a90a2ba38a0f85223.r2.dev/FCTP%20Logo.png"
       />
       <header role="banner">
@@ -71,16 +73,7 @@ export default async function SalvationPage() {
                 <div className="w-1/2">
                   <div className="aspect-video bg-gray-100 relative">
                     <img
-                      src={(() => {
-                        const url = topic.youtube_url;
-                        let videoId = '';
-                        if (url.includes('youtube.com/watch?v=')) {
-                          videoId = url.split('watch?v=')[1]?.split('&')[0] || '';
-                        } else if (url.includes('youtu.be/')) {
-                          videoId = url.split('youtu.be/')[1]?.split('?')[0] || '';
-                        }
-                        return videoId ? `https://img.youtube.com/vi/${videoId}/maxresdefault.jpg` : '';
-                      })()}
+                      src={topic.youtube_url ? `https://img.youtube.com/vi/${topic.youtube_url.split('v=')[1]?.split('&')[0]}/maxresdefault.jpg` : ''}
                       alt={topic.title}
                       className="w-full h-full object-cover"
                     />

@@ -23,8 +23,8 @@ interface Sermon {
     url: string;
   }[];
   tags: string[];
-  publishedAt: string;
-  _updatedAt?: string;
+  published_at: string;
+  updated_at?: string;
 }
 
 interface PageProps {

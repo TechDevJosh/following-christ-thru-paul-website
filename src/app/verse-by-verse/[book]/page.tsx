@@ -6,11 +6,13 @@ import Navbar from '@/components/Navbar';
 interface Sermon {
   id: string;
   title: string;
-  description: string;
-  seo_description?: string;
+  book: string;
+  passage?: string;
   slug: string;
   youtube_url?: string;
   published_at: string;
+  seo_description?: string;
+  description?: string;
 }
 
 interface BookPageProps {
@@ -61,16 +63,7 @@ export default async function BookPage({ params }: BookPageProps) {
                 <div className="w-1/2">
                   <div className="aspect-video bg-gray-100 relative">
                     <img
-                      src={(() => {
-                        const url = sermon.youtube_url;
-                        let videoId = '';
-                        if (url.includes('youtube.com/watch?v=')) {
-                          videoId = url.split('watch?v=')[1]?.split('&')[0] || '';
-                        } else if (url.includes('youtu.be/')) {
-                          videoId = url.split('youtu.be/')[1]?.split('?')[0] || '';
-                        }
-                        return videoId ? `https://img.youtube.com/vi/${videoId}/maxresdefault.jpg` : '';
-                      })()}
+                      src={sermon.youtube_url ? `https://img.youtube.com/vi/${sermon.youtube_url.split('v=')[1]?.split('&')[0]}/maxresdefault.jpg` : ''}
                       alt={sermon.title}
                       className="w-full h-full object-cover"
                     />
