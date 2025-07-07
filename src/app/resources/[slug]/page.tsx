@@ -2,6 +2,15 @@ import { Metadata } from 'next';
 import Link from 'next/link';
 import { supabase } from '@/lib/supabase';
 
+interface Resource {
+  title: string;
+  description: string | null;
+  content: string | null;
+  slug: string;
+  published_at: string | null;
+  created_at: string;
+}
+
 interface ResourcePageProps {
   params: Promise<{
     slug: string;
@@ -44,17 +53,18 @@ export async function generateMetadata({ params }: ResourcePageProps): Promise<M
 
 export default async function ResourcePage({ params }: ResourcePageProps) {
   const resolvedParams = await params;
-  let resource;
+  let resource: Resource | null = null;
   
   try {
     const { slug } = resolvedParams;
-    const { data: resource, error } = await supabase
+    const { data, error } = await supabase
       .from('resources')
       .select('title, description, content, slug, published_at, created_at')
       .eq('slug', slug)
       .single();
 
     if (error) throw error;
+    resource = data; // Assign to the outer resource variable
   } catch (error) {
     console.error('Error fetching resource:', error);
   }
