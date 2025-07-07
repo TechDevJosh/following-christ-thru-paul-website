@@ -9,21 +9,19 @@ interface ResourcePageProps {
 }
 
 // Define the query to get a specific resource
-const RESOURCE_QUERY = `*[_type == "resources" && slug.current == $slug][0]{
-  _id,
-  title,
-  description,
-  content,
-  slug,
-  publishedAt,
-  _createdAt
-}`;
+
 
 export async function generateMetadata({ params }: ResourcePageProps): Promise<Metadata> {
   try {
     const resolvedParams = await params;
     const { slug } = resolvedParams;
-    const resource = await client.fetch(RESOURCE_QUERY, { slug: slug });
+    const { data: resource, error } = await supabase
+      .from('resources')
+      .select('title, description, content, slug, published_at, created_at')
+      .eq('slug', slug)
+      .single();
+
+    if (error) throw error;
     
     if (!resource) {
       return {
@@ -49,7 +47,13 @@ export default async function ResourcePage({ params }: ResourcePageProps) {
   let resource;
   
   try {
-    resource = await client.fetch(RESOURCE_QUERY, { slug: resolvedParams.slug });
+    const { data: resource, error } = await supabase
+      .from('resources')
+      .select('title, description, content, slug, published_at, created_at')
+      .eq('slug', slug)
+      .single();
+
+    if (error) throw error;
   } catch (error) {
     console.error('Error fetching resource:', error);
   }
@@ -152,9 +156,9 @@ export default async function ResourcePage({ params }: ResourcePageProps) {
               </p>
             )}
             <div className="mt-6 text-sm text-gray-500">
-              Published: {resource.publishedAt ? 
-                new Date(resource.publishedAt).toLocaleDateString() : 
-                new Date(resource._createdAt).toLocaleDateString()
+              Published: {resource.published_at ? 
+                new Date(resource.published_at).toLocaleDateString() : 
+                new Date(resource.created_at).toLocaleDateString()
               }
             </div>
           </header>
