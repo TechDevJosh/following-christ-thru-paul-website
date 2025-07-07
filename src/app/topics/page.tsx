@@ -1,119 +1,68 @@
-"use client";
-
 import Link from 'next/link';
-import { client } from '@/sanity/lib/client';
+import { supabase } from '@/lib/supabase';
 import Navbar from '@/components/Navbar';
-import { useEffect, useState } from 'react';
+import TopicsClient from './TopicsClient';
 
 interface Topic {
-  _id: string;
+  id: string;
   title: string;
   description: string;
-  slug: { current: string };
-  sermons?: number;
-  tags?: string[];
-  publishedAt: string;
-  _createdAt: string;
-  youtubeUrl?: string;
-  content?: any[];
-  featuredImage?: any;
+  slug: string;
+  tags?: string;
+  published_at: string;
+  created_at: string;
+  youtube_url?: string;
+  content?: string;
   series?: string;
-  seriesOrder?: number;
+  series_order?: number;
+  featured?: boolean;
 }
 
-const TOPICS_QUERY = `*[_type == "topics"] | order(series asc, seriesOrder asc, publishedAt desc, _createdAt desc) {
-  _id,
-  title,
-  description,
-  slug,
-  tags,
-  publishedAt,
-  _createdAt,
-  youtubeUrl,
-  content,
-  featuredImage,
-  series,
-  seriesOrder
-}`;
+// Supabase query will be done in the component
 
-export default function TopicsPage() {
-  const [topics, setTopics] = useState<Topic[]>([]);
-  const [loading, setLoading] = useState(true);
+export default async function TopicsPage() {
+  let topics: Topic[] = [];
   
-  useEffect(() => {
-    async function fetchTopics() {
-      try {
-        const fetchedTopics = await client.fetch(TOPICS_QUERY);
-        setTopics(fetchedTopics);
-      } catch (error) {
-        console.error('Error fetching topics:', error);
-      } finally {
-        setLoading(false);
-      }
-    }
+  try {
+    const { data, error } = await supabase
+      .from('topics')
+      .select('*')
+      .order('series', { ascending: true })
+      .order('series_order', { ascending: true })
+      .order('published_at', { ascending: false });
     
-    fetchTopics();
-  }, []);
-
-  // Fallback placeholder data if no topics from Sanity
-  const placeholderTopics: Topic[] = [
-    {
-      _id: "1",
-      title: "Salvation by Grace",
-      description: "Understanding God's grace in salvation through Paul's epistles, exploring the distinction between law and grace.",
-      slug: { current: "salvation-by-grace" },
-      sermons: 8,
-      tags: ["Grace", "Salvation", "Justification"],
-      publishedAt: "2024-01-15",
-      _createdAt: "2024-01-15"
-    },
-    {
-      _id: "2", 
-      title: "The Mystery of the Church",
-      description: "Paul's revelation of the church as the body of Christ, distinct from Israel and the kingdom program.",
-      slug: { current: "mystery-of-the-church" },
-      sermons: 12,
-      tags: ["Church", "Mystery", "Body of Christ"],
-      publishedAt: "2024-01-10",
-      _createdAt: "2024-01-10"
-    },
-    {
-      _id: "3",
-      title: "Dispensational Truth",
-      description: "Rightly dividing the word of truth according to God's dispensational program throughout history.",
-      slug: { current: "dispensational-truth" },
-      sermons: 15,
-      tags: ["Dispensations", "Rightly Dividing", "Truth"],
-      publishedAt: "2024-01-05",
-      _createdAt: "2024-01-05"
-    },
-    {
-      _id: "4",
-      title: "Eternal Security",
-      description: "The believer's eternal security in Christ based on God's grace and the finished work of Christ.",
-      slug: { current: "eternal-security" },
-      sermons: 6,
-      tags: ["Security", "Assurance", "Grace"],
-      publishedAt: "2024-01-01",
-      _createdAt: "2024-01-01"
-    }
-  ];
-
-  const displayTopics = topics.length > 0 ? topics : (loading ? [] : placeholderTopics);
-
-  if (loading) {
-    return (
-      <div className="min-h-screen bg-white text-gray-800">
-        <Navbar />
-        <div className="flex items-center justify-center min-h-[50vh]">
-          <div className="text-center">
-            <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600 mx-auto mb-4"></div>
-            <p className="text-gray-600">Loading topics...</p>
-          </div>
-        </div>
-      </div>
-    );
+    if (error) throw error;
+    topics = data || [];
+  } catch (error) {
+    console.error('Error fetching topics:', error);
   }
+
+
+
+  // Separate Salvation Messages and other topics
+  const allSalvationMessages = topics.filter(topic => topic.series === 'Salvation Messages');
+  const otherTopics = topics.filter(topic => topic.series !== 'Salvation Messages');
+
+  // Get top 3 salvation messages: most clicked, user preference, latest
+  const latestSalvation = allSalvationMessages
+    .sort((a, b) => new Date(b.published_at || b.created_at).getTime() - new Date(a.published_at || a.created_at).getTime())[0];
+  const topClicked = allSalvationMessages
+    .sort((a, b) => (b.view_count || 0) - (a.view_count || 0))[0];
+  const userPreferred = allSalvationMessages
+    .filter(msg => msg.featured)[0] || allSalvationMessages[1]; // fallback to second item
+
+  // Create unique set of 3 salvation messages
+  const salvationMessages = [topClicked, userPreferred, latestSalvation]
+    .filter((msg, index, arr) => msg && arr.findIndex(m => m?.id === msg.id) === index)
+    .slice(0, 3);
+
+  // Group remaining topics by series
+  const groupedTopics = otherTopics.reduce((acc, topic) => {
+    const series = topic.series || 'General';
+    if (!acc[series]) acc[series] = [];
+    acc[series].push(topic);
+    return acc;
+  }, {} as Record<string, Topic[]>);
 
   return (
     <div className="min-h-screen bg-white text-gray-800">
@@ -134,110 +83,77 @@ export default function TopicsPage() {
         </div>
       </section>
 
-      {/* Topics Grid */}
-      <section className="py-20">
-        <div className="container-custom">
-          <div className="grid gap-8 grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
-            {displayTopics.map((topic) => (
-              <article key={topic._id} className="card-elevated p-0 group hover:-translate-y-1 transition-all duration-300 overflow-hidden">
-                {/* YouTube Thumbnail */}
-                {topic.youtubeUrl && (
-                  <div className="aspect-video w-full bg-gray-100 relative">
-                    <img
-                      src={(() => {
-                        const url = topic.youtubeUrl;
-                        let videoId = '';
-                        if (url.includes('youtube.com/watch?v=')) {
-                          videoId = url.split('watch?v=')[1]?.split('&')[0] || '';
-                        } else if (url.includes('youtu.be/')) {
-                          videoId = url.split('youtu.be/')[1]?.split('?')[0] || '';
-                        }
-                        return videoId ? `https://img.youtube.com/vi/${videoId}/maxresdefault.jpg` : '';
-                      })()}
-                      alt={topic.title}
-                      className="w-full h-full object-cover"
-                      onError={(e) => {
-                        const target = e.target as HTMLImageElement;
-                        const url = topic.youtubeUrl;
-                        if (url) {
-                          let videoId = '';
-                          if (url.includes('youtube.com/watch?v=')) {
-                            videoId = url.split('watch?v=')[1]?.split('&')[0] || '';
-                          } else if (url.includes('youtu.be/')) {
-                            videoId = url.split('youtu.be/')[1]?.split('?')[0] || '';
-                          }
-                          target.src = `https://img.youtube.com/vi/${videoId}/hqdefault.jpg`;
-                        }
-                      }}
-                    />
-                    <div className="absolute inset-0 bg-black/20 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
-                      <div className="w-16 h-16 bg-white/90 rounded-full flex items-center justify-center">
-                        <svg className="w-6 h-6 text-red-600 ml-1" fill="currentColor" viewBox="0 0 24 24">
-                          <path d="M8 5v14l11-7z"/>
-                        </svg>
-                      </div>
-                    </div>
-                  </div>
-                )}
-                
-                <div className="p-8">
-                  <div className="mb-6">
-                    <h2 className="font-heading text-2xl text-gray-900 mb-4 group-hover:text-blue-700 transition-colors">
-                      {topic.title}
-                    </h2>
-                    <p className="font-body text-gray-600 leading-relaxed mb-4">
-                      {topic.description && topic.description.length > 150 
-                        ? `${topic.description.substring(0, 150)}...` 
-                        : topic.description}
-                    </p>
-                  </div>
-
-                <div className="flex items-center justify-between mb-4">
-                  {topic.series ? (
-                    <span className="font-body text-sm text-blue-600 font-medium">
-                      {topic.series} {topic.seriesOrder && `#${topic.seriesOrder}`}
-                    </span>
-                  ) : topic.sermons ? (
-                    <span className="font-body text-sm text-gray-500">
-                      {topic.sermons} sermon{topic.sermons !== 1 ? 's' : ''}
-                    </span>
-                  ) : (
-                    <span></span>
-                  )}
-                  <time className="font-body text-sm text-gray-500">
-                    {new Date(topic.publishedAt || topic._createdAt).toLocaleDateString('en-US', {
-                      year: 'numeric',
-                      month: 'short'
-                    })}
-                  </time>
-                </div>
-
-                {topic.tags && Array.isArray(topic.tags) && topic.tags.length > 0 && (
-                  <div className="flex flex-wrap gap-2 mb-6">
-                    {topic.tags.map((tag, index) => (
-                      <span 
-                        key={`${topic._id}-tag-${index}`}
-                        className="inline-flex items-center px-3 py-1 rounded-full bg-blue-100 text-blue-800 font-body font-medium text-xs"
-                      >
-                        {typeof tag === 'string' ? tag : String(tag)}
-                      </span>
-                    ))}
-                  </div>
-                )}
-
-                  <Link 
-                    href={`/topics/${topic.slug.current}`}
-                    className="inline-flex items-center font-body text-blue-700 hover:text-blue-800 font-semibold transition-colors group"
-                  >
-                    Explore Topic
-                    <svg className="ml-2 w-4 h-4 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
-                    </svg>
-                  </Link>
-                </div>
-              </article>
-            ))}
+      {/* Salvation Messages Section */}
+      {salvationMessages.length > 0 && (
+        <section className="py-12">
+          <div className="container-custom">
+            <Link href="/salvation">
+              <h2 className="font-heading text-3xl text-gray-900 mb-8 text-center">Salvation Messages</h2>
+            </Link>
+            <div className="grid gap-8 grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
+              <TopicsClient topics={salvationMessages} />
+            </div>
           </div>
+        </section>
+      )}
+
+      {/* Latest Topics Section */}
+      <section className="py-12">
+        <div className="container-custom">
+          <h2 className="font-heading text-3xl text-gray-900 mb-8 text-center">Latest Topics</h2>
+          <div className="grid gap-8 grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
+            <TopicsClient topics={otherTopics.slice(0, 12)} />
+          </div>
+        </div>
+      </section>
+
+      <section className="py-8">
+        <div className="container-custom">
+
+          {/* Series Overview */}
+          {Object.keys(groupedTopics).length > 1 && (
+            <div className="mt-16">
+              <h3 className="font-heading text-2xl text-gray-900 mb-8 text-center">Browse by Series</h3>
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                <Link href="/salvation" className="bg-gray-50 rounded-lg p-6 hover:bg-gray-100 transition-colors block">
+                  <h4 className="font-heading text-lg text-gray-900 mb-2 hover:text-blue-700 transition-colors">Salvation Messages</h4>
+                  <p className="text-sm text-gray-600 mb-4">{allSalvationMessages.length} topics</p>
+                  <div className="space-y-2">
+                    {allSalvationMessages.slice(0, 3).map((topic) => (
+                      <p key={topic.id} className="text-sm text-blue-700 truncate">
+                        {topic.title}
+                      </p>
+                    ))}
+                    {allSalvationMessages.length > 3 && (
+                      <p className="text-xs text-gray-500">+{allSalvationMessages.length - 3} more</p>
+                    )}
+                  </div>
+                  <div className="mt-4 text-xs text-blue-600 font-medium">
+                    View Series →
+                  </div>
+                </Link>
+                {Object.entries(groupedTopics).map(([series, seriesTopics]) => (
+                  <Link key={series} href={`/topics/series/${encodeURIComponent(series.toLowerCase().replace(/\s+/g, '-'))}`} className="bg-gray-50 rounded-lg p-6 hover:bg-gray-100 transition-colors block">
+                    <h4 className="font-heading text-lg text-gray-900 mb-2 hover:text-blue-700 transition-colors">{series}</h4>
+                    <p className="text-sm text-gray-600 mb-4">{seriesTopics.length} topics</p>
+                    <div className="space-y-2">
+                      {seriesTopics.slice(0, 3).map((topic) => (
+                        <p key={topic.id} className="text-sm text-blue-700 truncate">
+                          {topic.title}
+                        </p>
+                      ))}
+                      {seriesTopics.length > 3 && (
+                        <p className="text-xs text-gray-500">+{seriesTopics.length - 3} more</p>
+                      )}
+                    </div>
+                    <div className="mt-4 text-xs text-blue-600 font-medium">
+                      View Series →
+                    </div>
+                  </Link>
+                ))}
+              </div>
+            </div>
+          )}
 
           {/* Coming Soon Section */}
           <div className="mt-16 text-center p-12 bg-gray-50 rounded-xl">

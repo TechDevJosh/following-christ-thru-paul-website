@@ -1,5 +1,5 @@
 import { MetadataRoute } from 'next';
-import { client } from '@/sanity/lib/client';
+import { supabase } from '@/lib/supabase';
 
 export const revalidate = 1800; // 30 minutes
 

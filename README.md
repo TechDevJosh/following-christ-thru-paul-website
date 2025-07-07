@@ -6,16 +6,14 @@ A KJV Bible-believing ministry platform for serious Bible study, community engag
 
 "To make all men see what is the fellowship of the mystery" - Ephesians 3:9
 
-## Technology Stack
+## Documentation
 
-- Frontend: Next.js 15 with TypeScript
-- Styling: Tailwind CSS with custom design system
-- CMS: Sanity.io for content management
-- File Storage: Cloudflare R2 for resources
-- Email: Resend for contact forms
-- Deployment: Vercel with GitHub Actions CI/CD
+- **[Setup Guide](../SETUP_GUIDE.md)** - Complete installation and configuration
+- **[Development Guide](../DEVELOPMENT_GUIDE.md)** - Local development and testing
+- **[Deployment Guide](../DEPLOYMENT_GUIDE.md)** - GitHub Actions and Vercel setup
+- **[Features Documentation](../FEATURES_DOCUMENTATION.md)** - Complete feature overview
 
-## Getting Started
+## Quick Start
 
 ```bash
 # Install dependencies
@@ -32,32 +30,32 @@ npm run dev
 Open http://localhost:3000 to view the website.
 Access the CMS at http://localhost:3000/studio.
 
-## Features
+## Key Features
 
-- Professional UI/UX with custom typography
-- Complete navigation with zero 404 errors
-- Content management via Sanity Studio
-- Authentication system for CMS access
-- Cookie banner (GDPR compliant)
-- Responsive design for all devices
-- SEO optimized with meta tags and sitemap
-- CI/CD pipeline with automated deployment
+- **Custom CMS Studio** with real-time chat and grammar checking
+- **Professional UI/UX** with responsive design
+- **Authentication System** with role-based access control
+- **Performance Optimized** with Lighthouse compliance
+- **SEO Ready** with complete meta tags and sitemap
+- **CI/CD Pipeline** with automated deployment
+- **Dynamic Topic and Verse-by-Verse Pages** with an engaging, alternating layout
+
+## Technology Stack
+
+- **Frontend**: Next.js 15 with TypeScript
+- **Styling**: Tailwind CSS with custom design system
+- **Database**: Supabase with real-time capabilities
+- **File Storage**: Cloudflare R2 for resources
+- **Email**: Resend for contact forms
+- **Deployment**: Vercel with GitHub Actions CI/CD
 
 ## Content Sections
 
-- Home: Hero section with ministry introduction
-- Verse by Verse: Systematic Bible studies
-- Topics: Biblical teachings by topic
-- Resources: Study materials and downloads
-- Ask: Q&A submission and browsing
-- Connect: Subscribe, contact, and support
-
-## Deployment
-
-Automatic deployment via GitHub Actions on push to main branch.
-
-## Repository
-
-https://github.com/TechDevJosh/following-christ-thru-paul-website
+- **Home**: Hero section with ministry introduction
+- **Verse by Verse**: Systematic Bible studies
+- **Topics**: Biblical teachings by topic
+- **Resources**: Study materials and downloads
+- **Ask**: Q&A submission and browsing
+- **Connect**: Subscribe, contact, and support
 
 "For I am not ashamed of the gospel of Christ: for it is the power of God unto salvation to every one that believeth" - Romans 1:16

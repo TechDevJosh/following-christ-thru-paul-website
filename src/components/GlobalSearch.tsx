@@ -16,7 +16,8 @@ export default function GlobalSearch() {
   const [searchTerm, setSearchTerm] = useState('');
   const [searchResults, setSearchResults] = useState<SearchResult[]>([]);
   const [loading, setLoading] = useState(false);
-  const [isOpen, setIsOpen] = useState(false);
+  const [isOpen, setIsOpen] = useState(false); // Controls visibility of search input and results
+  const [isInputActive, setIsInputActive] = useState(false); // Controls input field focus/blur
   const searchRef = useRef<HTMLDivElement>(null);
 
   // Debounce search term
@@ -49,6 +50,7 @@ export default function GlobalSearch() {
     function handleClickOutside(event: MouseEvent) {
       if (searchRef.current && !searchRef.current.contains(event.target as Node)) {
         setIsOpen(false);
+        setIsInputActive(false);
       }
     }
     document.addEventListener('mousedown', handleClickOutside);
@@ -60,6 +62,21 @@ export default function GlobalSearch() {
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setSearchTerm(e.target.value);
     setIsOpen(true);
+  };
+
+  const handleInputFocus = () => {
+    setIsOpen(true);
+    setIsInputActive(true);
+  };
+
+  const handleInputBlur = () => {
+    // Delay hiding to allow click on results
+    setTimeout(() => {
+      if (!searchRef.current?.contains(document.activeElement)) {
+        setIsOpen(false);
+        setIsInputActive(false);
+      }
+    }, 100);
   };
 
   const getResultLink = (result: SearchResult) => {
@@ -81,19 +98,33 @@ export default function GlobalSearch() {
 
   return (
     <div className="relative" ref={searchRef}>
-      <div className="relative">
-        <input
-          type="text"
-          placeholder="Search..."
-          className="w-full sm:w-48 lg:w-64 px-3 py-2 pl-9 text-sm rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all bg-white/90 backdrop-blur-sm"
-          value={searchTerm}
-          onChange={handleInputChange}
-          onFocus={() => setIsOpen(true)}
-        />
-        <svg className="absolute left-3 top-1/2 transform -translate-y-1/2 w-4 h-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
-        </svg>
-      </div>
+      {!isInputActive ? (
+        <button
+          onClick={handleInputFocus}
+          className="p-2 rounded-full hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
+          aria-label="Open search"
+        >
+          <svg className="w-5 h-5 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+          </svg>
+        </button>
+      ) : (
+        <div className="relative">
+          <input
+            type="text"
+            placeholder="Search..."
+            className="w-full sm:w-48 lg:w-64 px-3 py-2 pl-9 text-sm rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all bg-white/90 backdrop-blur-sm"
+            value={searchTerm}
+            onChange={handleInputChange}
+            onFocus={handleInputFocus}
+            onBlur={handleInputBlur}
+            autoFocus
+          />
+          <svg className="absolute left-3 top-1/2 transform -translate-y-1/2 w-4 h-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+          </svg>
+        </div>
+      )}
       
       {isOpen && searchTerm.length > 2 && (
         <div className="absolute z-50 mt-2 w-full sm:w-96 bg-white border border-gray-200 rounded-lg shadow-xl max-h-80 overflow-y-auto">
@@ -188,3 +219,4 @@ export default function GlobalSearch() {
     </div>
   );
 }
+

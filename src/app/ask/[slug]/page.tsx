@@ -1,6 +1,7 @@
 import { Metadata } from 'next';
 import Link from 'next/link';
-import { client } from '@/sanity/lib/client';
+import { supabase } from '@/lib/supabase';
+import { BreadcrumbStructuredData, FAQStructuredData } from '@/components/StructuredDataProvider';
 
 interface AskPageProps {
   params: Promise<{
@@ -140,6 +141,10 @@ export default async function AskPage({ params }: AskPageProps) {
   // If Q&A exists, render the full Q&A page
   return (
     <div className="min-h-screen bg-white">
+      {/* Enhanced Structured Data */}
+      <BreadcrumbStructuredData title={qa.question} />
+      <FAQStructuredData faqs={[{ question: qa.question, answer: qa.answer || 'Answer coming soon' }]} />
+      
       <main className="container-custom py-16">
         <article className="max-w-4xl mx-auto">
           <header className="mb-12">

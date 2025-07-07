@@ -1,4 +1,8 @@
-export function getYouTubeEmbedUrl(url: string): string | null {
+export function getYouTubeEmbedUrl(url: string | null | undefined): string | null {
+  if (!url || typeof url !== 'string') {
+    return null;
+  }
+
   let videoId: string | undefined;
 
   // Handle youtube.com/watch?v=VIDEO_ID

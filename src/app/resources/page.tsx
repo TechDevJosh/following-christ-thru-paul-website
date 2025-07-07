@@ -23,7 +23,7 @@ export default function ResourcesPage() {
   const [selectedCategory, setSelectedCategory] = useState<string>('all');
   const [selectedType, setSelectedType] = useState<string>('all');
 
-  // Sample resources data - will be replaced with Sanity CMS data
+  // Sample resources data
   const resources: Resource[] = [
     {
       _id: "1",

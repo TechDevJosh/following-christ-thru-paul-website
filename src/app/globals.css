@@ -1,12 +1,13 @@
 @import "tailwindcss";
 
 :root {
-  --color-primary: #1e40af;
+  --color-primary: #001A33;
   --color-primary-hover: #1d4ed8;
   --color-secondary: #6b7280;
   --color-accent: #f3f4f6;
   --shadow-soft: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
   --shadow-medium: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+  --navbar-height: 80px;
 }
 
 html {
@@ -58,26 +59,28 @@ body {
 
 /* Custom button styles */
 .btn-primary {
-  background-color: #1d4ed8;
+  background-color: #1E3A8A;
   color: #ffffff;
   font-weight: 600;
   padding: 1rem 2rem;
   border-radius: 0.5rem;
   box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
-  transform: translateY(0);
-  transition: all 0.2s ease-out;
+  transform: scale(1);
+  transition: all 0.15s ease-out;
   display: inline-block;
   text-decoration: none;
+  position: relative; /* Added for ripple effect */
+  overflow: hidden; /* Added for ripple effect */
 }
 
 .btn-primary:hover {
-  background-color: #1e40af;
+  background-color: var(--color-primary-hover);
   box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
-  transform: translateY(-0.125rem);
+  transform: translateY(-0.125rem) scale(1.05);
 }
 
 .btn-primary:active {
-  background-color: #1e3a8a;
+  background-color: var(--color-primary);
 }
 
 .btn-secondary {
@@ -88,16 +91,18 @@ body {
   border-radius: 0.5rem;
   box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
   border: 1px solid #e5e7eb;
-  transform: translateY(0);
-  transition: all 0.2s ease-out;
+  transform: scale(1);
+  transition: all 0.15s ease-out;
   display: inline-block;
   text-decoration: none;
+  position: relative; /* Added for ripple effect */
+  overflow: hidden; /* Added for ripple effect */
 }
 
 .btn-secondary:hover {
   background-color: #e5e7eb;
   box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
-  transform: translateY(-0.125rem);
+  transform: translateY(-0.125rem) scale(1.05);
 }
 
 .btn-secondary:active {
@@ -124,6 +129,69 @@ body {
 
 .gradient-hero {
   background: linear-gradient(135deg, #fefefe 0%, #f8fafc 50%, #f1f5f9 100%);
+}
+
+/* Hero Section Specific Styles */
+.hero-section {
+  position: relative;
+  overflow: hidden;
+  filter: brightness(1.05);  /* lightens the image */
+}
+
+/* Parchment texture layer: above bg image, beneath dark overlay */
+.hero-section::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: url('/placeholders/parchment-texture.jpg') center/cover no-repeat;
+  opacity: 0.15;
+  z-index: 1;
+}
+
+/* Dark overlay for contrast */
+.hero-section::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: rgba(0,0,0,0.4);
+  z-index: 2;
+}
+
+/* Bring text above both overlays */
+.hero-section .relative.z-20 {
+  position: relative;
+  z-index: 3;
+}
+
+/* Responsive font scaling (mobile → tablet → desktop) */
+.hero-section h1             { font-size: 2.25rem; }
+.hero-section .accent        { font-size: 1.875rem; }
+.hero-section .subhead, .hero-section p    { font-size: 1rem; line-height: 1.5; }
+.hero-section .quote         { font-size: 0.875rem; line-height: 1.3; }
+
+@media (min-width: 640px) {
+  .hero-section h1           { font-size: 2.5rem; }
+  .hero-section .accent      { font-size: 2.25rem; }
+  .hero-section .subhead, .hero-section p  { font-size: 1.125rem; }
+  .hero-section .quote       { font-size: 1rem; }
+}
+
+@media (min-width: 1024px) {
+  .hero-section h1           { font-size: 3rem; }
+  .hero-section .accent      { font-size: 2.5rem; }
+}
+
+.hero-background-overlay {
+  position: absolute;
+  inset: 0;
+  background-size: cover;
+  background-position: center;
+  z-index: 0; /* Ensure it's behind the overlay */
+}
+
+/* Text Shadow */
+.text-shadow-sm {
+  text-shadow: 0 1px 2px rgba(0,0,0,0.5);
 }
 
 /* Container utilities */
@@ -187,7 +255,51 @@ body {
   overflow: hidden;
 }
 
-/* Mobile-first responsive design */
+@keyframes ken-burns {
+  0% {
+    transform: scale(1) translateX(0);
+  }
+  50% {
+    transform: scale(1.1) translateX(-5%);
+  }
+  100% {
+    transform: scale(1) translateX(0);
+  }
+}
+
+.ken-burns-effect {
+  animation: ken-burns 30s infinite alternate;
+}
+
+/* Ink Ripple Effect */
+.ripple-effect {
+  position: relative;
+  overflow: hidden;
+  transform: translate3d(0, 0, 0);
+}
+
+.ripple-effect:after {
+  content: '';
+  display: block;
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  pointer-events: none;
+  background-image: radial-gradient(circle, #fff 10%, transparent 10.01%);
+  background-repeat: no-repeat;
+  background-position: 50%;
+  transform: scale(10, 10);
+  opacity: 0;
+  transition: transform .5s, opacity 1s;
+}
+
+.ripple-effect:active:after {
+  transform: scale(0, 0);
+  opacity: .2;
+  transition: 0s;
+}
 @media (max-width: 640px) {
   .container-custom {
     padding-left: 1rem;

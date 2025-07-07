@@ -140,6 +140,20 @@ export default function RootLayout({
             __html: JSON.stringify(organizationStructuredData),
           }}
         />
+        {/* Placeholder for BreadcrumbList Structured Data */}
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify({
+              "@context": "https://schema.org",
+              "@type": "BreadcrumbList",
+              "itemListElement": [
+                // Breadcrumb items will be dynamically generated per page
+                // Example: {"@type": "ListItem", "position": 1, "name": "Home", "item": "https://example.com"}
+              ]
+            }),
+          }}
+        />
         
         <Script id="google-tag-manager" strategy="afterInteractive" defer>
           {`(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
@@ -147,6 +161,17 @@ export default function RootLayout({
           j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
           'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
           })(window,document,'script','dataLayer','GTM-PQ85MDM6');`}
+        </Script>
+        <Script id="google-optimize" strategy="afterInteractive" defer>
+          {`
+            (function(w,d,s,g,a,m){w['GoogleAnalyticsObject']=a;w[a]=w[a]||function(){
+            (w[a].q=w[a].q||[]).push(arguments)};m=d.createElement(s);var z=d.getElementsByTagName(s)[0];m.async=1;m.src=g;z.parentNode.insertBefore(m,z)
+            })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+            ga('create', 'UA-XXXXX-Y', 'auto'); // Replace UA-XXXXX-Y with your Google Analytics ID
+            ga('require', 'GTM-XXXXXX'); // Replace GTM-XXXXXX with your Google Optimize Container ID
+            ga('send', 'pageview');
+          `}
         </Script>
       </head>
       <body className={`${inter.variable} ${crimsonText.variable} font-sans antialiased`}>

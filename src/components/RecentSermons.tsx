@@ -1,43 +1,52 @@
 import Link from 'next/link';
-import { client } from '@/sanity/lib/client';
-import { getYouTubeEmbedUrl } from '@/utils/youtube';
-import OptimizedYouTubeEmbed from './OptimizedYouTubeEmbed';
+import Image from 'next/image';
+import { supabase } from '@/lib/supabase';
+// Removed OptimizedYouTubeEmbed for server component compatibility
 
 interface Sermon {
-  _id: string;
+  id: string;
   title: string;
   passage: string;
   book: string;
-  slug: { current: string };
-  youtubeUrl?: string; // Make youtubeUrl optional
+  slug: string;
+  youtube_url?: string;
 }
 
 export default async function RecentSermons() {
-  const query = `*[_type == "verseByVerse"] | order(publishedAt desc) [0...3]{
-    _id,
-    title,
-    passage,
-    book,
-    slug,
-    youtubeUrl,
-  }`;
-  const sermons: Sermon[] = await client.fetch(query);
+  let sermons: Sermon[] = [];
+  
+  try {
+    const { data, error } = await supabase
+      .from('verse_by_verse')
+      .select('id, title, passage, book, slug, youtube_url')
+      .order('published_at', { ascending: false })
+      .limit(3);
+    
+    if (error) throw error;
+    sermons = data || [];
+  } catch (error) {
+    console.error('Error fetching recent sermons:', error);
+  }
 
   return (
     <>
       {sermons.map((sermon) => {
-        const youtubeVideoId = sermon.youtubeUrl ? 
-          sermon.youtubeUrl.match(/(?:youtube\.com\/watch\?v=|youtu\.be\/)([^&\n?#]+)/)?.[1] : null;
+        const youtubeVideoId = sermon.youtube_url ? 
+          sermon.youtube_url.match(/(?:youtube\.com\/watch\?v=|youtu\.be\/)([^&\n?#]+)/)?.[1] : null;
         
         return (
-          <div key={sermon._id} className="card-elevated p-6 group hover:-translate-y-1 transition-all duration-300">
+          <div key={sermon.id} className="card-elevated p-6 group hover:-translate-y-1 transition-all duration-300">
             {youtubeVideoId ? (
               <div className="relative w-full aspect-video mb-6 rounded-lg overflow-hidden">
-                <OptimizedYouTubeEmbed
-                  videoId={youtubeVideoId}
-                  title={sermon.title}
-                  className="absolute top-0 left-0 w-full h-full"
+                <Image
+                  src={`https://img.youtube.com/vi/${youtubeVideoId}/maxresdefault.jpg`}
+                  alt={sermon.title}
+                  className="w-full h-full object-cover"
+                  width={480}
+                  height={270}
+                  loading="lazy"
                 />
+
               </div>
             ) : (
               <div className="w-full aspect-video bg-gradient-to-br from-gray-100 to-gray-200 rounded-lg mb-6 flex items-center justify-center">
@@ -56,13 +65,13 @@ export default async function RecentSermons() {
                   {sermon.title}
                 </h3>
                 <p className="font-body text-gray-600 leading-relaxed">
-                  {sermon.passage}
+                  {sermon.passage || `${sermon.book} Study`}
                 </p>
               </div>
               
               <div className="pt-2">
                 <Link 
-                  href={`/verse-by-verse/${sermon.book}/${sermon.slug.current}`} 
+                  href={`/verse-by-verse/${sermon.book.toLowerCase()}/${sermon.slug}`} 
                   className="inline-flex items-center font-body text-blue-700 hover:text-blue-800 font-semibold transition-colors group"
                 >
                   Study This Passage

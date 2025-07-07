@@ -1,4 +1,4 @@
-import { client } from '@/sanity/lib/client';
+import { supabase } from '@/lib/supabase';
 import { NextRequest, NextResponse } from 'next/server';
 
 interface SearchResults {

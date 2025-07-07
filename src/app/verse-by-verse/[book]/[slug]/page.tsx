@@ -1,10 +1,11 @@
 
-import { client } from '@/sanity/lib/client';
+import { supabase } from '@/lib/supabase';
 import { PortableText } from '@portabletext/react';
 import Link from 'next/link';
 import { getYouTubeEmbedUrl } from '@/utils/youtube';
 import Navbar from '@/components/Navbar';
 import ShareButton from '@/components/ShareButton';
+import { BreadcrumbStructuredData, ArticleStructuredData, VideoStructuredData } from '@/components/StructuredDataProvider';
 
 
 export const revalidate = 1800; // 30 minutes
@@ -38,16 +39,20 @@ export async function generateMetadata({ params }: PageProps) {
   const book = decodeURIComponent(resolvedParams.book);
   const slug = resolvedParams.slug;
 
-  const query = `*[_type == "verseByVerse" && book == $book && slug.current == $slug][0]{
-    title,
-    passage,
-    youtubeUrl,
-    content,
-    publishedAt,
-    _updatedAt,
-    tags
-  }`;
-  const sermon = await client.fetch(query, { book, slug });
+  // Supabase query will be used instead
+  let sermon = null;
+  try {
+    const { data, error } = await supabase
+      .from('verse_by_verse')
+      .select('*')
+      .eq('slug', slug)
+      .single();
+    
+    if (error) throw error;
+    sermon = data;
+  } catch (error) {
+    console.error('Error fetching sermon:', error);
+  }
 
   if (!sermon) {
     return {
@@ -55,13 +60,14 @@ export async function generateMetadata({ params }: PageProps) {
     };
   }
 
-  const embedUrl = getYouTubeEmbedUrl(sermon.youtubeUrl);
+  const embedUrl = getYouTubeEmbedUrl(sermon.youtube_url);
   const ogImage = embedUrl ? `https://img.youtube.com/vi/${embedUrl.split('/')[4].split('?')[0]}/hqdefault.jpg` : undefined;
   
   // Extract description from content
-  const description = sermon.content && sermon.content.length > 0 
-    ? sermon.content[0].children?.[0]?.text?.substring(0, 160) + '...' 
-    : `Bible study on ${sermon.passage} - ${sermon.title}`;
+  const description = sermon.seo_description || 
+    (sermon.content && sermon.content.length > 150
+      ? sermon.content.substring(0, 150) + '...'
+      : `Bible study on ${sermon.passage} - ${sermon.title}`);
 
   return {
     title: `${sermon.title} - ${sermon.passage} | Following Christ Thru Paul`,
@@ -72,8 +78,8 @@ export async function generateMetadata({ params }: PageProps) {
       type: 'article',
       url: `https://followingchristthrupaul.com/verse-by-verse/${book}/${slug}`,
       images: ogImage ? [{ url: ogImage, width: 1200, height: 630, alt: sermon.title }] : [],
-      publishedTime: sermon.publishedAt,
-      modifiedTime: sermon._updatedAt,
+      publishedTime: sermon.published_at,
+      modifiedTime: sermon.updated_at,
     },
     twitter: {
       card: 'summary_large_image',
@@ -92,18 +98,20 @@ export default async function SermonPage({ params }: PageProps) {
   const book = decodeURIComponent(resolvedParams.book);
   const slug = resolvedParams.slug;
 
-  const query = `*[_type == "verseByVerse" && book == $book && slug.current == $slug][0]{
-    title,
-    book,
-    passage,
-    slug,
-    youtubeUrl,
-    content,
-    attachments,
-    tags,
-    publishedAt,
-  }`;
-  const sermon: Sermon = await client.fetch(query, { book, slug });
+  // Supabase query used above
+  let sermon: any = null;
+  try {
+    const { data, error } = await supabase
+      .from('verse_by_verse')
+      .select('*')
+      .eq('slug', slug)
+      .single();
+    
+    if (error) throw error;
+    sermon = data;
+  } catch (error) {
+    console.error('Error fetching sermon:', error);
+  }
 
   if (!sermon) {
     return <p className="container mx-auto py-10 text-center">Sermon not found.</p>;
@@ -198,7 +206,7 @@ export default async function SermonPage({ params }: PageProps) {
     },
   };
 
-  const youtubeEmbedUrl = getYouTubeEmbedUrl(sermon.youtubeUrl);
+  const youtubeEmbedUrl = getYouTubeEmbedUrl(sermon.youtube_url);
 
   const structuredData = {
     "@context": "https://schema.org",
@@ -230,12 +238,27 @@ export default async function SermonPage({ params }: PageProps) {
 
   return (
     <div className="min-h-screen bg-white text-gray-800">
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{
-          __html: JSON.stringify(structuredData),
-        }}
+      {/* Enhanced Structured Data */}
+      <BreadcrumbStructuredData title={sermon.title} />
+      <ArticleStructuredData
+        title={sermon.title}
+        description={sermon.content && sermon.content.length > 0 
+          ? sermon.content[0].children?.[0]?.text?.substring(0, 160) + '...' 
+          : `Bible study on ${sermon.passage} - ${sermon.title}`}
+        author="Following Christ Thru Paul Ministry"
+        publishedDate={sermon.publishedAt}
+        modifiedDate={sermon._updatedAt}
+        imageUrl="https://pub-8d4c47a32bf5437a90a2ba38a0f85223.r2.dev/FCTP%20Logo.png"
       />
+      {sermon.youtube_url && (
+        <VideoStructuredData
+          title={sermon.title}
+          description={`Bible study on ${sermon.passage} - ${sermon.title}`}
+          thumbnailUrl={`https://img.youtube.com/vi/${sermon.youtube_url.split('v=')[1]?.split('&')[0]}/maxresdefault.jpg`}
+          uploadDate={sermon.publishedAt}
+          embedUrl={youtubeEmbedUrl}
+        />
+      )}
 
       <header role="banner">
         <Navbar />
@@ -294,8 +317,10 @@ export default async function SermonPage({ params }: PageProps) {
 
           {/* Rich Text Content */}
           <div className="prose prose-lg prose-blue max-w-none mb-12">
-            {sermon.content && sermon.content.length > 0 ? (
-              <PortableText value={sermon.content} components={portableTextComponents} />
+            {sermon.content && sermon.content.trim() ? (
+              <div className="font-body text-lg leading-relaxed text-gray-800 whitespace-pre-wrap">
+                {sermon.content}
+              </div>
             ) : (
               <div className="text-center py-12 text-gray-500">
                 <p className="font-body text-lg">Content for this sermon is being prepared.</p>

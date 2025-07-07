@@ -132,6 +132,7 @@ export default function HomePage() {
                 target="_blank"
                 rel="noopener noreferrer"
                 className="text-gray-400 hover:text-white transition-colors"
+                aria-label="Following Christ Thru Paul on Facebook"
               >
                 <span className="sr-only">Facebook</span>
                 <svg className="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
@@ -143,6 +144,7 @@ export default function HomePage() {
                 target="_blank"
                 rel="noopener noreferrer"
                 className="text-gray-400 hover:text-white transition-colors"
+                aria-label="Following Christ Thru Paul on YouTube"
               >
                 <span className="sr-only">YouTube</span>
                 <svg className="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">

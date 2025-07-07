@@ -15,6 +15,11 @@ jobs:
     runs-on: ubuntu-latest
     name: Test and Build
     
+    env:
+      NEXT_PUBLIC_SANITY_PROJECT_ID: dmowh6jp
+      NEXT_PUBLIC_SANITY_DATASET: production
+      NEXT_PUBLIC_SANITY_API_VERSION: 2025-07-02
+    
     steps:
       - name: Checkout code
         uses: actions/checkout@v4

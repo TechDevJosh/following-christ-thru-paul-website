@@ -81,7 +81,7 @@ export default function ShareButton({ title, url }: ShareButtonProps) {
       </button>
 
       {isOpen && (
-        <div className="absolute bottom-full mb-2 right-0 sm:left-0 bg-white border border-gray-200 rounded-lg shadow-lg p-4 w-64 max-w-[calc(100vw-2rem)] z-50">
+        <div className="absolute bottom-full mb-2 right-0 sm:left-0 bg-white border border-gray-200 rounded-lg shadow-lg p-3 w-56 sm:w-64 max-w-[calc(100vw-2rem)] z-50">
           <h4 className="font-medium text-gray-900 mb-3">Share this article</h4>
           
           <div className="space-y-2">
@@ -94,7 +94,7 @@ export default function ShareButton({ title, url }: ShareButtonProps) {
                 className={`flex items-center space-x-3 p-2 rounded-lg hover:bg-gray-50 transition-colors ${link.color}`}
               >
                 {link.icon}
-                <span className="text-gray-700 truncate">{link.name}</span>
+                <span className="text-gray-700 text-sm sm:text-base">{link.name}</span>
               </a>
             ))}
             

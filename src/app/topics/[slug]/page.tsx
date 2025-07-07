@@ -1,8 +1,9 @@
 import { Metadata } from 'next';
 import Link from 'next/link';
-import { client } from '@/sanity/lib/client';
+import { supabase } from '@/lib/supabase';
 import ShareButton from '@/components/ShareButton';
 import Navbar from '@/components/Navbar';
+import { BreadcrumbStructuredData, ArticleStructuredData } from '@/components/StructuredDataProvider';
 
 export const revalidate = 1800; // 30 minutes
 
@@ -13,23 +14,24 @@ interface TopicPageProps {
 }
 
 // Define the query to get a specific topic
-const TOPIC_QUERY = `*[_type == "topics" && slug.current == $slug][0]{
-  _id,
-  title,
-  description,
-  content,
-  slug,
-  publishedAt,
-  _createdAt,
-  youtubeUrl,
-  featuredImage,
-  tags
-}`;
+// Supabase query used instead
 
 export async function generateMetadata({ params }: TopicPageProps): Promise<Metadata> {
   try {
     const resolvedParams = await params;
-    const topic = await client.fetch(TOPIC_QUERY, { slug: resolvedParams.slug });
+    let topic = null;
+    try {
+      const { data, error } = await supabase
+        .from('topics')
+        .select('*')
+        .eq('slug', resolvedParams.slug)
+        .single();
+      
+      if (error) throw error;
+      topic = data;
+    } catch (error) {
+      console.error('Error fetching topic:', error);
+    }
     
     if (!topic) {
       return {
@@ -41,20 +43,17 @@ export async function generateMetadata({ params }: TopicPageProps): Promise<Meta
     // Get image for social sharing
     let imageUrl = 'https://pub-8d4c47a32bf5437a90a2ba38a0f85223.r2.dev/FCTP%20Logo.png'; // Default logo
     
-    if (topic.youtubeUrl) {
+    if (topic.youtube_url) {
       // Use YouTube thumbnail
       let videoId = '';
-      if (topic.youtubeUrl.includes('youtube.com/watch?v=')) {
-        videoId = topic.youtubeUrl.split('watch?v=')[1]?.split('&')[0] || '';
-      } else if (topic.youtubeUrl.includes('youtu.be/')) {
-        videoId = topic.youtubeUrl.split('youtu.be/')[1]?.split('?')[0] || '';
+      if (topic.youtube_url.includes('youtube.com/watch?v=')) {
+        videoId = topic.youtube_url.split('watch?v=')[1]?.split('&')[0] || '';
+      } else if (topic.youtube_url.includes('youtu.be/')) {
+        videoId = topic.youtube_url.split('youtu.be/')[1]?.split('?')[0] || '';
       }
       if (videoId) {
         imageUrl = `https://img.youtube.com/vi/${videoId}/maxresdefault.jpg`;
       }
-    } else if (topic.featuredImage) {
-      // Use featured image from Sanity
-      imageUrl = topic.featuredImage.asset?.url || imageUrl;
     }
 
     return {
@@ -91,7 +90,14 @@ export default async function TopicPage({ params }: TopicPageProps) {
   let topic;
   
   try {
-    topic = await client.fetch(TOPIC_QUERY, { slug: resolvedParams.slug });
+    const { data, error } = await supabase
+      .from('topics')
+      .select('*')
+      .eq('slug', resolvedParams.slug)
+      .single();
+    
+    if (error) throw error;
+    topic = data;
   } catch (error) {
     console.error('Error fetching topic:', error);
   }
@@ -195,20 +201,20 @@ export default async function TopicPage({ params }: TopicPageProps) {
               </p>
             )}
             <div className="mt-6 text-sm text-gray-500">
-              Published: {topic.publishedAt ? 
-                new Date(topic.publishedAt).toLocaleDateString() : 
-                new Date(topic._createdAt).toLocaleDateString()
+              Published: {topic.published_at ? 
+                new Date(topic.published_at).toLocaleDateString() : 
+                new Date(topic.created_at).toLocaleDateString()
               }
             </div>
           </header>
 
           {/* YouTube Video */}
-          {topic.youtubeUrl && (
+          {topic.youtube_url && (
             <div className="mb-12">
               <div className="aspect-video w-full rounded-lg overflow-hidden bg-gray-100">
                 <iframe
                   src={(() => {
-                    const url = topic.youtubeUrl;
+                    const url = topic.youtube_url;
                     let videoId = '';
                     
                     if (url.includes('youtube.com/watch?v=')) {
@@ -233,20 +239,9 @@ export default async function TopicPage({ params }: TopicPageProps) {
 
           {/* Content */}
           <div className="prose prose-lg max-w-none mb-12">
-            {topic.content && Array.isArray(topic.content) && topic.content.length > 0 ? (
-              <div className="space-y-6">
-                {topic.content.map((block: any, index: number) => {
-                  if (block._type === 'block') {
-                    return (
-                      <div key={index} className="font-body text-lg leading-relaxed text-gray-800">
-                        {block.children?.map((child: any, childIndex: number) => (
-                          <span key={childIndex}>{child.text}</span>
-                        ))}
-                      </div>
-                    );
-                  }
-                  return null;
-                })}
+            {topic.content && topic.content.trim() ? (
+              <div className="font-body text-lg leading-relaxed text-gray-800 whitespace-pre-wrap">
+                {topic.content}
               </div>
             ) : (
               <p className="text-gray-600 font-body text-lg">Content for this topic is being prepared.</p>
@@ -254,16 +249,16 @@ export default async function TopicPage({ params }: TopicPageProps) {
           </div>
 
           {/* Tags */}
-          {topic.tags && Array.isArray(topic.tags) && topic.tags.length > 0 && (
+          {topic.tags && typeof topic.tags === 'string' && (
             <div className="mb-12">
               <h3 className="font-heading text-xl text-gray-900 mb-4">Related Topics</h3>
               <div className="flex flex-wrap gap-2">
-                {topic.tags.map((tag: any, index: number) => (
+                {topic.tags.split(',').map((tag: string, index: number) => (
                   <span 
                     key={index}
                     className="inline-flex items-center px-3 py-1 rounded-full bg-blue-100 text-blue-800 font-body font-medium text-sm"
                   >
-                    {typeof tag === 'string' ? tag : String(tag)}
+                    {tag.trim()}
                   </span>
                 ))}
               </div>
