@@ -50,7 +50,7 @@ export default async function TopicsPage() {
     .filter(msg => msg.featured)[0] || allSalvationMessages[1]; // fallback to second item
 
   // Create unique set of 3 salvation messages
-  const salvationMessages = [topClicked, userPreferred, latestSalvation]
+  const salvationMessages = [userPreferred, latestSalvation]
     .filter((msg, index, arr) => msg && arr.findIndex(m => m?.id === msg.id) === index)
     .slice(0, 3);
 
